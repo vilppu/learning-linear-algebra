@@ -6,8 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="ComplexNumbers.fs" />
-    <Compile Include="LinearAlgebra.fs" />
+    <Compile Include="Constants.fs" />
+    <Compile Include="CartesianPresentation.fs" />
+    <Compile Include="PolarRepresentation.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
