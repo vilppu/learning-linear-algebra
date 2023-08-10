@@ -60,7 +60,7 @@ module CartesianPresentation =
             let (Complex (real, imaginary)) = complexNumber
             System.Math.Sqrt(real * real + imaginary * imaginary)
 
-        static member inline public (+)(left: Complex, right: Complex) = Complex.Add left right
-        static member inline public (-)(left: Complex, right: Complex) = Complex.Subtract left right
-        static member inline public (*)(left: Complex, right: Complex) = Complex.Multiply left right
-        static member inline public (/)(left: Complex, right: Complex) = Complex.Divide left right
+        static member inline (+)(left: Complex, right: Complex) = Complex.Add left right
+        static member inline (-)(left: Complex, right: Complex) = Complex.Subtract left right
+        static member inline (*)(left: Complex, right: Complex) = Complex.Multiply left right
+        static member inline (/)(left: Complex, right: Complex) = Complex.Divide left right

@@ -9,25 +9,17 @@ module ComplexVectorSpace =
 
         static member Zero n : Vector = Vector(Array.create n Complex.Zero)
 
-        static member Add (left: Vector) (right: Vector) : Vector =
-
-            let (Vector (left)) = left
-            let (Vector (right)) = right
+        static member Add (Vector left) (Vector right) : Vector =
 
             (Array.map2 (fun leftElement rightElement -> leftElement + rightElement) left right)
             |> Vector
 
-        static member Subtract (left: Vector) (right: Vector) : Vector =
-
-            let (Vector (left)) = left
-            let (Vector (right)) = right
+        static member Subtract (Vector left) (Vector right) : Vector =
 
             (Array.map2 (fun leftElement rightElement -> leftElement - rightElement) left right)
             |> Vector
 
-        static member Multiply (scalar: Complex) (vector: Vector) : Vector =
-
-            let (Vector (vector)) = vector
+        static member Multiply (scalar: Complex) (Vector vector) : Vector =
 
             vector
             |> Array.map (fun element -> scalar * element)
@@ -35,7 +27,82 @@ module ComplexVectorSpace =
 
         static member Inverse(vector: Vector) : Vector = Vector.Multiply Complex.MinusOne vector
 
-        static member inline public (+)(left: Vector, right: Vector) = Vector.Add left right
-        static member inline public (-)(left: Vector, right: Vector) = Vector.Subtract left right
-        static member inline public (*)(scalar: Complex, vector: Vector) = Vector.Multiply scalar vector
-        static member inline public (~-)(vector: Vector) = Vector.Inverse vector
+        static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
+        static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
+        static member inline (*)(scalar: Complex, vector: Vector) = Vector.Multiply scalar vector
+        static member inline (~-)(vector: Vector) = Vector.Inverse vector
+
+    type Matrix =
+        | Matrix of Complex [] []
+
+        static member Zero m n : Matrix =
+            Matrix(Array.create m (Array.create n Complex.Zero))
+
+        static member Add (Matrix left) (Matrix right) : Matrix =
+
+            let add leftRow rightRow =
+                rightRow
+                |> (leftRow
+                    |> Array.map2 (fun leftElement rightElement -> leftElement + rightElement))
+
+            Array.map2 (fun leftRow rightRow -> add leftRow rightRow) left right
+            |> Matrix
+
+        static member Subtract (Matrix left) (Matrix right) : Matrix =
+
+            let subtract leftRow rightRow =
+                rightRow
+                |> (leftRow
+                    |> Array.map2 (fun leftElement rightElement -> leftElement - rightElement))
+
+            Array.map2 (fun leftRow rightRow -> subtract leftRow rightRow) left right
+            |> Matrix
+
+        static member Multiply (scalar: Complex) (Matrix matrix) : Matrix =
+
+            matrix
+            |> Array.map (fun row -> row |> Array.map (fun element -> scalar * element))
+            |> Matrix
+
+        static member Transpose(Matrix matrix) : Matrix =
+            matrix
+            |> Array.mapi (fun i row -> row |> Array.mapi (fun j _ -> matrix[j][i]))
+            |> Matrix
+
+        static member Conjucate(Matrix matrix) : Matrix =
+
+            matrix
+            |> Array.map (fun row ->
+                row
+                |> Array.map (fun element -> element |> Complex.Conjucate))
+            |> Matrix
+
+        static member Adjoint matrix : Matrix =
+            matrix |> Matrix.Conjucate |> Matrix.Transpose
+
+        static member Product (Matrix left) (Matrix right) : Matrix =
+
+            let m = left.Length
+            let n = right[0].Length
+
+            ({ 0 .. (m - 1) })
+            |> Seq.map (fun i ->
+                Array.init n (fun j ->
+                    let row = left[i]
+                    let column = right |> Array.map (fun row -> row[j])
+
+                    column
+                    |> (row |> Array.map2 (fun x y -> x * y))
+                    |> Array.sum
+
+                ))
+            |> Seq.toArray
+            |> Matrix
+
+        static member Inverse(matrix: Matrix) : Matrix = Matrix.Multiply Complex.MinusOne matrix
+
+        static member inline (+)(left: Matrix, right: Matrix) = Matrix.Add left right
+        static member inline (-)(left: Matrix, right: Matrix) = Matrix.Subtract left right
+        static member inline (*)(scalar: Complex, matrix: Matrix) = Matrix.Multiply scalar matrix
+        static member inline (*)(left: Matrix, right: Matrix) = Matrix.Product left right
+        static member inline (~-)(matrix: Matrix) = Matrix.Inverse matrix
