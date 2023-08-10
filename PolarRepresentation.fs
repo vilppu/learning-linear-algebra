@@ -2,51 +2,51 @@
 
 module PolarPresentation =
 
-    type Complex = Complex of float * float
+    type Complex =
+        | Complex of float * float
 
-    let Complex (magnitude, phase) = Complex(magnitude, phase)
+        static member inline NormalizePhase phase =
 
-    let private PositiveModulo divident divisor =
-        (divident % divisor + divisor) % divisor
+            let PositiveModulo divident divisor =
+                (divident % divisor + divisor) % divisor
 
-    let private NormalizePhase phase =
-        PositiveModulo phase (Algebra.Constants.Pi * 2.0)
+            PositiveModulo phase (Algebra.Constants.Pi * 2.0)
 
-    let ToPolar (cartesian: CartesianPresentation.Complex) =
-        let (CartesianPresentation.Complex (real, imaginary)) = cartesian
+        static member inline public ToPolar(cartesian: CartesianPresentation.Complex) =
+            let (CartesianPresentation.Complex (real, imaginary)) = cartesian
 
-        Complex(System.Math.Sqrt(real * real + imaginary * imaginary), System.Math.Atan(real / imaginary))
+            Complex(System.Math.Sqrt(real * real + imaginary * imaginary), System.Math.Atan(real / imaginary))
 
-    let ToCartesian (polar: Complex) =
-        let (Complex (magniture, phase)) = polar
+        static member inline public ToCartesian(polar: Complex) =
+            let (Complex (magniture, phase)) = polar
 
-        CartesianPresentation.Complex(magniture * System.Math.Cos(phase), magniture * System.Math.Sin(phase))
+            CartesianPresentation.Complex(magniture * System.Math.Cos(phase), magniture * System.Math.Sin(phase))
 
-    let Add (x: Complex) (y: Complex) : Complex =
-        CartesianPresentation.Add (x |> ToCartesian) (y |> ToCartesian)
-        |> ToPolar
+        static member inline public Add (left: Complex) (right: Complex) : Complex =
+            (left |> Complex.ToCartesian)
+            + (right |> Complex.ToCartesian)
+            |> Complex.ToPolar
 
-    let Subtract (x: Complex) (y: Complex) : Complex =
-        CartesianPresentation.Subtract (x |> ToCartesian) (y |> ToCartesian)
-        |> ToPolar
+        static member inline public Subtract (left: Complex) (right: Complex) : Complex =
+            (left |> Complex.ToCartesian)
+            - (right |> Complex.ToCartesian)
+            |> Complex.ToPolar
 
-    let Multiply (x: Complex) (y: Complex) : Complex =
+        static member inline public Multiply (left: Complex) (right: Complex) : Complex =
 
-        let (Complex (xMagniture, xPhase)) = x
-        let (Complex (yMagniture, yPhase)) = y
+            let (Complex (leftMagnitude, leftPhase)) = left
+            let (Complex (rightMagnitude, rightPhase)) = right
 
-        Complex(xMagniture * yMagniture, xPhase + yPhase |> NormalizePhase)
+            Complex(leftMagnitude * rightMagnitude, leftPhase + rightPhase |> Complex.NormalizePhase)
 
-    let Divide (x: Complex) (y: Complex) : Complex =
+        static member inline public Divide (left: Complex) (right: Complex) : Complex =
 
-        let (Complex (xMagniture, xPhase)) = x
-        let (Complex (yMagniture, yPhase)) = y
+            let (Complex (leftMagnitude, leftPhase)) = left
+            let (Complex (rightMagnitude, rightPhase)) = right
 
-        Complex(xMagniture / yMagniture, xPhase - yPhase |> NormalizePhase)
+            Complex(leftMagnitude / rightMagnitude, leftPhase - rightPhase |> Complex.NormalizePhase)
 
-    type PolarOperators = PolarOperators
-        with
-            static member (+)(x: Complex, y: Complex) = Add x y
-            static member (-)(x: Complex, y: Complex) = Subtract x y
-            static member (*)(x: Complex, y: Complex) = Multiply x y
-            static member (/)(x: Complex, y: Complex) = Divide x y
+        static member (+)(left: Complex, right: Complex) = Complex.Add left right
+        static member (-)(left: Complex, right: Complex) = Complex.Subtract left right
+        static member (*)(left: Complex, right: Complex) = Complex.Multiply left right
+        static member (/)(left: Complex, right: Complex) = Complex.Divide left right

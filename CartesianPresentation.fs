@@ -2,59 +2,65 @@
 
 module CartesianPresentation =
 
-    type Complex = Complex of float * float
+    type Complex =
+        | Complex of float * float
 
-    let Complex (real, imaginary) = Complex(real, imaginary)
+        static member FromReal real = Complex(real, 0)
+        static member Zero = Complex(0, 0)
+        static member MinusOne = Complex.FromReal -1.0
 
-    let Add (x: Complex) (y: Complex) : Complex =
+        static member Add (left: Complex) (right: Complex) : Complex =
 
-        let (Complex (xReal, xImaginary)) = x
-        let (Complex (yReal, yImaginary)) = y
+            let (Complex (leftReal, leftImaginary)) = left
+            let (Complex (rightReal, rightImaginary)) = right
 
-        Complex(xReal + yReal, xImaginary + yImaginary)
+            Complex(leftReal + rightReal, leftImaginary + rightImaginary)
 
-    let Subtract (x: Complex) (y: Complex) : Complex =
+        static member Subtract (left: Complex) (right: Complex) : Complex =
 
-        let (Complex (xReal, xImaginary)) = x
-        let (Complex (yReal, yImaginary)) = y
+            let (Complex (leftReal, leftImaginary)) = left
+            let (Complex (rightReal, rightImaginary)) = right
 
-        Complex(xReal - yReal, xImaginary - yImaginary)
+            Complex(leftReal - rightReal, leftImaginary - rightImaginary)
 
-    let Multiply (x: Complex) (y: Complex) : Complex =
+        static member Multiply (left: Complex) (right: Complex) : Complex =
 
-        let (Complex (xReal, xImaginary)) = x
-        let (Complex (yReal, yImaginary)) = y
+            let (Complex (leftReal, leftImaginary)) = left
+            let (Complex (rightReal, rightImaginary)) = right
 
-        Complex(xReal * yReal - xImaginary * yImaginary, xReal * yImaginary + yReal * xImaginary)
+            Complex(
+                leftReal * rightReal
+                - leftImaginary * rightImaginary,
+                leftReal * rightImaginary
+                + rightReal * leftImaginary
+            )
 
-    let ComplexConjucate (complexNumber: Complex) =
-        let (Complex (real, imaginary)) = complexNumber
+        static member Conjucate(complexNumber: Complex) =
+            let (Complex (real, imaginary)) = complexNumber
 
-        Complex(real, -1.0 * imaginary)
+            Complex(real, -1.0 * imaginary)
 
-    let Divide (numerator: Complex) (denominator: Complex) : Complex =
-        let complexConjucateOfDenominator = ComplexConjucate denominator
+        static member Divide (numerator: Complex) (denominator: Complex) : Complex =
+            let complexConjucateOfDenominator = Complex.Conjucate denominator
 
-        let numeratorMultipliedByComplexConjucate =
-            Multiply numerator complexConjucateOfDenominator
+            let numeratorMultipliedByComplexConjucate =
+                Complex.Multiply numerator complexConjucateOfDenominator
 
-        let denominatorMultipliedByComplexConjucate =
-            Multiply denominator complexConjucateOfDenominator
+            let denominatorMultipliedByComplexConjucate =
+                Complex.Multiply denominator complexConjucateOfDenominator
 
-        let (Complex (numeratorReal, numeratorImaginary)) =
-            numeratorMultipliedByComplexConjucate
+            let (Complex (numeratorReal, numeratorImaginary)) =
+                numeratorMultipliedByComplexConjucate
 
-        let (Complex (demoninatorReal, _)) = denominatorMultipliedByComplexConjucate
+            let (Complex (demoninatorReal, _)) = denominatorMultipliedByComplexConjucate
 
-        Complex(numeratorReal / demoninatorReal, numeratorImaginary / demoninatorReal)
+            Complex(numeratorReal / demoninatorReal, numeratorImaginary / demoninatorReal)
 
-    let Modulus (complexNumber: Complex) =
-        let (Complex (real, imaginary)) = complexNumber
-        System.Math.Sqrt(real * real + imaginary * imaginary)
+        static member Modulus(complexNumber: Complex) =
+            let (Complex (real, imaginary)) = complexNumber
+            System.Math.Sqrt(real * real + imaginary * imaginary)
 
-    type CartesianOperators = CartesianOperators
-        with
-            static member (+)(x: Complex, y: Complex) = Add x y
-            static member (-)(x: Complex, y: Complex) = Subtract x y
-            static member (*)(x: Complex, y: Complex) = Multiply x y
-            static member (/)(x: Complex, y: Complex) = Divide x y
+        static member inline public (+)(left: Complex, right: Complex) = Complex.Add left right
+        static member inline public (-)(left: Complex, right: Complex) = Complex.Subtract left right
+        static member inline public (*)(left: Complex, right: Complex) = Complex.Multiply left right
+        static member inline public (/)(left: Complex, right: Complex) = Complex.Divide left right
