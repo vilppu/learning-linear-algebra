@@ -72,9 +72,7 @@ module ComplexVectorSpace =
         static member Conjucate(Matrix matrix) : Matrix =
 
             matrix
-            |> Array.map (fun row ->
-                row
-                |> Array.map (fun element -> element |> Complex.Conjucate))
+            |> Array.map (Array.map (fun element -> element |> Complex.Conjucate))
             |> Matrix
 
         static member Adjoint matrix : Matrix =
@@ -82,13 +80,9 @@ module ComplexVectorSpace =
 
         static member Product (Matrix left) (Matrix right) : Matrix =
 
-            let m = left.Length
-            let n = right[0].Length
-
-            ({ 0 .. (m - 1) })
-            |> Seq.map (fun i ->
-                Array.init n (fun j ->
-                    let row = left[i]
+            left
+            |> Array.mapi (fun i row ->
+                Array.init (right[0].Length) (fun j ->
                     let column = right |> Array.map (fun row -> row[j])
 
                     column
@@ -99,10 +93,30 @@ module ComplexVectorSpace =
             |> Seq.toArray
             |> Matrix
 
+        static member Act (Matrix matrix) (Vector vector) : Vector =
+            matrix
+            |> Array.mapi (fun i row ->
+                vector
+                |> (row |> Array.map2 (fun x y -> x * y))
+                |> Array.sum
+
+            )
+            |> Seq.toArray
+            |> Vector
+
+        static member ToVector(Matrix matrix) : Vector =
+            matrix |> Array.map (fun row -> row[0]) |> Vector
+
+        static member FromVector(Vector vector) : Matrix =
+            vector
+            |> Array.map (fun element -> [| element |])
+            |> Matrix
+
         static member Inverse(matrix: Matrix) : Matrix = Matrix.Multiply Complex.MinusOne matrix
 
         static member inline (+)(left: Matrix, right: Matrix) = Matrix.Add left right
         static member inline (-)(left: Matrix, right: Matrix) = Matrix.Subtract left right
         static member inline (*)(scalar: Complex, matrix: Matrix) = Matrix.Multiply scalar matrix
         static member inline (*)(left: Matrix, right: Matrix) = Matrix.Product left right
+        static member inline (*)(matrix: Matrix, vector: Vector) = Matrix.Act matrix vector
         static member inline (~-)(matrix: Matrix) = Matrix.Inverse matrix
