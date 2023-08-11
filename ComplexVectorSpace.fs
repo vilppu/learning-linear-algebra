@@ -38,6 +38,17 @@ module ComplexVectorSpace =
         static member Zero m n : Matrix =
             Matrix(Array.create m (Array.create n Complex.Zero))
 
+        static member Identity m : Matrix =
+            ({ 0 .. (m - 1) })
+            |> Seq.map (fun i ->
+                Array.init m (fun j ->
+                    if i = j then
+                        Complex(1, 0)
+                    else
+                        Complex(0, 0)))
+            |> Seq.toArray
+            |> Matrix
+
         static member Add (Matrix left) (Matrix right) : Matrix =
 
             let add leftRow rightRow =
