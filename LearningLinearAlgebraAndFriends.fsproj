@@ -9,6 +9,7 @@
     <Compile Include="Constants.fs" />
     <Compile Include="CartesianPresentation.fs" />
     <Compile Include="PolarRepresentation.fs" />
+    <Compile Include="RealVectorSpace.fs" />
     <Compile Include="ComplexVectorSpace.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
