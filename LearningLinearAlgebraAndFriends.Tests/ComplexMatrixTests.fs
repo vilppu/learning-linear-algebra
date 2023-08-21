@@ -552,6 +552,17 @@ module ComplexMatrixTests =
         Assert.True(Matrix.IsUnitary matrix)
 
     [<Fact>]
+    let ``Third example of unitary matrix`` () =
+
+        let matrix =
+            Matrix(
+                [| [| Complex(1, 0); Complex(0, 0) |]
+                   [| Complex(0, 0); Complex(0, 1) |] |]
+            )
+
+        Assert.True(Matrix.IsUnitary matrix)
+
+    [<Fact>]
     let ``Example of non-unitary matrix`` () =
 
         let matrix =
@@ -561,3 +572,52 @@ module ComplexMatrixTests =
             )
 
         Assert.False(Matrix.IsUnitary matrix)
+
+    [<Fact>]
+    let ``Product of unitary matrices is also unitary matrix`` () =
+
+        let unitary =
+            Matrix(
+                [| [| Complex(1.0 / Constants.SquareRootOfTwo, 0)
+                      Complex(1.0 / Constants.SquareRootOfTwo, 0) |]
+                   [| Complex(0, 1.0 / Constants.SquareRootOfTwo)
+                      Complex(0, -1.0 / Constants.SquareRootOfTwo) |] |]
+            )
+
+        let anotherUnitary =
+            Matrix(
+                [| [| Complex(1, 0); Complex(0, 0) |]
+                   [| Complex(0, 0); Complex(0, 1) |] |]
+            )
+
+        Assert.True(Matrix.IsUnitary(unitary * anotherUnitary))
+
+
+    [<Fact>]
+    let ``Unitary matrices preserve inner products`` () =
+
+        let a = Vector([| Complex(1, 2); Complex(3, 5) |])
+        let b = Vector([| Complex(7, 11); Complex(13, 19) |])
+
+        let unitary =
+            Matrix(
+                [| [| Complex(1, 0); Complex(0, 0) |]
+                   [| Complex(0, 0); Complex(0, 1) |] |]
+            )
+
+        Assert.Equal(Vector.InnerProduct (unitary * a) (unitary * b), Vector.InnerProduct a b)
+
+
+    [<Fact>]
+    let ``Unitary matrices preserve distance`` () =
+
+        let a = Vector([| Complex(1, 2); Complex(3, 5) |])
+        let b = Vector([| Complex(7, 11); Complex(13, 19) |])
+
+        let unitary =
+            Matrix(
+                [| [| Complex(1, 0); Complex(0, 0) |]
+                   [| Complex(0, 0); Complex(0, 1) |] |]
+            )
+
+        Assert.Equal(Vector.Distance (unitary * a) (unitary * b), Vector.Distance a b)
