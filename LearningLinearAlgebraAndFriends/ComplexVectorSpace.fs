@@ -25,11 +25,23 @@ module ComplexVectorSpace =
             |> Array.map (fun element -> scalar * element)
             |> Vector
 
+        static member InnerProduct (Vector left) (Vector right) : Complex =
+
+            (Array.map2 (fun leftElement rightElement -> leftElement * (rightElement |> Complex.Conjucate)) left right)
+            |> Array.sum
+
+        static member Norm vector : Complex =
+            Complex.SquareRoot(Vector.InnerProduct vector vector)
+
+        static member Distance left right : Complex =
+            (Vector.Subtract left right) |> Vector.Norm
+
         static member Inverse(vector: Vector) : Vector = Vector.Multiply Complex.MinusOne vector
 
         static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
         static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
         static member inline (*)(scalar: Complex, vector: Vector) = Vector.Multiply scalar vector
+        static member inline (*)(left: Vector, right: Vector) = Vector.InnerProduct left right
         static member inline (~-)(vector: Vector) = Vector.Inverse vector
 
     type Matrix =
@@ -38,10 +50,10 @@ module ComplexVectorSpace =
         static member Zero m n : Matrix =
             Matrix(Array.create m (Array.create n Complex.Zero))
 
-        static member Identity m : Matrix =
-            ({ 0 .. (m - 1) })
+        static member Identity n : Matrix =
+            ({ 0 .. (n - 1) })
             |> Seq.map (fun i ->
-                Array.init m (fun j ->
+                Array.init n (fun j ->
                     if i = j then
                         Complex(1, 0)
                     else
@@ -114,6 +126,34 @@ module ComplexVectorSpace =
             )
             |> Seq.toArray
             |> Vector
+
+        static member IsHermitian matrix : bool = Matrix.Adjoint matrix = matrix
+
+        static member IsUnitary(matrix: Matrix) : bool =
+
+            let RoundOnes (Matrix matrixToRound) =
+
+                let RoundOne (toBeRounded: Complex) =
+                    let precision = 0.000000000001
+
+                    let (Complex (real, imaginary)) = toBeRounded
+
+                    if imaginary = 0
+                       && System.Math.Abs(real - 1.0) < precision then
+                        Complex.One
+                    else
+                        toBeRounded
+
+                matrixToRound
+                |> Array.map (fun row -> row |> Array.map RoundOne)
+                |> Matrix
+
+            let (Matrix rows) = matrix
+            let identity = Matrix.Identity rows.Length
+            let adjoint = Matrix.Adjoint matrix
+
+            Matrix.Product matrix adjoint = Matrix.Product adjoint matrix
+            && Matrix.Product matrix adjoint |> RoundOnes = identity
 
         static member ToVector(Matrix matrix) : Vector =
             matrix |> Array.map (fun row -> row[0]) |> Vector

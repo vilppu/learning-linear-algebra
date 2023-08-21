@@ -7,6 +7,7 @@ module CartesianPresentation =
 
         static member FromReal real = Complex(real, 0)
         static member Zero = Complex(0, 0)
+        static member One = Complex.FromReal 1.0
         static member MinusOne = Complex.FromReal -1.0
 
         static member Add (left: Complex) (right: Complex) : Complex =
@@ -59,6 +60,10 @@ module CartesianPresentation =
         static member Modulus(complexNumber: Complex) =
             let (Complex (real, imaginary)) = complexNumber
             System.Math.Sqrt(real * real + imaginary * imaginary)
+
+        static member SquareRoot(complexNumber: Complex) : Complex =
+            let (Complex (real, imaginary)) = complexNumber
+            Complex(System.Math.Sqrt(System.Math.Abs(real)), System.Math.Sqrt(System.Math.Abs((imaginary))))
 
         static member inline (+)(left: Complex, right: Complex) = Complex.Add left right
         static member inline (-)(left: Complex, right: Complex) = Complex.Subtract left right

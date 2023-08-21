@@ -23,11 +23,23 @@ module RealVectorSpace =
             |> Array.map (fun element -> scalar * element)
             |> Vector
 
+        static member InnerProduct (Vector left) (Vector right) : float =
+
+            (Array.map2 (fun leftElement rightElement -> leftElement * rightElement) left right)
+            |> Array.sum
+
+        static member Norm vector : float =
+            System.Math.Sqrt(Vector.InnerProduct vector vector)
+
+        static member Distance left right : float =
+            (Vector.Subtract left right) |> Vector.Norm
+
         static member Inverse(vector: Vector) : Vector = Vector.Multiply -1 vector
 
         static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
         static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
         static member inline (*)(scalar: float, vector: Vector) = Vector.Multiply scalar vector
+        static member inline (*)(left: Vector, right: Vector) = Vector.InnerProduct left right
         static member inline (~-)(vector: Vector) = Vector.Inverse vector
 
     type Matrix =

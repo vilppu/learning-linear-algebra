@@ -1,0 +1,198 @@
+namespace Algebra
+
+open Xunit
+
+module RealMatrixTests =
+
+    open RealVectorSpace
+
+    [<Fact>]
+    let ``m x 1 matrix can be presentented as n vector and vice versa`` () =
+        let matrix = Matrix([| [| 1 |]; [| 7 |] |])
+
+        let vector = Matrix.ToVector matrix
+
+        Assert.Equal(Vector([| 1; 7 |]), vector)
+        Assert.Equal(matrix, Matrix.FromVector vector)
+
+    [<Fact>]
+    let ``Sum of two matrices is calculated as sum of the components`` () =
+        let a = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let b = Matrix([| [| 23; 31 |]; [| 41; 47 |] |])
+
+        let sum = Matrix.Add a b
+
+        Assert.Equal(Matrix([| [| 24; 34 |]; [| 48; 60 |] |]), sum)
+
+        Assert.Equal(Matrix.Add a b, a + b)
+
+    [<Fact>]
+    let ``Sum of complex matrices is commutative`` () =
+        let a = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let b = Matrix([| [| 23; 31 |]; [| 41; 47 |] |])
+
+        Assert.Equal(a + b, b + a)
+
+    [<Fact>]
+    let ``Sum of complex matrices is associative`` () =
+        let a = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let b = Matrix([| [| 23; 31 |]; [| 41; 47 |] |])
+
+        let c = Matrix([| [| 59; 67 |]; [| 73; 83 |] |])
+
+        Assert.Equal((a + b) + c, a + (b + c))
+
+    [<Fact>]
+    let ``Sum of matrix and it's the inverse is zero`` () =
+        let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let zero = Matrix.Zero 2 2
+
+        Assert.Equal(zero, matrix + (-matrix))
+
+    [<Fact>]
+    let ``Zero is an additive identity`` () =
+        let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let zero = Matrix.Zero 2 2
+
+        Assert.Equal(matrix, matrix + zero)
+        Assert.Equal(matrix, zero + matrix)
+
+    [<Fact>]
+    let ``Difference of two matrices is calculated as difference of the components`` () =
+        let a = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let b = Matrix([| [| 23; 31 |]; [| 41; 47 |] |])
+
+        let difference = Matrix.Subtract a b
+
+        Assert.Equal(Matrix([| [| -22; -28 |]; [| -34; -34 |] |]), difference)
+
+        Assert.Equal(Matrix.Subtract a b, a - b)
+
+    [<Fact>]
+    let ``When multiplying a matrix by scalar then each element of the matrix is multiplied by the scalar`` () =
+        let scalar = 5.0
+
+        let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let multiplied = Matrix.Multiply scalar matrix
+
+        Assert.Equal(Matrix([| [| 5.0; 15.0 |]; [| 35.0; 65.0 |] |]), multiplied)
+
+        Assert.Equal(Matrix.Multiply scalar matrix, scalar * matrix)
+
+    [<Fact>]
+    let ``Scalar multiplication respects complex multiplication`` () =
+        let scalarA = 3.0
+
+        let scalarB = 7.0
+
+        let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        Assert.Equal(scalarA * (scalarB * matrix), (scalarA * scalarB) * matrix)
+
+    [<Fact>]
+    let ``Scalar multiplication distributes over addition`` () =
+        let scalar = 3.0
+
+        let matrixA = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let matrixB = Matrix([| [| 23; 31 |]; [| 41; 47 |] |])
+
+        Assert.Equal(scalar * (matrixA + matrixB), (scalar * matrixA) + (scalar * matrixB))
+
+    [<Fact>]
+    let ``Scalar multiplication distributes over complex addition`` () =
+        let scalarA = 3.0
+        let scalarB = 7.0
+
+        let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        Assert.Equal((scalarA + scalarB) * matrix, (scalarA * matrix) + (scalarB * matrix))
+
+    [<Fact>]
+    let ``Transposing a matrix flips the rows and columns`` () =
+        let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let transposed = Matrix.Transpose matrix
+
+        Assert.Equal(Matrix([| [| 1; 7 |]; [| 3; 13 |] |]), transposed)
+
+    [<Fact>]
+    let ``Matrix product is the result of multiplying rows by columns`` () =
+        let a = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let b = Matrix([| [| 23; 31 |]; [| 41; 47 |] |])
+
+        let product = Matrix.Product a b
+
+        Assert.Equal(
+            Matrix(
+                [| [| 146.0; 172.0 |]
+                   [| 694.0; 828.0 |] |]
+            ),
+            product
+        )
+
+        Assert.Equal(Matrix.Product a b, a * b)
+
+    [<Fact>]
+    let ``On identity matrix diagonal entries has value one and everytinhg else is zeroes`` () =
+
+        let identity = Matrix([| [| 1; 0 |]; [| 0; 1 |] |])
+
+        Assert.Equal(identity, Matrix.Identity 2)
+
+    [<Fact>]
+    let ``Another example of identity matrix`` () =
+
+        let identity =
+            Matrix(
+                [| [| 1; 0; 0 |]
+                   [| 0; 1; 0 |]
+                   [| 0; 0; 1 |] |]
+            )
+
+        Assert.Equal(identity, Matrix.Identity 3)
+
+
+    [<Fact>]
+    let ``Multiplying matrix by identity matrix does not change the matrix`` () =
+        let matrix =
+            Matrix(
+                [| [| 1; 3; 7 |]
+                   [| 7; 13; 23 |]
+                   [| 31; 41; 47 |] |]
+            )
+
+        let identity =
+            Matrix(
+                [| [| 1; 0; 0 |]
+                   [| 0; 1; 0 |]
+                   [| 0; 0; 1 |] |]
+            )
+
+        let product = Matrix.Product matrix identity
+
+        Assert.Equal(matrix, product)
+
+    [<Fact>]
+    let ``Algebra of matrices acts on vectors to yield new vectors`` () =
+
+        let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let vector = Vector([| 23; 31 |])
+
+        let vectorAsMatrix = Matrix([| [| 23 |]; [| 31 |] |])
+
+        let resultOfAction = Matrix.Act matrix vector
+
+        Assert.Equal(Vector([| 116.0; 564.0 |]), resultOfAction)
+
+        Assert.Equal(Matrix.Act matrix vector, matrix * vector)
+        Assert.Equal(matrix * vector, matrix * vectorAsMatrix |> Matrix.ToVector)
