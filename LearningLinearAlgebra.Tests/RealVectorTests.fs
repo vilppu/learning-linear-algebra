@@ -17,14 +17,14 @@ module RealVectorTests =
         Assert.Equal(Vector.Add a b, a + b)
 
     [<Fact>]
-    let ``Sum of complex vectors is commutative`` () =
+    let ``Sum of vectors is commutative`` () =
         let a = Vector([| -1; -3 |])
         let b = Vector([| -7; -13 |])
 
         Assert.Equal(a + b, b + a)
 
     [<Fact>]
-    let ``Sum of complex vectors is associative`` () =
+    let ``Sum of vectors is associative`` () =
         let a = Vector([| -1; -3 |])
         let b = Vector([| -7; -13 |])
         let c = Vector([| -23; -31 |])
@@ -69,7 +69,7 @@ module RealVectorTests =
         Assert.Equal(Vector.Multiply scalar vector, scalar * vector)
 
     [<Fact>]
-    let ``Scalar multiplication respects complex multiplication`` () =
+    let ``Scalar multiplication respects vector multiplication`` () =
         let scalarA = -3.0
         let scalarB = -7.0
         let vector = Vector([| -23; -31 |])
@@ -85,7 +85,7 @@ module RealVectorTests =
         Assert.Equal(scalar * (vectorA + vectorB), (scalar * vectorA) + (scalar * vectorB))
 
     [<Fact>]
-    let ``Scalar multiplication distributes over complex addition`` () =
+    let ``Scalar multiplication distributes over vector addition`` () =
         let scalarA = -3.0
         let scalarB = -7.0
         let vector = Vector([| -23; -31 |])
@@ -134,3 +134,34 @@ module RealVectorTests =
         let distance = Vector.Distance a b
 
         Assert.Equal(System.Math.Sqrt(11), distance)
+
+    [<Fact>]
+    let ``Tensor product of vectors contains combinations scalar products of all elements of both vectors`` () =
+
+        let a = Vector([| 3; 4; 7 |])
+        let b = Vector([| -1; 2 |])
+
+        let tensorProduct = Vector.TensorProduct a b
+
+        Assert.Equal(Vector([| -3; 6; -4; 8; -7; 14 |]), tensorProduct)
+
+    [<Fact>]
+    let ``Another example of tensor product`` () =
+
+        let a = Vector([| -1; 2 |])
+        let b = Vector([| 3; 4; 7 |])
+
+        let tensorProduct = Vector.TensorProduct a b
+
+        Assert.Equal(Vector([| -3.0; -4.0; -7.0; 6.0; 8.0; 14.0 |]), tensorProduct)
+
+    [<Fact>]
+    let ``Tensor product is associative`` () =
+        let a = Vector([| -1; -3 |])
+        let b = Vector([| -7; -13 |])
+        let c = Vector([| -23; -31 |])
+
+        Assert.Equal(
+            Vector.TensorProduct (Vector.TensorProduct a b) c,
+            Vector.TensorProduct a (Vector.TensorProduct b c)
+        )

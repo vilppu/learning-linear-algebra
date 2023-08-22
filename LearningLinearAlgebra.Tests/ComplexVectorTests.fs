@@ -147,7 +147,6 @@ module ComplexVectorTests =
 
         Assert.Equal(Complex(System.Math.Sqrt(439.0), 0), norm)
 
-
     [<Fact>]
     let ``Distance of the two vectors is the norm of the difference`` () =
 
@@ -157,3 +156,33 @@ module ComplexVectorTests =
         let distance = Vector.Distance a b
 
         Assert.Equal(Complex(System.Math.Sqrt(413.0), 0), distance)
+
+    [<Fact>]
+    let ``Tensor product of vectors contains combinations scalar products of all elements of both vectors`` () =
+
+        let a = Vector([| Complex(1, 2); Complex(3, 5) |])
+        let b = Vector([| Complex(7, 11); Complex(13, 19) |])
+
+        let tensorProduct = Vector.TensorProduct a b
+
+        Assert.Equal(
+            Vector(
+                [| Complex(-15.0, 25.0)
+                   Complex(-25.0, 45.0)
+                   Complex(-34.0, 68.0)
+                   Complex(-56.0, 122.0) |]
+            ),
+            tensorProduct
+        )
+
+    [<Fact>]
+    let ``Tensor product is associative`` () =
+
+        let a = Vector([| Complex(1, 2); Complex(3, 5) |])
+        let b = Vector([| Complex(7, 11); Complex(13, 19) |])
+        let c = Vector([| Complex(23, 29); Complex(31, 37) |])
+
+        Assert.Equal(
+            Vector.TensorProduct (Vector.TensorProduct a b) c,
+            Vector.TensorProduct a (Vector.TensorProduct b c)
+        )

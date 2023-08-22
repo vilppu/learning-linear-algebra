@@ -36,6 +36,15 @@ module ComplexVectorSpace =
         static member Distance left right : Complex =
             (Vector.Subtract left right) |> Vector.Norm
 
+        static member TensorProduct (Vector left) (Vector right) : Vector =
+            let length = left.Length * right.Length
+
+            Array.init length (fun index ->
+                let leftIndex = index / right.Length
+                let rightIndex = index % right.Length
+                left[leftIndex] * right[rightIndex])
+            |> Vector
+
         static member Inverse(vector: Vector) : Vector = Vector.Multiply Complex.MinusOne vector
 
         static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
@@ -154,6 +163,22 @@ module ComplexVectorSpace =
 
             Matrix.Product matrix adjoint = Matrix.Product adjoint matrix
             && Matrix.Product matrix adjoint |> RoundOnes = identity
+
+        static member TensorProduct (Matrix left) (Matrix right) : Matrix =
+
+            let ColumnCount (matrix: Complex [] []) =
+                match matrix.Length with
+                | 0 -> 0
+                | _ -> matrix[0].Length
+
+            let rowCount = left.Length * right.Length
+            let columnCount = (left |> ColumnCount) * (right |> ColumnCount)
+
+            let m = right.Length
+            let n = (right |> ColumnCount)
+
+            Array.init rowCount (fun j -> Array.init columnCount (fun k -> left[j / n][k / m] * right[j % n][k % m]))
+            |> Matrix
 
         static member ToVector(Matrix matrix) : Vector =
             matrix |> Array.map (fun row -> row[0]) |> Vector

@@ -196,3 +196,63 @@ module RealMatrixTests =
 
         Assert.Equal(Matrix.Act matrix vector, matrix * vector)
         Assert.Equal(matrix * vector, matrix * vectorAsMatrix |> Matrix.ToVector)
+
+
+    [<Fact>]
+    let ``Tensor product of matrix contains combinations scalar products of all elements of both matrix`` () =
+
+        let a = Matrix([| [| 1; 2 |]; [| 3; 4 |] |])
+
+        let b = Matrix([| [| 5; 6 |]; [| 7; 8 |] |])
+
+        let tensorProduct = Matrix.TensorProduct a b
+
+        Assert.Equal(
+            Matrix(
+                [| [| 5.0; 6.0; 10.0; 12.0 |]
+                   [| 7.0; 8.0; 14.0; 16.0 |]
+                   [| 15.0; 18.0; 20.0; 24.0 |]
+                   [| 21.0; 24.0; 28.0; 32.0 |] |]
+            ),
+            tensorProduct
+        )
+
+
+    [<Fact>]
+    let ``Another example of tensor product`` () =
+
+        let a = Matrix([| [| 1; 2 |]; [| 3; 4 |] |])
+
+        let b =
+            Matrix(
+                [| [| 1; 2; 3 |]
+                   [| 4; 5; 6 |]
+                   [| 7; 8; 9 |] |]
+            )
+
+        let tensorProduct = Matrix.TensorProduct a b
+
+        Assert.Equal(
+            Matrix(
+                [| [| 1.0; 2.0; 3.0; 2.0; 4.0; 6.0 |]
+                   [| 4.0; 5.0; 6.0; 8.0; 10.0; 12.0 |]
+                   [| 7.0; 8.0; 9.0; 14.0; 16.0; 18.0 |]
+                   [| 3.0; 6.0; 9.0; 4.0; 8.0; 12.0 |]
+                   [| 12.0; 15.0; 18.0; 16.0; 20.0; 24.0 |]
+                   [| 21.0; 24.0; 27.0; 28.0; 32.0; 36.0 |] |]
+            ),
+            tensorProduct
+        )
+
+    [<Fact>]
+    let ``Tensor product is associative`` () =
+        let a = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
+
+        let b = Matrix([| [| 23; 31 |]; [| 41; 47 |] |])
+
+        let c = Matrix([| [| 59; 67 |]; [| 73; 83 |] |])
+
+        Assert.Equal(
+            Matrix.TensorProduct (Matrix.TensorProduct a b) c,
+            Matrix.TensorProduct a (Matrix.TensorProduct b c)
+        )

@@ -492,7 +492,7 @@ module ComplexMatrixTests =
 
 
     [<Fact>]
-    let ``Third example of non-hermitian matrix`` () =
+    let ``Example of non-hermitian matrix`` () =
         let matrix =
             Matrix(
                 [| [| Complex(7, 0); Complex(6, 5) |]
@@ -621,3 +621,252 @@ module ComplexMatrixTests =
             )
 
         Assert.Equal(Vector.Distance (unitary * a) (unitary * b), Vector.Distance a b)
+
+
+    [<Fact>]
+    let ``Tensor product of matrix contains combinations scalar products of all elements of both matrix`` () =
+
+        let a =
+            Matrix(
+                [| [| Complex(1, 2); Complex(3, 5) |]
+                   [| Complex(7, 11); Complex(13, 19) |] |]
+            )
+
+        let b =
+            Matrix(
+                [| [| Complex(23, 29); Complex(31, 37) |]
+                   [| Complex(41, 43); Complex(47, 53) |] |]
+            )
+
+        let tensorProduct = Matrix.TensorProduct a b
+
+        Assert.Equal(
+            Matrix(
+                [| [| Complex(-35.0, 75.0)
+                      Complex(-43.0, 99.0)
+                      Complex(-76.0, 202.0)
+                      Complex(-92.0, 266.0) |]
+                   [| Complex(-45.0, 125.0)
+                      Complex(-59.0, 147.0)
+                      Complex(-92.0, 334.0)
+                      Complex(-124.0, 394.0) |]
+                   [| Complex(-158.0, 456.0)
+                      Complex(-190.0, 600.0)
+                      Complex(-252.0, 814.0)
+                      Complex(-300.0, 1070.0) |]
+                   [| Complex(-186.0, 752.0)
+                      Complex(-254.0, 888.0)
+                      Complex(-284.0, 1338.0)
+                      Complex(-396.0, 1582.0) |] |]
+            ),
+            tensorProduct
+        )
+
+    [<Fact>]
+    let ``Another example of tensor product`` () =
+
+        let a =
+            Matrix(
+                [| [| Complex(3, 2)
+                      Complex(5, -1)
+                      Complex(0, 2) |]
+                   [| Complex(0, 0)
+                      Complex(12, 0)
+                      Complex(6, -3) |]
+                   [| Complex(2, 0)
+                      Complex(4, 4)
+                      Complex(9, 3) |] |]
+            )
+
+        let b =
+            Matrix(
+                [| [| Complex(1, 0)
+                      Complex(3, 4)
+                      Complex(5, -7) |]
+                   [| Complex(10, 2)
+                      Complex(6, 0)
+                      Complex(2, 5) |]
+                   [| Complex(0, 0)
+                      Complex(1, 0)
+                      Complex(2, 9) |] |]
+            )
+
+        let tensorProduct = Matrix.TensorProduct a b
+
+        Assert.Equal(
+            Matrix(
+                [| [| Complex(3.0, 2.0)
+                      Complex(1.0, 18.0)
+                      Complex(29.0, -11.0)
+                      Complex(5.0, -1.0)
+                      Complex(19.0, 17.0)
+                      Complex(18.0, -40.0)
+                      Complex(0.0, 2.0)
+                      Complex(-8.0, 6.0)
+                      Complex(14.0, 10.0) |]
+                   [| Complex(26.0, 26.0)
+                      Complex(18.0, 12.0)
+                      Complex(-4.0, 19.0)
+                      Complex(52.0, 0.0)
+                      Complex(30.0, -6.0)
+                      Complex(15.0, 23.0)
+                      Complex(-4.0, 20.0)
+                      Complex(0.0, 12.0)
+                      Complex(-10.0, 4.0) |]
+                   [| Complex(0.0, 0.0)
+                      Complex(3.0, 2.0)
+                      Complex(-12.0, 31.0)
+                      Complex(0.0, 0.0)
+                      Complex(5.0, -1.0)
+                      Complex(19.0, 43.0)
+                      Complex(0.0, 0.0)
+                      Complex(0.0, 2.0)
+                      Complex(-18.0, 4.0) |]
+                   [| Complex(0.0, 0.0)
+                      Complex(0.0, 0.0)
+                      Complex(0.0, 0.0)
+                      Complex(12.0, 0.0)
+                      Complex(36.0, 48.0)
+                      Complex(60.0, -84.0)
+                      Complex(6.0, -3.0)
+                      Complex(30.0, 15.0)
+                      Complex(9.0, -57.0) |]
+                   [| Complex(0.0, 0.0)
+                      Complex(0.0, 0.0)
+                      Complex(0.0, 0.0)
+                      Complex(120.0, 24.0)
+                      Complex(72.0, 0.0)
+                      Complex(24.0, 60.0)
+                      Complex(66.0, -18.0)
+                      Complex(36.0, -18.0)
+                      Complex(27.0, 24.0) |]
+                   [| Complex(0.0, 0.0)
+                      Complex(0.0, 0.0)
+                      Complex(0.0, 0.0)
+                      Complex(0.0, 0.0)
+                      Complex(12.0, 0.0)
+                      Complex(24.0, 108.0)
+                      Complex(0.0, 0.0)
+                      Complex(6.0, -3.0)
+                      Complex(39.0, 48.0) |]
+                   [| Complex(2.0, 0.0)
+                      Complex(6.0, 8.0)
+                      Complex(10.0, -14.0)
+                      Complex(4.0, 4.0)
+                      Complex(-4.0, 28.0)
+                      Complex(48.0, -8.0)
+                      Complex(9.0, 3.0)
+                      Complex(15.0, 45.0)
+                      Complex(66.0, -48.0) |]
+                   [| Complex(20.0, 4.0)
+                      Complex(12.0, 0.0)
+                      Complex(4.0, 10.0)
+                      Complex(32.0, 48.0)
+                      Complex(24.0, 24.0)
+                      Complex(-12.0, 28.0)
+                      Complex(84.0, 48.0)
+                      Complex(54.0, 18.0)
+                      Complex(3.0, 51.0) |]
+                   [| Complex(0.0, 0.0)
+                      Complex(2.0, 0.0)
+                      Complex(4.0, 18.0)
+                      Complex(0.0, 0.0)
+                      Complex(4.0, 4.0)
+                      Complex(-28.0, 44.0)
+                      Complex(0.0, 0.0)
+                      Complex(9.0, 3.0)
+                      Complex(-9.0, 87.0) |] |]
+            ),
+            tensorProduct
+        )
+
+    [<Fact>]
+    let ``Third example of tensor product`` () =
+
+        let a =
+            Matrix(
+                [| [| Complex(1, 1); Complex(2, 2) |]
+                   [| Complex(3, 3); Complex(4, 4) |] |]
+            )
+
+        let b =
+            Matrix(
+                [| [| Complex(1, 1)
+                      Complex(2, 2)
+                      Complex(3, 3) |]
+                   [| Complex(4, 4)
+                      Complex(5, 5)
+                      Complex(6, 6) |]
+                   [| Complex(7, 7)
+                      Complex(8, 8)
+                      Complex(9, 9) |] |]
+            )
+
+        let tensorProduct = Matrix.TensorProduct a b
+
+        Assert.Equal(
+            Matrix(
+                [| [| Complex(0.0, 2.0)
+                      Complex(0.0, 4.0)
+                      Complex(0.0, 6.0)
+                      Complex(0.0, 4.0)
+                      Complex(0.0, 8.0)
+                      Complex(0.0, 12.0) |]
+                   [| Complex(0.0, 8.0)
+                      Complex(0.0, 10.0)
+                      Complex(0.0, 12.0)
+                      Complex(0.0, 16.0)
+                      Complex(0.0, 20.0)
+                      Complex(0.0, 24.0) |]
+                   [| Complex(0.0, 14.0)
+                      Complex(0.0, 16.0)
+                      Complex(0.0, 18.0)
+                      Complex(0.0, 28.0)
+                      Complex(0.0, 32.0)
+                      Complex(0.0, 36.0) |]
+                   [| Complex(0.0, 6.0)
+                      Complex(0.0, 12.0)
+                      Complex(0.0, 18.0)
+                      Complex(0.0, 8.0)
+                      Complex(0.0, 16.0)
+                      Complex(0.0, 24.0) |]
+                   [| Complex(0.0, 24.0)
+                      Complex(0.0, 30.0)
+                      Complex(0.0, 36.0)
+                      Complex(0.0, 32.0)
+                      Complex(0.0, 40.0)
+                      Complex(0.0, 48.0) |]
+                   [| Complex(0.0, 42.0)
+                      Complex(0.0, 48.0)
+                      Complex(0.0, 54.0)
+                      Complex(0.0, 56.0)
+                      Complex(0.0, 64.0)
+                      Complex(0.0, 72.0) |] |]
+            ),
+            tensorProduct
+        )
+
+    [<Fact>]
+    let ``Tensor product is associative`` () =
+        let a =
+            Matrix(
+                [| [| Complex(1, 2); Complex(3, 5) |]
+                   [| Complex(7, 11); Complex(13, 19) |] |]
+            )
+
+        let b =
+            Matrix(
+                [| [| Complex(23, 29); Complex(31, 37) |]
+                   [| Complex(41, 43); Complex(47, 53) |] |]
+            )
+
+        let c =
+            Matrix(
+                [| [| Complex(59, 61); Complex(67, 71) |]
+                   [| Complex(73, 79); Complex(83, 89) |] |]
+            )
+
+        Assert.Equal(
+            Matrix.TensorProduct (Matrix.TensorProduct a b) c,
+            Matrix.TensorProduct a (Matrix.TensorProduct b c)
+        )
