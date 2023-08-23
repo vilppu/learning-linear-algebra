@@ -117,11 +117,35 @@ module RealMatrixTests =
 
     [<Fact>]
     let ``Transposing a matrix flips the rows and columns`` () =
+        let matrix = Matrix([| [| 1; 2; 3 |]; [| 4; 5; 6 |] |])
+
+        let transposed = Matrix.Transpose matrix
+
+        Assert.Equal(Matrix([| [| 1; 4 |]; [| 2; 5 |]; [| 3; 6 |] |]), transposed)
+
+    [<Fact>]
+    let ``Example of transposing a square matrix`` () =
         let matrix = Matrix([| [| 1; 3 |]; [| 7; 13 |] |])
 
         let transposed = Matrix.Transpose matrix
 
         Assert.Equal(Matrix([| [| 1; 7 |]; [| 3; 13 |] |]), transposed)
+
+    [<Fact>]
+    let ``Transposing a row vector produces a column vector`` () =
+        let matrix = Matrix [| [| 1; 2; 3 |] |]
+
+        let transposed = Matrix.Transpose matrix
+
+        Assert.Equal(Matrix [| [| 1 |]; [| 2 |]; [| 3 |] |], transposed)
+
+    [<Fact>]
+    let ``Transposing a vector changes it to single column matrix`` () =
+        let vector = Vector([| 1; 2; 3 |])
+
+        let multiplied = Matrix.Transpose vector
+
+        Assert.Equal(Matrix([| [| 1 |]; [| 2 |]; [| 3 |] |]), multiplied)
 
     [<Fact>]
     let ``Matrix product is the result of multiplying rows by columns`` () =
@@ -180,6 +204,28 @@ module RealMatrixTests =
         let product = Matrix.Product matrix identity
 
         Assert.Equal(matrix, product)
+
+    [<Fact>]
+    let ``Multiplying orthogonal matrix by it's transpose produces an identity matrix`` () =
+
+        let identity =
+            Matrix(
+                [| [| 1; 0; 0 |]
+                   [| 0; 1; 0 |]
+                   [| 0; 0; 1 |] |]
+            )
+
+        let orthogonal =
+            Matrix(
+                [| [| 0; 1; 0 |]
+                   [| 0; 0; 1 |]
+                   [| 1; 0; 0 |] |]
+            )
+
+        let transposeOfOrthogonal = Matrix.Transpose orthogonal
+
+        Assert.Equal(identity, orthogonal * transposeOfOrthogonal)
+        Assert.Equal(identity, transposeOfOrthogonal * orthogonal)
 
     [<Fact>]
     let ``Algebra of matrices acts on vectors to yield new vectors`` () =

@@ -159,7 +159,7 @@ module CartesianRepresentationTests =
 
         let modulus = Complex.Modulus a
 
-        Assert.Equal(System.Math.Sqrt(74.0), modulus)
+        Assert.Equal(sqrt (74.0), modulus)
 
     [<Fact>]
     let ``Another example of modulus`` () =
@@ -167,4 +167,4 @@ module CartesianRepresentationTests =
 
         let modulus = Complex.Modulus a
 
-        Assert.Equal(System.Math.Sqrt(2), modulus)
+        Assert.Equal(sqrt (2.0), modulus)

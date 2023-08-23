@@ -15,12 +15,12 @@ module PolarPresentation =
         static member inline ToPolar(cartesian: CartesianPresentation.Complex) =
             let (CartesianPresentation.Complex (real, imaginary)) = cartesian
 
-            Complex(System.Math.Sqrt(real * real + imaginary * imaginary), System.Math.Atan(real / imaginary))
+            Complex(sqrt (real * real + imaginary * imaginary), atan (real / imaginary))
 
         static member inline ToCartesian(polar: Complex) =
             let (Complex (magniture, phase)) = polar
 
-            CartesianPresentation.Complex(magniture * System.Math.Cos(phase), magniture * System.Math.Sin(phase))
+            CartesianPresentation.Complex(magniture * cos (phase), magniture * sin (phase))
 
         static member inline Add (left: Complex) (right: Complex) : Complex =
             (left |> Complex.ToCartesian)

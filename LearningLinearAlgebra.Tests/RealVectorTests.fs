@@ -133,7 +133,7 @@ module RealVectorTests =
 
         let distance = Vector.Distance a b
 
-        Assert.Equal(System.Math.Sqrt(11), distance)
+        Assert.Equal(sqrt (11.0), distance)
 
     [<Fact>]
     let ``Tensor product of vectors contains combinations scalar products of all elements of both vectors`` () =

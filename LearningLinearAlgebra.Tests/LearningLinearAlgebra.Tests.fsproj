@@ -15,6 +15,7 @@
     <Compile Include="RealMatrixTests.fs" />
     <Compile Include="ComplexVectorTests.fs" />
     <Compile Include="ComplexMatrixTests.fs" />
+    <Compile Include="ClassicalStateMachineTests.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -210,6 +210,29 @@ module ComplexMatrixTests =
     let ``Transposing a matrix flips the rows and columns`` () =
         let matrix =
             Matrix(
+                [| [| Complex(1, 1)
+                      Complex(2, 2)
+                      Complex(3, 3) |]
+                   [| Complex(4, 4)
+                      Complex(5, 5)
+                      Complex(6, 6) |] |]
+            )
+
+        let transposed = Matrix.Transpose matrix
+
+        Assert.Equal(
+            Matrix(
+                [| [| Complex(1, 1); Complex(4, 4) |]
+                   [| Complex(2, 2); Complex(5, 5) |]
+                   [| Complex(3, 3); Complex(6, 6) |] |]
+            ),
+            transposed
+        )
+
+    [<Fact>]
+    let ``Example of transposing a square matrix`` () =
+        let matrix =
+            Matrix(
                 [| [| Complex(1, 2); Complex(3, 5) |]
                    [| Complex(7, 11); Complex(13, 19) |] |]
             )
@@ -222,6 +245,42 @@ module ComplexMatrixTests =
                    [| Complex(3, 5); Complex(13, 19) |] |]
             ),
             transposed
+        )
+
+    [<Fact>]
+    let ``Transposing a row vector produces a column vector`` () =
+        let matrix =
+            Matrix [| [| Complex(1, 1)
+                         Complex(2, 2)
+                         Complex(3, 3) |] |]
+
+        let transposed = Matrix.Transpose matrix
+
+        Assert.Equal(
+            Matrix [| [| Complex(1, 1) |]
+                      [| Complex(2, 2) |]
+                      [| Complex(3, 3) |] |],
+            transposed
+        )
+
+    [<Fact>]
+    let ``Transposing a vector changes it to single column matrix`` () =
+        let vector =
+            Vector(
+                [| Complex(1, 2)
+                   Complex(3, 4)
+                   Complex(5, 6) |]
+            )
+
+        let multiplied = Matrix.Transpose vector
+
+        Assert.Equal(
+            Matrix(
+                [| [| Complex(1, 2) |]
+                   [| Complex(3, 4) |]
+                   [| Complex(5, 6) |] |]
+            ),
+            multiplied
         )
 
     [<Fact>]
@@ -519,9 +578,9 @@ module ComplexMatrixTests =
     let ``Matrix is unitary if product of matrix and it's adjoint is equal to product of adjoint and matrix is equal to identity matrix``
         ()
         =
-        let cos = System.Math.Cos
-        let sin = System.Math.Sin
-        let a = 10
+        let cos = cos
+        let sin = sin
+        let a = 10.0
 
         let matrix =
             Matrix(
@@ -543,10 +602,10 @@ module ComplexMatrixTests =
 
         let matrix =
             Matrix(
-                [| [| Complex(1.0 / Constants.SquareRootOfTwo, 0)
-                      Complex(1.0 / Constants.SquareRootOfTwo, 0) |]
-                   [| Complex(0, 1.0 / Constants.SquareRootOfTwo)
-                      Complex(0, -1.0 / Constants.SquareRootOfTwo) |] |]
+                [| [| Complex(1.0 / sqrt 2.0, 0)
+                      Complex(1.0 / sqrt 2.0, 0) |]
+                   [| Complex(0, 1.0 / sqrt 2.0)
+                      Complex(0, -1.0 / sqrt 2.0) |] |]
             )
 
         Assert.True(Matrix.IsUnitary matrix)
@@ -578,10 +637,10 @@ module ComplexMatrixTests =
 
         let unitary =
             Matrix(
-                [| [| Complex(1.0 / Constants.SquareRootOfTwo, 0)
-                      Complex(1.0 / Constants.SquareRootOfTwo, 0) |]
-                   [| Complex(0, 1.0 / Constants.SquareRootOfTwo)
-                      Complex(0, -1.0 / Constants.SquareRootOfTwo) |] |]
+                [| [| Complex(1.0 / sqrt 2.0, 0)
+                      Complex(1.0 / sqrt 2.0, 0) |]
+                   [| Complex(0, 1.0 / sqrt 2.0)
+                      Complex(0, -1.0 / sqrt 2.0) |] |]
             )
 
         let anotherUnitary =

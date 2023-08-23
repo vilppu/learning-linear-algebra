@@ -29,7 +29,7 @@ module RealVectorSpace =
             |> Array.sum
 
         static member Norm vector : float =
-            System.Math.Sqrt(Vector.InnerProduct vector vector)
+            sqrt (Vector.InnerProduct vector vector)
 
         static member Distance left right : float =
             (Vector.Subtract left right) |> Vector.Norm
@@ -54,14 +54,22 @@ module RealVectorSpace =
     type Matrix =
         | Matrix of float [] []
 
-        static member Zero m n : Matrix =
-            Matrix(Array.create m (Array.create n 0))
+        static member Fill m n elementValue : Matrix =
+            Array.init m (fun i -> Array.init n (fun j -> elementValue i j))
+            |> Matrix
+
+        static member Zero m n : Matrix = Matrix.Fill m n (fun i j -> 0)
 
         static member Identity m : Matrix =
-            ({ 0 .. (m - 1) })
-            |> Seq.map (fun i -> Array.init m (fun j -> if i = j then 1.0 else 0.0))
-            |> Seq.toArray
-            |> Matrix
+            Matrix.Fill m m (fun i j -> if i = j then 1.0 else 0.0)
+
+        static member M(matrix: float [] []) = matrix.Length
+
+        static member N(matrix: float [] []) =
+            if matrix.Length > 0 then
+                matrix[0].Length
+            else
+                0
 
         static member Add (Matrix left) (Matrix right) : Matrix =
 
@@ -90,8 +98,11 @@ module RealVectorSpace =
             |> Matrix
 
         static member Transpose(Matrix matrix) : Matrix =
-            matrix
-            |> Array.mapi (fun i row -> row |> Array.mapi (fun j _ -> matrix[j][i]))
+            Matrix.Fill (Matrix.N matrix) (Matrix.M matrix) (fun i j -> matrix[j][i])
+
+        static member Transpose(Vector vector) : Matrix =
+            vector
+            |> Array.map (fun element -> [| element |])
             |> Matrix
 
         static member Product (Matrix left) (Matrix right) : Matrix =
@@ -133,8 +144,7 @@ module RealVectorSpace =
             let m = right.Length
             let n = (right |> ColumnCount)
 
-            Array.init rowCount (fun j -> Array.init columnCount (fun k -> left[j / n][k / m] * right[j % n][k % m]))
-            |> Matrix
+            Matrix.Fill rowCount columnCount (fun j k -> left[j / n][k / m] * right[j % n][k % m])
 
         static member ToVector(Matrix matrix) : Vector =
             matrix |> Array.map (fun row -> row[0]) |> Vector

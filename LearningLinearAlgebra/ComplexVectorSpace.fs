@@ -56,19 +56,27 @@ module ComplexVectorSpace =
     type Matrix =
         | Matrix of Complex [] []
 
-        static member Zero m n : Matrix =
-            Matrix(Array.create m (Array.create n Complex.Zero))
-
-        static member Identity n : Matrix =
-            ({ 0 .. (n - 1) })
-            |> Seq.map (fun i ->
-                Array.init n (fun j ->
-                    if i = j then
-                        Complex(1, 0)
-                    else
-                        Complex(0, 0)))
-            |> Seq.toArray
+        static member Fill m n elementValue : Matrix =
+            Array.init m (fun i -> Array.init n (fun j -> elementValue i j))
             |> Matrix
+
+        static member Zero m n : Matrix =
+            Matrix.Fill m n (fun i j -> Complex.Zero)
+
+        static member Identity m : Matrix =
+            Matrix.Fill m m (fun i j ->
+                if i = j then
+                    Complex.One
+                else
+                    Complex.Zero)
+
+        static member M(matrix: Complex [] []) = matrix.Length
+
+        static member N(matrix: Complex [] []) =
+            if matrix.Length > 0 then
+                matrix[0].Length
+            else
+                0
 
         static member Add (Matrix left) (Matrix right) : Matrix =
 
@@ -97,8 +105,11 @@ module ComplexVectorSpace =
             |> Matrix
 
         static member Transpose(Matrix matrix) : Matrix =
-            matrix
-            |> Array.mapi (fun i row -> row |> Array.mapi (fun j _ -> matrix[j][i]))
+            Matrix.Fill (Matrix.N matrix) (Matrix.M matrix) (fun i j -> matrix[j][i])
+
+        static member Transpose(Vector vector) : Matrix =
+            vector
+            |> Array.map (fun element -> [| element |])
             |> Matrix
 
         static member Conjucate(Matrix matrix) : Matrix =
@@ -147,8 +158,7 @@ module ComplexVectorSpace =
 
                     let (Complex (real, imaginary)) = toBeRounded
 
-                    if imaginary = 0
-                       && System.Math.Abs(real - 1.0) < precision then
+                    if imaginary = 0 && abs (real - 1.0) < precision then
                         Complex.One
                     else
                         toBeRounded
@@ -177,8 +187,7 @@ module ComplexVectorSpace =
             let m = right.Length
             let n = (right |> ColumnCount)
 
-            Array.init rowCount (fun j -> Array.init columnCount (fun k -> left[j / n][k / m] * right[j % n][k % m]))
-            |> Matrix
+            Matrix.Fill rowCount columnCount (fun j k -> left[j / n][k / m] * right[j % n][k % m])
 
         static member ToVector(Matrix matrix) : Vector =
             matrix |> Array.map (fun row -> row[0]) |> Vector

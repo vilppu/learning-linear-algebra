@@ -16,7 +16,7 @@ module PolarRepresentationTests =
 
         let (Complex (sumMagniture, sumPhase)) = Complex.Add a b
 
-        Assert.Equal(Constants.SquareRootOfTwo, sumMagniture, tolerance)
+        Assert.Equal(sqrt 2.0, sumMagniture, tolerance)
         Assert.Equal(Constants.Pi / 4.0, sumPhase, tolerance)
 
     [<Fact>]
@@ -26,13 +26,13 @@ module PolarRepresentationTests =
 
         let (Complex (differenceMagniture, differencePhase)) = Complex.Subtract a b
 
-        Assert.Equal(Constants.SquareRootOfTwo, differenceMagniture, tolerance)
+        Assert.Equal(sqrt 2.0, differenceMagniture, tolerance)
         Assert.Equal(-1.0 * Constants.Pi / 4.0, differencePhase, tolerance)
 
     [<Fact>]
     let ``Product of two complex numbers is calculated by multiplying the magnitudes and adding their phase`` () =
-        let a = Complex(Constants.SquareRootOfTwo, Constants.Pi / 4.0)
-        let b = Complex(Constants.SquareRootOfTwo, Constants.Pi * (3.0 / 4.0))
+        let a = Complex(sqrt 2.0, Constants.Pi / 4.0)
+        let b = Complex(sqrt 2.0, Constants.Pi * (3.0 / 4.0))
 
         let (Complex (productMagniture, productPhase)) = Complex.Multiply a b
 
@@ -41,8 +41,8 @@ module PolarRepresentationTests =
 
     [<Fact>]
     let ``Quotient of two complex numbers is calculated by dividing the magnitudes and subtracting their phase`` () =
-        let a = Complex(Constants.SquareRootOfTwo, Constants.Pi / 4.0)
-        let b = Complex(Constants.SquareRootOfTwo, Constants.Pi * (3.0 / 4.0))
+        let a = Complex(sqrt 2.0, Constants.Pi / 4.0)
+        let b = Complex(sqrt 2.0, Constants.Pi * (3.0 / 4.0))
 
         let (Complex (quotientMagniture, quotientPhase)) = Complex.Divide a b
 
@@ -51,8 +51,8 @@ module PolarRepresentationTests =
 
     [<Fact>]
     let ``Another example of dividing complex numbers`` () =
-        let a = Complex(System.Math.Sqrt(10), System.Math.Atan(-3.0))
-        let b = Complex(System.Math.Sqrt(17), System.Math.Atan(4.0))
+        let a = Complex(sqrt (10.0), atan (-3.0))
+        let b = Complex(sqrt (17.0), atan (4.0))
 
         let (Complex (quotientMagniture, quotientPhase)) = Complex.Divide a b
 
