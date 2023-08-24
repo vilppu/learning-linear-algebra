@@ -1,6 +1,7 @@
 ﻿namespace Algebra.ComplexNumbers
 
 module CartesianPresentation =
+    open RealNumbers
 
     type Complex =
         | Complex of float * float
@@ -57,13 +58,13 @@ module CartesianPresentation =
 
             Complex(numeratorReal / demoninatorReal, numeratorImaginary / demoninatorReal)
 
-        static member Modulus(complexNumber: Complex) =
-            let (Complex (real, imaginary)) = complexNumber
+        static member Modulus(Complex (real, imaginary)) =
             sqrt (real * real + imaginary * imaginary)
 
-        static member SquareRoot(complexNumber: Complex) : Complex =
-            let (Complex (real, imaginary)) = complexNumber
+        static member SquareRoot(Complex (real, imaginary)) : Complex =
             Complex(sqrt (abs (real)), sqrt (abs ((imaginary))))
+
+        static member Round(Complex (real, imaginary)) : Complex = Complex(Round(real), Round(imaginary))
 
         static member inline (+)(left: Complex, right: Complex) = Complex.Add left right
         static member inline (-)(left: Complex, right: Complex) = Complex.Subtract left right

@@ -208,13 +208,6 @@ module RealMatrixTests =
     [<Fact>]
     let ``Multiplying orthogonal matrix by it's transpose produces an identity matrix`` () =
 
-        let identity =
-            Matrix(
-                [| [| 1; 0; 0 |]
-                   [| 0; 1; 0 |]
-                   [| 0; 0; 1 |] |]
-            )
-
         let orthogonal =
             Matrix(
                 [| [| 0; 1; 0 |]
@@ -224,8 +217,8 @@ module RealMatrixTests =
 
         let transposeOfOrthogonal = Matrix.Transpose orthogonal
 
-        Assert.Equal(identity, orthogonal * transposeOfOrthogonal)
-        Assert.Equal(identity, transposeOfOrthogonal * orthogonal)
+        Assert.Equal(Matrix.Identity 3, orthogonal * transposeOfOrthogonal)
+        Assert.Equal(Matrix.Identity 3, transposeOfOrthogonal * orthogonal)
 
     [<Fact>]
     let ``Algebra of matrices acts on vectors to yield new vectors`` () =

@@ -2,6 +2,7 @@
 
 module ComplexVectorSpace =
 
+    open RealNumbers
     open Algebra.ComplexNumbers.CartesianPresentation
 
     type Vector =
@@ -46,6 +47,11 @@ module ComplexVectorSpace =
             |> Vector
 
         static member Inverse(vector: Vector) : Vector = Vector.Multiply Complex.MinusOne vector
+
+        static member Round(Vector vector) : Vector =
+            vector
+            |> Array.map (fun element -> Complex.Round element)
+            |> Vector
 
         static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
         static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
@@ -146,6 +152,13 @@ module ComplexVectorSpace =
             )
             |> Seq.toArray
             |> Vector
+
+        static member Round(Matrix matrix) : Matrix =
+            matrix
+            |> Array.map (fun row ->
+                row
+                |> Array.map (fun element -> Complex.Round element))
+            |> Matrix
 
         static member IsHermitian matrix : bool = Matrix.Adjoint matrix = matrix
 

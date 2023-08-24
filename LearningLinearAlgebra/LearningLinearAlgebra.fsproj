@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Constants.fs" />
+    <Compile Include="RealNumbers.fs" />
     <Compile Include="CartesianPresentation.fs" />
     <Compile Include="PolarRepresentation.fs" />
     <Compile Include="RealVectorSpace.fs" />

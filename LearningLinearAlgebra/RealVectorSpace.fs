@@ -1,6 +1,7 @@
 ﻿namespace Algebra
 
 module RealVectorSpace =
+    open RealNumbers
 
     type Vector =
         | Vector of float []
@@ -44,6 +45,11 @@ module RealVectorSpace =
             |> Vector
 
         static member Inverse(vector: Vector) : Vector = Vector.Multiply -1 vector
+
+        static member Round(Vector vector) : Vector =
+            vector
+            |> Array.map (fun element -> Round element)
+            |> Vector
 
         static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
         static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
@@ -145,6 +151,11 @@ module RealVectorSpace =
             let n = (right |> ColumnCount)
 
             Matrix.Fill rowCount columnCount (fun j k -> left[j / n][k / m] * right[j % n][k % m])
+
+        static member Round(Matrix matrix) : Matrix =
+            matrix
+            |> Array.map (fun row -> row |> Array.map (fun element -> Round element))
+            |> Matrix
 
         static member ToVector(Matrix matrix) : Vector =
             matrix |> Array.map (fun row -> row[0]) |> Vector

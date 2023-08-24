@@ -2,7 +2,7 @@
 
 open Xunit
 
-module ClassicalStateMachineTests =
+module RealDirectedGraphTests =
     open Algebra.RealVectorSpace
 
     [<Fact>]

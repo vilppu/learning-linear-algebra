@@ -681,6 +681,47 @@ module ComplexMatrixTests =
 
         Assert.Equal(Vector.Distance (unitary * a) (unitary * b), Vector.Distance a b)
 
+    [<Fact>]
+    let ``Multiplying unitary matrix by it's adjoint produces an identity matrix`` () =
+
+        let unitary =
+            Matrix(
+                [| [| Complex(1.0 / sqrt 2.0, 0)
+                      Complex(1.0 / sqrt 2.0, 0) |]
+                   [| Complex(0, 1.0 / sqrt 2.0)
+                      Complex(0, -1.0 / sqrt 2.0) |] |]
+            )
+
+        Assert.Equal(Matrix.Identity 2, unitary * Matrix.Adjoint unitary |> Matrix.Round)
+
+    [<Fact>]
+    let ``Another example of multiplying unitary matrix by it's adjoint`` () =
+
+        let identity =
+            Matrix [| [| Complex(1.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(0.0, 0.0) |]
+                      [| Complex(0.0, 0.0)
+                         Complex(-1.0, 0.0)
+                         Complex(0.0, 0.0) |]
+                      [| Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(-1.0, 0.0) |] |]
+
+        let unitary =
+            Matrix [| [| Complex(1.0 / sqrt 2.0, 0)
+                         Complex(1.0 / sqrt 2.0, 0)
+                         Complex(0, 0) |]
+                      [| Complex(0, -1.0 / sqrt 2.0)
+                         Complex(0, 1.0 / sqrt 2.0)
+                         Complex(0, 0) |]
+                      [| Complex(0, 0)
+                         Complex(0, 0)
+                         Complex(0, 1) |] |]
+
+        let transposeOfunitary = Matrix.Adjoint unitary
+
+        Assert.Equal(Matrix.Identity 3, unitary * transposeOfunitary |> Matrix.Round)
 
     [<Fact>]
     let ``Tensor product of matrix contains combinations scalar products of all elements of both matrix`` () =

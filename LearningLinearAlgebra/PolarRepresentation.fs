@@ -10,7 +10,7 @@ module PolarPresentation =
             let PositiveModulo divident divisor =
                 (divident % divisor + divisor) % divisor
 
-            PositiveModulo phase (Algebra.Constants.Pi * 2.0)
+            PositiveModulo phase (RealNumbers.Pi * 2.0)
 
         static member inline ToPolar(cartesian: CartesianPresentation.Complex) =
             let (CartesianPresentation.Complex (real, imaginary)) = cartesian
