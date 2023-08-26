@@ -8,7 +8,14 @@ module ComplexVectorSpace =
     type Vector =
         | Vector of Complex []
 
+        member this.Item
+            with get (index) =
+                let (Vector elements) = this
+                elements[index]
+
         static member Zero n : Vector = Vector(Array.create n Complex.Zero)
+
+        static member AsScalar(Vector vector) : Complex = Array.exactlyOne vector
 
         static member Add (Vector left) (Vector right) : Vector =
 
@@ -26,15 +33,29 @@ module ComplexVectorSpace =
             |> Array.map (fun element -> scalar * element)
             |> Vector
 
+        static member MultiplyByReal (scalar: float) (Vector vector) : Vector =
+            vector
+            |> Array.map (fun element -> Complex(scalar, 0) * element)
+            |> Vector
+
         static member InnerProduct (Vector left) (Vector right) : Complex =
 
             (Array.map2 (fun leftElement rightElement -> leftElement * (rightElement |> Complex.Conjucate)) left right)
             |> Array.sum
 
-        static member Norm vector : Complex =
-            Complex.SquareRoot(Vector.InnerProduct vector vector)
+        static member Conjucate(Vector vector) : Vector =
+            vector
+            |> Array.map (fun element -> element |> Complex.Conjucate)
+            |> Vector
 
-        static member Distance left right : Complex =
+        static member Norm vector : float =
+            let (Complex (norm, _)) = Complex.SquareRoot(Vector.InnerProduct vector vector)
+            norm
+
+        static member Normalized vector =
+            Vector.Multiply (Complex.One / Complex((Vector.Norm vector), 0)) vector
+
+        static member Distance left right : float =
             (Vector.Subtract left right) |> Vector.Norm
 
         static member TensorProduct (Vector left) (Vector right) : Vector =
@@ -56,11 +77,17 @@ module ComplexVectorSpace =
         static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
         static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
         static member inline (*)(scalar: Complex, vector: Vector) = Vector.Multiply scalar vector
+        static member inline (*)(scalar: float, vector: Vector) = Vector.MultiplyByReal scalar vector
         static member inline (*)(left: Vector, right: Vector) = Vector.InnerProduct left right
         static member inline (~-)(vector: Vector) = Vector.Inverse vector
 
     type Matrix =
         | Matrix of Complex [] []
+
+        member this.Item
+            with get (index) =
+                let (Matrix rows) = this
+                rows[index]
 
         static member Fill m n elementValue : Matrix =
             Array.init m (fun i -> Array.init n (fun j -> elementValue i j))
@@ -75,6 +102,14 @@ module ComplexVectorSpace =
                     Complex.One
                 else
                     Complex.Zero)
+
+        static member AsVector(Matrix matrix) : Vector =
+            matrix
+            |> Array.map (fun row -> Array.exactlyOne row)
+            |> Vector
+
+        static member AsScalar matrix : Complex =
+            matrix |> Matrix.AsVector |> Vector.AsScalar
 
         static member M(matrix: Complex [] []) = matrix.Length
 
@@ -113,19 +148,23 @@ module ComplexVectorSpace =
         static member Transpose(Matrix matrix) : Matrix =
             Matrix.Fill (Matrix.N matrix) (Matrix.M matrix) (fun i j -> matrix[j][i])
 
-        static member Transpose(Vector vector) : Matrix =
-            vector
-            |> Array.map (fun element -> [| element |])
-            |> Matrix
+        static member Transpose(Vector vector) : Matrix = [| vector |] |> Matrix
 
         static member Conjucate(Matrix matrix) : Matrix =
-
             matrix
             |> Array.map (Array.map (fun element -> element |> Complex.Conjucate))
             |> Matrix
 
-        static member Adjoint matrix : Matrix =
+        static member Conjucate(Vector vector) : Vector =
+            vector
+            |> Array.map (fun element -> element |> Complex.Conjucate)
+            |> Vector
+
+        static member Adjoint(matrix: Matrix) : Matrix =
             matrix |> Matrix.Conjucate |> Matrix.Transpose
+
+        static member Adjoint(vector: Vector) : Matrix =
+            vector |> Matrix.Conjucate |> Matrix.Transpose
 
         static member Product (Matrix left) (Matrix right) : Matrix =
 
@@ -160,7 +199,7 @@ module ComplexVectorSpace =
                 |> Array.map (fun element -> Complex.Round element))
             |> Matrix
 
-        static member IsHermitian matrix : bool = Matrix.Adjoint matrix = matrix
+        static member IsHermitian(matrix: Matrix) : bool = Matrix.Adjoint matrix = matrix
 
         static member IsUnitary(matrix: Matrix) : bool =
 
@@ -201,14 +240,6 @@ module ComplexVectorSpace =
             let n = (right |> ColumnCount)
 
             Matrix.Fill rowCount columnCount (fun j k -> left[j / n][k / m] * right[j % n][k % m])
-
-        static member ToVector(Matrix matrix) : Vector =
-            matrix |> Array.map (fun row -> row[0]) |> Vector
-
-        static member FromVector(Vector vector) : Matrix =
-            vector
-            |> Array.map (fun element -> [| element |])
-            |> Matrix
 
         static member Inverse(matrix: Matrix) : Matrix = Matrix.Multiply Complex.MinusOne matrix
 

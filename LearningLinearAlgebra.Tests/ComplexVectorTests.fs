@@ -8,6 +8,14 @@ module ComplexVectorTests =
     open Algebra.ComplexNumbers.CartesianPresentation
 
     [<Fact>]
+    let ``Vector with one element can be presented as scalar`` () =
+        let vector = Vector([| Complex(1, 2) |])
+
+        let scalar = Vector.AsScalar vector
+
+        Assert.Equal(Complex(1, 2), scalar)
+
+    [<Fact>]
     let ``Sum of two vectors is calculated as sum of the components`` () =
         let a = Vector([| Complex(1, 2); Complex(3, 5) |])
         let b = Vector([| Complex(7, 11); Complex(13, 19) |])
@@ -76,6 +84,23 @@ module ComplexVectorTests =
         Assert.Equal(Vector.Multiply scalar vector, scalar * vector)
 
     [<Fact>]
+    let ``Complex vector can by multiplied by a real scalar`` () =
+        let scalar = 5.0
+        let vector = Vector([| Complex(1, 0); Complex(2, 0) |])
+
+        let multiplied = Vector.MultiplyByReal scalar vector
+
+        Assert.Equal(
+            Vector(
+                [| Complex(5.0, 0.0)
+                   Complex(10.0, 0.0) |]
+            ),
+            multiplied
+        )
+
+        Assert.Equal(Vector.MultiplyByReal scalar vector, scalar * vector)
+
+    [<Fact>]
     let ``Scalar multiplication respects complex multiplication`` () =
         let scalarA = Complex(3, 5)
         let scalarB = Complex(7, 11)
@@ -98,6 +123,14 @@ module ComplexVectorTests =
         let vector = Vector([| Complex(23, 29); Complex(31, 37) |])
 
         Assert.Equal((scalarA + scalarB) * vector, (scalarA * vector) + (scalarB * vector))
+
+    [<Fact>]
+    let ``Conjucate of a vector is where each element is a complex conjucate of the original vector`` () =
+        let vector = Vector([| Complex(1, 2); Complex(3, 5) |])
+
+        let conjucate = Vector.Conjucate vector
+
+        Assert.Equal(Vector([| Complex(1, -2); Complex(3, -5) |]), conjucate)
 
     [<Fact>]
     let ``Inner product is a sum of products of vector components`` () =
@@ -145,7 +178,24 @@ module ComplexVectorTests =
 
         let norm = Vector.Norm vector
 
-        Assert.Equal(Complex(sqrt (439.0), 0), norm)
+        Assert.Equal(sqrt 439.0, norm)
+
+    [<Fact>]
+    let ``Vector can be normalized to have length of one by dividing it by it's length`` () =
+        let vector =
+            Vector [| Complex(3.0, 1.0)
+                      Complex(2.0, 5.0)
+                      Complex(-1.0, 0) |]
+
+        let normalized = Vector.Normalized vector |> Vector.Round
+
+        Assert.Equal(
+            Vector [| Complex(0.474341649, 0.158113883)
+                      Complex(0.316227766, 0.790569415)
+                      Complex(-0.158113883, 0.0) |]
+            |> Vector.Round,
+            normalized
+        )
 
     [<Fact>]
     let ``Distance of the two vectors is the norm of the difference`` () =
@@ -155,7 +205,7 @@ module ComplexVectorTests =
 
         let distance = Vector.Distance a b
 
-        Assert.Equal(Complex(sqrt (413.0), 0), distance)
+        Assert.Equal(sqrt 413.0, distance)
 
     [<Fact>]
     let ``Tensor product of vectors contains combinations scalar products of all elements of both vectors`` () =

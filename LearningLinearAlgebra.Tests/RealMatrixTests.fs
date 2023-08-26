@@ -7,13 +7,20 @@ module RealMatrixTests =
     open RealVectorSpace
 
     [<Fact>]
-    let ``m x 1 matrix can be presentented as n vector and vice versa`` () =
-        let matrix = Matrix([| [| 1 |]; [| 7 |] |])
+    let ``Matrix with one element can be presented as scalar`` () =
+        let matrix = Matrix([| [| 123 |] |])
 
-        let vector = Matrix.ToVector matrix
+        let vector = Matrix.AsScalar matrix
 
-        Assert.Equal(Vector([| 1; 7 |]), vector)
-        Assert.Equal(matrix, Matrix.FromVector vector)
+        Assert.Equal(123.0, vector)
+
+    [<Fact>]
+    let ``Matrix with one column can be presented as a vector`` () =
+        let matrix = Matrix([| [| 1 |]; [| 2 |]; [| 3 |] |])
+
+        let vector = Matrix.AsVector matrix
+
+        Assert.Equal(Vector [| 1; 2; 3 |], vector)
 
     [<Fact>]
     let ``Sum of two matrices is calculated as sum of the components`` () =
@@ -184,7 +191,6 @@ module RealMatrixTests =
 
         Assert.Equal(identity, Matrix.Identity 3)
 
-
     [<Fact>]
     let ``Multiplying matrix by identity matrix does not change the matrix`` () =
         let matrix =
@@ -234,7 +240,6 @@ module RealMatrixTests =
         Assert.Equal(Vector([| 116.0; 564.0 |]), resultOfAction)
 
         Assert.Equal(Matrix.Act matrix vector, matrix * vector)
-        Assert.Equal(matrix * vector, matrix * vectorAsMatrix |> Matrix.ToVector)
 
 
     [<Fact>]
@@ -255,7 +260,6 @@ module RealMatrixTests =
             ),
             tensorProduct
         )
-
 
     [<Fact>]
     let ``Another example of tensor product`` () =

@@ -8,6 +8,8 @@ module RealVectorSpace =
 
         static member Zero n : Vector = Vector(Array.create n 0)
 
+        static member AsScalar(Vector vector) : float = Array.exactlyOne vector
+
         static member Add (Vector left) (Vector right) : Vector =
 
             (Array.map2 (fun leftElement rightElement -> leftElement + rightElement) left right)
@@ -68,6 +70,14 @@ module RealVectorSpace =
 
         static member Identity m : Matrix =
             Matrix.Fill m m (fun i j -> if i = j then 1.0 else 0.0)
+
+        static member AsVector(Matrix matrix) : Vector =
+            matrix
+            |> Array.map (fun row -> Array.exactlyOne row)
+            |> Vector
+
+        static member AsScalar matrix : float =
+            matrix |> Matrix.AsVector |> Vector.AsScalar
 
         static member M(matrix: float [] []) = matrix.Length
 
@@ -155,14 +165,6 @@ module RealVectorSpace =
         static member Round(Matrix matrix) : Matrix =
             matrix
             |> Array.map (fun row -> row |> Array.map (fun element -> Round element))
-            |> Matrix
-
-        static member ToVector(Matrix matrix) : Vector =
-            matrix |> Array.map (fun row -> row[0]) |> Vector
-
-        static member FromVector(Vector vector) : Matrix =
-            vector
-            |> Array.map (fun element -> [| element |])
             |> Matrix
 
         static member Inverse(matrix: Matrix) : Matrix = Matrix.Multiply -1 matrix

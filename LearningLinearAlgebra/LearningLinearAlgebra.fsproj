@@ -11,6 +11,7 @@
     <Compile Include="PolarRepresentation.fs" />
     <Compile Include="RealVectorSpace.fs" />
     <Compile Include="ComplexVectorSpace.fs" />
+    <Compile Include="QuantumState.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

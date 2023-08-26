@@ -37,6 +37,8 @@ module CartesianPresentation =
                 + rightReal * leftImaginary
             )
 
+        static member Square(complex: Complex) : Complex = Complex.Multiply complex complex
+
         static member Conjucate(complexNumber: Complex) =
             let (Complex (real, imaginary)) = complexNumber
 

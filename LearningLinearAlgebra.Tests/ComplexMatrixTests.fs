@@ -8,17 +8,30 @@ module ComplexMatrixTests =
     open Algebra.ComplexNumbers.CartesianPresentation
 
     [<Fact>]
-    let ``m x 1 matrix can be presentented as n vector and vice versa`` () =
+    let ``Matrix with one element can be presented as scalar`` () =
+        let matrix = Matrix([| [| Complex(1, 2) |] |])
+
+        let vector = Matrix.AsScalar matrix
+
+        Assert.Equal(Complex(1, 2), vector)
+
+    [<Fact>]
+    let ``Matrix with one column can be presented as a vector`` () =
         let matrix =
             Matrix(
-                [| [| Complex(1, 2) |]
-                   [| Complex(7, 11) |] |]
+                [| [| Complex(1, 1) |]
+                   [| Complex(2, 2) |]
+                   [| Complex(3, 2) |] |]
             )
 
-        let vector = Matrix.ToVector matrix
+        let vector = Matrix.AsVector matrix
 
-        Assert.Equal(Vector([| Complex(1, 2); Complex(7, 11) |]), vector)
-        Assert.Equal(matrix, Matrix.FromVector vector)
+        Assert.Equal(
+            Vector [| Complex(1, 1)
+                      Complex(2, 2)
+                      Complex(3, 2) |],
+            vector
+        )
 
     [<Fact>]
     let ``Sum of two matrices is calculated as sum of the components`` () =
@@ -264,7 +277,7 @@ module ComplexMatrixTests =
         )
 
     [<Fact>]
-    let ``Transposing a vector changes it to single column matrix`` () =
+    let ``Transposing a vector changes it to single row matrix`` () =
         let vector =
             Vector(
                 [| Complex(1, 2)
@@ -276,15 +289,15 @@ module ComplexMatrixTests =
 
         Assert.Equal(
             Matrix(
-                [| [| Complex(1, 2) |]
-                   [| Complex(3, 4) |]
-                   [| Complex(5, 6) |] |]
+                [| [| Complex(1, 2)
+                      Complex(3, 4)
+                      Complex(5, 6) |] |]
             ),
             multiplied
         )
 
     [<Fact>]
-    let ``Conjucate of a matrix is where each element is a complex conjucate of the original matrix`` () =
+    let ``Conjucate of a matrix is a matrix where each element is a complex conjucate of the original matrix`` () =
         let matrix =
             Matrix(
                 [| [| Complex(1, 2); Complex(3, 5) |]
@@ -302,7 +315,29 @@ module ComplexMatrixTests =
         )
 
     [<Fact>]
-    let ``Adjoin is the combination of transpose and conjucate`` () =
+    let ``Conjucate of a vector is a vector where each element is a complex conjucate of the original vector`` () =
+        let vector =
+            Vector(
+                [| Complex(1, 2)
+                   Complex(3, 5)
+                   Complex(7, 11)
+                   Complex(13, 19) |]
+            )
+
+        let conjucate = Matrix.Conjucate vector
+
+        Assert.Equal(
+            Vector(
+                [| Complex(1, -2)
+                   Complex(3, -5)
+                   Complex(7, -11)
+                   Complex(13, -19) |]
+            ),
+            conjucate
+        )
+
+    [<Fact>]
+    let ``Adjoint is the combination of transpose and conjucate`` () =
         let matrix =
             Matrix(
                 [| [| Complex(1, 2); Complex(3, 5) |]
@@ -318,6 +353,14 @@ module ComplexMatrixTests =
             ),
             adjointed
         )
+
+    [<Fact>]
+    let ``Adjoint of vector is the combination of transpose and conjucate`` () =
+        let vector = Vector([| Complex(1, 2); Complex(3, 5) |])
+
+        let adjointed = Matrix.Adjoint vector
+
+        Assert.Equal(Matrix([| [| Complex(1, -2); Complex(3, -5) |] |]), adjointed)
 
     [<Fact>]
     let ``Matrix product is the result of multiplying rows by columns`` () =
@@ -346,6 +389,7 @@ module ComplexMatrixTests =
         )
 
         Assert.Equal(Matrix.Product a b, a * b)
+
 
     [<Fact>]
     let ``Another example of matrix multiplication`` () =
@@ -484,7 +528,6 @@ module ComplexMatrixTests =
         )
 
         Assert.Equal(Matrix.Act matrix vector, matrix * vector)
-        Assert.Equal(matrix * vector, matrix * vectorAsMatrix |> Matrix.ToVector)
 
     [<Fact>]
     let ``Matrix is hermitian if adjoint of matrix does not change the matrix`` () =

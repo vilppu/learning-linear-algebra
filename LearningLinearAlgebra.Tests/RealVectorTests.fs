@@ -7,6 +7,14 @@ module RealVectorTests =
     open RealVectorSpace
 
     [<Fact>]
+    let ``Vector with one element can be presented as scalar`` () =
+        let vector = Vector([| 123 |])
+
+        let scalar = Vector.AsScalar vector
+
+        Assert.Equal(123.0, scalar)
+
+    [<Fact>]
     let ``Sum of two vectors is calculated as sum of the components`` () =
         let a = Vector([| -1; -3 |])
         let b = Vector([| -7; -13 |])

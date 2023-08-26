@@ -114,6 +114,14 @@ module CartesianRepresentationTests =
         Assert.Equal(left, right)
 
     [<Fact>]
+    let ``Square of complex number is the number multiplied by itself`` () =
+        let complex = Complex(5, 7)
+
+        let squared = Complex.Square complex
+
+        Assert.Equal(complex * complex, squared)
+
+    [<Fact>]
     let ``Quotient of complex numbers is calculated calculated using complex conjucations`` () =
         let a = Complex(-2, 1)
         let b = Complex(1, 2)

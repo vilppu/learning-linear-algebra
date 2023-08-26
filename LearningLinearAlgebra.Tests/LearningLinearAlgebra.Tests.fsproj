@@ -17,6 +17,7 @@
     <Compile Include="ComplexMatrixTests.fs" />
     <Compile Include="RealDirectedGraphTests.fs" />
     <Compile Include="ComplexDirectedGraphTests.fs" />
+    <Compile Include="QuantumStateTests.fs" />
   </ItemGroup>
 
   <ItemGroup>
