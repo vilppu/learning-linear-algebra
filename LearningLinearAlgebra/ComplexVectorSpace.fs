@@ -192,6 +192,9 @@ module ComplexVectorSpace =
             |> Seq.toArray
             |> Vector
 
+        static member Commutator (left: Matrix) (right: Matrix) : Matrix =
+            Matrix.Subtract (Matrix.Product left right) (Matrix.Product right left)
+
         static member Round(Matrix matrix) : Matrix =
             matrix
             |> Array.map (fun row ->

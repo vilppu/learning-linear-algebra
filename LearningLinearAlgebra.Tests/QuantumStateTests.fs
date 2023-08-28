@@ -66,7 +66,7 @@ module QuantumStateTests =
         )
 
     [<Fact>]
-    let ``Amplitude of transition from state to another is the braket start and end states`` () =
+    let ``Amplitude of transition from state to another is the bra-ket of start and end states`` () =
         let startState =
             Ket [| Complex((sqrt 2.0) / 2.0, 0)
                    Complex(0, (sqrt 2.0) / 2.0) |]
@@ -75,6 +75,52 @@ module QuantumStateTests =
             Ket [| Complex(0, (sqrt 2.0) / 2.0)
                    Complex((sqrt 2.0) / -2.0, 0) |]
 
-        let braket = Braket startState endState |> Complex.Round
+        let braket =
+            TransitionAmplitude startState endState
+            |> Complex.Round
 
         Assert.Equal(Complex(0, -1.0), braket)
+
+    [<Fact>]
+    let ``The mean expected value is bra-ket of state and observable applied to state`` () =
+        let startState =
+            Ket [| Complex((sqrt 2.0) / 2.0, 0)
+                   Complex(0, (sqrt 2.0) / 2.0) |]
+
+        let observable =
+            Observable [| [| Complex(1, 0); Complex(0, -1) |]
+                          [| Complex(0, 1); Complex(2, 0) |] |]
+
+        let expected = Mean startState observable |> Complex.Round
+
+        Assert.Equal(Complex(2.5, 0), expected)
+
+    [<Fact>]
+    let ``Another example of calulating expected value after applying observable`` () =
+        let startState =
+            Ket [| Complex((sqrt 2.0) / 2.0, 0)
+                   Complex(0, (sqrt 2.0) / 2.0) |]
+
+        let observable =
+            Observable [| [| Complex(1, 0); Complex(0, -1) |]
+                          [| Complex(0, 1); Complex(2, 0) |] |]
+
+        let expected = Mean startState observable |> Complex.Round
+
+        Assert.Equal(Complex(2.5, 0), expected)
+
+    [<Fact>]
+    let ``The variance of observable Ω at state vector is the expectation value of mean of Ω subtracted from result of Ω``
+        ()
+        =
+        let startState =
+            Ket [| Complex((sqrt 2.0) / 2.0, 0)
+                   Complex(0, (sqrt 2.0) / 2.0) |]
+
+        let observable =
+            Observable [| [| Complex(1, 0); Complex(0, -1) |]
+                          [| Complex(0, 1); Complex(2, 0) |] |]
+
+        let variance = Variance startState observable |> Complex.Round
+
+        Assert.Equal(Complex(0.25, 0), variance)

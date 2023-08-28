@@ -767,6 +767,40 @@ module ComplexMatrixTests =
         Assert.Equal(Matrix.Identity 3, unitary * transposeOfunitary |> Matrix.Round)
 
     [<Fact>]
+    let ``Commutator of hermitians a and b is (a * b) - (b * a)`` () =
+
+        let a =
+            Matrix [| [| Complex(0, 0); Complex(1, 0) |]
+                      [| Complex(1, 0); Complex(0, 0) |] |]
+
+        let b =
+            Matrix [| [| Complex(0, 0); Complex(0, -1) |]
+                      [| Complex(0, 1); Complex(0, 0) |] |]
+
+        let commutator = Matrix.Commutator a b
+
+        Assert.Equal(
+            Matrix [| [| Complex(0, 2); Complex(0, 0) |]
+                      [| Complex(0, 0); Complex(0, -2) |] |],
+            commutator
+        )
+
+    [<Fact>]
+    let ``Commutator of hermitians a and b is zero if hermitians are commutable`` () =
+
+        let a =
+            Matrix [| [| Complex(1, 0); Complex(0, 0) |]
+                      [| Complex(0, 0); Complex(1, 0) |] |]
+
+        let b =
+            Matrix [| [| Complex(0, 0); Complex(1, 0) |]
+                      [| Complex(1, 0); Complex(0, 0) |] |]
+
+        let commutator = Matrix.Commutator a b
+
+        Assert.Equal(Matrix.Zero 2 2, commutator)
+
+    [<Fact>]
     let ``Tensor product of matrix contains combinations scalar products of all elements of both matrix`` () =
 
         let a =
