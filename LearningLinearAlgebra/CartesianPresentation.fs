@@ -68,6 +68,9 @@ module CartesianPresentation =
 
         static member Round(Complex (real, imaginary)) : Complex = Complex(Round(real), Round(imaginary))
 
+        static member RoundToTwoDecimals(Complex (real, imaginary)) : Complex =
+            Complex(RoundToTwoDecimals(real), RoundToTwoDecimals(imaginary))
+
         static member inline (+)(left: Complex, right: Complex) = Complex.Add left right
         static member inline (-)(left: Complex, right: Complex) = Complex.Subtract left right
         static member inline (*)(left: Complex, right: Complex) = Complex.Multiply left right

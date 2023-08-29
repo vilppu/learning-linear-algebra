@@ -124,3 +124,42 @@ module QuantumStateTests =
         let variance = Variance startState observable |> Complex.Round
 
         Assert.Equal(Complex(0.25, 0), variance)
+
+    [<Fact>]
+    let ``If result of measuring is eigen value of observable then end state is eigen vector of observable`` () =
+
+        let observable =
+            Observable [| [| Complex(-1, 0); Complex(0, -1) |]
+                          [| Complex(0, 1); Complex(1, 0) |] |]
+
+        let endState =
+            Vector [| Complex(0, -0.924)
+                      Complex(-0.383, 0) |]
+
+        let measuredValue = -sqrt 2.0
+
+        let AssertEigenVector (matrix: Matrix) (eigenValue: float) (eigenVector: Vector) =
+
+            Assert.Equal(
+                matrix * eigenVector |> Vector.RoundToTwoDecimals,
+                eigenValue * eigenVector
+                |> Vector.RoundToTwoDecimals
+            )
+
+        AssertEigenVector observable measuredValue endState
+
+    [<Fact>]
+    let ``Probability to transition to specific eigen vector is the square of the inner product of the states`` () =
+
+        let startState =
+            (sqrt 2.0 / 2.0)
+            * Vector [| Complex.One; Complex.One |]
+
+        let endState =
+            Vector [| Complex(0, -0.924)
+                      Complex(-0.383, 0) |]
+
+        let transitionAmplitude = BraKet startState endState
+        let transitionProbability = RealNumbers.Square(Complex.Modulus transitionAmplitude)
+
+        Assert.Equal(0.50023250000000019, transitionProbability)

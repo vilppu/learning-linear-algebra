@@ -1047,3 +1047,17 @@ module ComplexMatrixTests =
             Matrix.TensorProduct (Matrix.TensorProduct a b) c,
             Matrix.TensorProduct a (Matrix.TensorProduct b c)
         )
+
+    [<Fact>]
+    let ``Matrix multiplied by it's eigen vector equals to eigen value multiplied by eigen vector`` () =
+        let matrix =
+            Matrix(
+                [| [| Complex(4, 0); Complex(-1, 0) |]
+                   [| Complex(2, 0); Complex(1, 0) |] |]
+            )
+
+        let eigenVector = Vector([| Complex(1, 0); Complex(1, 0) |])
+
+        let eigenValue = 3.0
+
+        Assert.Equal(matrix * eigenVector, eigenValue * eigenVector)

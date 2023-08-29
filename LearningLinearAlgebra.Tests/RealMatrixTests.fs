@@ -299,3 +299,13 @@ module RealMatrixTests =
             Matrix.TensorProduct (Matrix.TensorProduct a b) c,
             Matrix.TensorProduct a (Matrix.TensorProduct b c)
         )
+
+    [<Fact>]
+    let ``Matrix multiplied by it's eigen vector equals to eigen value multiplied by eigen vector`` () =
+        let matrix = Matrix([| [| 4; -1 |]; [| 2; 1 |] |])
+
+        let eigenVector = Vector([| 1; 1 |])
+
+        let eigenValue = 3.0
+
+        Assert.Equal(matrix * eigenVector, eigenValue * eigenVector)

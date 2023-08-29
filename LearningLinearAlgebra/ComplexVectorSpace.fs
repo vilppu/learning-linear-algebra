@@ -74,6 +74,11 @@ module ComplexVectorSpace =
             |> Array.map (fun element -> Complex.Round element)
             |> Vector
 
+        static member RoundToTwoDecimals(Vector vector) : Vector =
+            vector
+            |> Array.map (fun element -> Complex.RoundToTwoDecimals element)
+            |> Vector
+
         static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
         static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
         static member inline (*)(scalar: Complex, vector: Vector) = Vector.Multiply scalar vector
