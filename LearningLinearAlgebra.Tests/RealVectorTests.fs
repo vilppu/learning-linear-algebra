@@ -173,3 +173,13 @@ module RealVectorTests =
             Vector.TensorProduct (Vector.TensorProduct a b) c,
             Vector.TensorProduct a (Vector.TensorProduct b c)
         )
+
+    [<Fact>]
+    let ``Convert from linearly independenr base to orthonormal base`` () =
+        let I = Vector([| 3; 0; 0 |])
+        let II = Vector([| 0; 1; 2 |])
+        let III = Vector([| 0; 25 |])
+
+        let norm = (Vector.Norm I)
+        let a = (1.0 / norm) * I
+        Assert.Equal(a, Vector [| 1; 0; 0 |])
