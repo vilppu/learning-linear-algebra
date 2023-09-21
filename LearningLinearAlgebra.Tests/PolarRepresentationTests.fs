@@ -2,11 +2,10 @@ namespace Algebra
 
 open Xunit
 
-
 module PolarRepresentationTests =
 
     open RealNumbers
-    open ComplexNumbers.PolarPresentation
+    open PolarPresentation
 
     let tolerance = 0.0000000001
 

@@ -4,12 +4,11 @@ open Xunit
 
 module ComplexMatrixTests =
 
-    open ComplexVectorSpace
-    open Algebra.ComplexNumbers.CartesianPresentation
+    open ComplexNumbers
 
     [<Fact>]
     let ``Matrix with one element can be presented as scalar`` () =
-        let matrix = Matrix([| [| Complex(1, 2) |] |])
+        let matrix = Matrix [| [| Complex(1, 2) |] |]
 
         let vector = Matrix.AsScalar matrix
 
@@ -18,11 +17,10 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Matrix with one column can be presented as a vector`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 1) |]
-                   [| Complex(2, 2) |]
-                   [| Complex(3, 2) |] |]
-            )
+            Matrix [| [| Complex(1, 1) |]
+                      [| Complex(2, 2) |]
+                      [| Complex(3, 2) |] |]
+
 
         let vector = Matrix.AsVector matrix
 
@@ -36,24 +34,18 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Sum of two matrices is calculated as sum of the components`` () =
         let a =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         let sum = Matrix.Add a b
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(24, 31); Complex(34, 42) |]
-                   [| Complex(48, 54); Complex(60, 72) |] |]
-            ),
+            Matrix [| [| Complex(24, 31); Complex(34, 42) |]
+                      [| Complex(48, 54); Complex(60, 72) |] |],
             sum
         )
 
@@ -62,48 +54,37 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Sum of complex matrices is commutative`` () =
         let a =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         Assert.Equal(a + b, b + a)
 
     [<Fact>]
     let ``Sum of complex matrices is associative`` () =
         let a =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         let c =
-            Matrix(
-                [| [| Complex(59, 61); Complex(67, 71) |]
-                   [| Complex(73, 79); Complex(83, 89) |] |]
-            )
+            Matrix [| [| Complex(59, 61); Complex(67, 71) |]
+                      [| Complex(73, 79); Complex(83, 89) |] |]
+
 
         Assert.Equal((a + b) + c, a + (b + c))
 
     [<Fact>]
     let ``Sum of matrix and it's the inverse is zero`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let zero = Matrix.Zero 2 2
 
@@ -112,10 +93,9 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Zero is an additive identity`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
+
 
         let zero = Matrix.Zero 2 2
 
@@ -125,26 +105,20 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Difference of two matrices is calculated as difference of the components`` () =
         let a =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         let difference = Matrix.Subtract a b
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(-22.0, -27.0)
-                      Complex(-28.0, -32.0) |]
-                   [| Complex(-34.0, -32.0)
-                      Complex(-34.0, -34.0) |] |]
-            ),
+            Matrix [| [| Complex(-22.0, -27.0)
+                         Complex(-28.0, -32.0) |]
+                      [| Complex(-34.0, -32.0)
+                         Complex(-34.0, -34.0) |] |],
             difference
         )
 
@@ -155,20 +129,16 @@ module ComplexMatrixTests =
         let scalar = Complex(5, 7)
 
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let multiplied = Matrix.Multiply scalar matrix
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(-9.0, 17.0)
-                      Complex(-20.0, 46.0) |]
-                   [| Complex(-42.0, 104.0)
-                      Complex(-68.0, 186.0) |] |]
-            ),
+            Matrix [| [| Complex(-9.0, 17.0)
+                         Complex(-20.0, 46.0) |]
+                      [| Complex(-42.0, 104.0)
+                         Complex(-68.0, 186.0) |] |],
             multiplied
         )
 
@@ -181,10 +151,9 @@ module ComplexMatrixTests =
         let scalarB = Complex(7, 11)
 
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
+
 
         Assert.Equal(scalarA * (scalarB * matrix), (scalarA * scalarB) * matrix)
 
@@ -193,16 +162,12 @@ module ComplexMatrixTests =
         let scalar = Complex(3, 5)
 
         let matrixA =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let matrixB =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         Assert.Equal(scalar * (matrixA + matrixB), (scalar * matrixA) + (scalar * matrixB))
 
@@ -212,51 +177,41 @@ module ComplexMatrixTests =
         let scalarB = Complex(7, 11)
 
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         Assert.Equal((scalarA + scalarB) * matrix, (scalarA * matrix) + (scalarB * matrix))
 
     [<Fact>]
     let ``Transposing a matrix flips the rows and columns`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 1)
-                      Complex(2, 2)
-                      Complex(3, 3) |]
-                   [| Complex(4, 4)
-                      Complex(5, 5)
-                      Complex(6, 6) |] |]
-            )
+            Matrix [| [| Complex(1, 1)
+                         Complex(2, 2)
+                         Complex(3, 3) |]
+                      [| Complex(4, 4)
+                         Complex(5, 5)
+                         Complex(6, 6) |] |]
 
         let transposed = Matrix.Transpose matrix
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(1, 1); Complex(4, 4) |]
-                   [| Complex(2, 2); Complex(5, 5) |]
-                   [| Complex(3, 3); Complex(6, 6) |] |]
-            ),
+            Matrix [| [| Complex(1, 1); Complex(4, 4) |]
+                      [| Complex(2, 2); Complex(5, 5) |]
+                      [| Complex(3, 3); Complex(6, 6) |] |],
             transposed
         )
 
     [<Fact>]
     let ``Example of transposing a square matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let transposed = Matrix.Transpose matrix
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(1, 2); Complex(7, 11) |]
-                   [| Complex(3, 5); Complex(13, 19) |] |]
-            ),
+            Matrix [| [| Complex(1, 2); Complex(7, 11) |]
+                      [| Complex(3, 5); Complex(13, 19) |] |],
             transposed
         )
 
@@ -279,112 +234,92 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Transposing a vector changes it to single row matrix`` () =
         let vector =
-            Vector(
-                [| Complex(1, 2)
-                   Complex(3, 4)
-                   Complex(5, 6) |]
-            )
+            Vector [| Complex(1, 2)
+                      Complex(3, 4)
+                      Complex(5, 6) |]
 
         let multiplied = Matrix.Transpose vector
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(1, 2)
-                      Complex(3, 4)
-                      Complex(5, 6) |] |]
-            ),
+            Matrix [| [| Complex(1, 2)
+                         Complex(3, 4)
+                         Complex(5, 6) |] |],
             multiplied
         )
 
     [<Fact>]
     let ``Conjucate of a matrix is a matrix where each element is a complex conjucate of the original matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let conjucate = Matrix.Conjucate matrix
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(1, -2); Complex(3, -5) |]
-                   [| Complex(7, -11); Complex(13, -19) |] |]
-            ),
+            Matrix [| [| Complex(1, -2); Complex(3, -5) |]
+                      [| Complex(7, -11); Complex(13, -19) |] |],
             conjucate
         )
 
     [<Fact>]
     let ``Conjucate of a vector is a vector where each element is a complex conjucate of the original vector`` () =
         let vector =
-            Vector(
-                [| Complex(1, 2)
-                   Complex(3, 5)
-                   Complex(7, 11)
-                   Complex(13, 19) |]
-            )
+            Vector [| Complex(1, 2)
+                      Complex(3, 5)
+                      Complex(7, 11)
+                      Complex(13, 19) |]
 
         let conjucate = Matrix.Conjucate vector
 
         Assert.Equal(
-            Vector(
-                [| Complex(1, -2)
-                   Complex(3, -5)
-                   Complex(7, -11)
-                   Complex(13, -19) |]
-            ),
+            Vector [| Complex(1, -2)
+                      Complex(3, -5)
+                      Complex(7, -11)
+                      Complex(13, -19) |],
             conjucate
         )
 
     [<Fact>]
     let ``Adjoint is the combination of transpose and conjucate`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let adjointed = Matrix.Adjoint matrix
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(1, -2); Complex(7, -11) |]
-                   [| Complex(3, -5); Complex(13, -19) |] |]
-            ),
+            Matrix [| [| Complex(1, -2); Complex(7, -11) |]
+                      [| Complex(3, -5); Complex(13, -19) |] |],
             adjointed
         )
 
     [<Fact>]
     let ``Adjoint of vector is the combination of transpose and conjucate`` () =
-        let vector = Vector([| Complex(1, 2); Complex(3, 5) |])
+        let vector =
+            Vector [| Complex(1, 2)
+                      Complex(3, 5) |]
 
         let adjointed = Matrix.Adjoint vector
 
-        Assert.Equal(Matrix([| [| Complex(1, -2); Complex(3, -5) |] |]), adjointed)
+        Assert.Equal(Matrix [| [| Complex(1, -2); Complex(3, -5) |] |], adjointed)
 
     [<Fact>]
     let ``Matrix product is the result of multiplying rows by columns`` () =
         let a =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         let product = Matrix.Product a b
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(-127.0, 409.0)
-                      Complex(-167.0, 493.0) |]
-                   [| Complex(-442.0, 1794.0)
-                      Complex(-586.0, 2182.0) |] |]
-            ),
+            Matrix [| [| Complex(-127.0, 409.0)
+                         Complex(-167.0, 493.0) |]
+                      [| Complex(-442.0, 1794.0)
+                         Complex(-586.0, 2182.0) |] |],
             product
         )
 
@@ -394,45 +329,40 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Another example of matrix multiplication`` () =
         let a =
-            Matrix(
-                [| [| Complex(3, 2)
-                      Complex(0, 0)
-                      Complex(5, -6) |]
-                   [| Complex(1, 0)
-                      Complex(4, 2)
-                      Complex(0, 1) |]
-                   [| Complex(4, -1)
-                      Complex(0, 0)
-                      Complex(4, 0) |] |]
-            )
+            Matrix [| [| Complex(3, 2)
+                         Complex(0, 0)
+                         Complex(5, -6) |]
+                      [| Complex(1, 0)
+                         Complex(4, 2)
+                         Complex(0, 1) |]
+                      [| Complex(4, -1)
+                         Complex(0, 0)
+                         Complex(4, 0) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(5, 0)
-                      Complex(2, -1)
-                      Complex(6, -4) |]
-                   [| Complex(0, 0)
-                      Complex(4, 5)
-                      Complex(2, 0) |]
-                   [| Complex(7, -4)
-                      Complex(2, 7)
-                      Complex(0, 0) |] |]
-            )
+            Matrix [| [| Complex(5, 0)
+                         Complex(2, -1)
+                         Complex(6, -4) |]
+                      [| Complex(0, 0)
+                         Complex(4, 5)
+                         Complex(2, 0) |]
+                      [| Complex(7, -4)
+                         Complex(2, 7)
+                         Complex(0, 0) |] |]
+
 
         let product = Matrix.Product a b
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(26, -52)
-                      Complex(60, 24)
-                      Complex(26, 0) |]
-                   [| Complex(9, 7)
-                      Complex(1, 29)
-                      Complex(14, 0) |]
-                   [| Complex(48, -21)
-                      Complex(15, 22)
-                      Complex(20, -22) |] |]
-            ),
+            Matrix [| [| Complex(26, -52)
+                         Complex(60, 24)
+                         Complex(26, 0) |]
+                      [| Complex(9, 7)
+                         Complex(1, 29)
+                         Complex(14, 0) |]
+                      [| Complex(48, -21)
+                         Complex(15, 22)
+                         Complex(20, -22) |] |],
             product
         )
 
@@ -442,10 +372,9 @@ module ComplexMatrixTests =
     let ``On identity matrix diagonal entries has value one and everytinhg else is zeroes`` () =
 
         let identity =
-            Matrix(
-                [| [| Complex(1, 0); Complex(0, 0) |]
-                   [| Complex(0, 0); Complex(1, 0) |] |]
-            )
+            Matrix [| [| Complex(1, 0); Complex(0, 0) |]
+                      [| Complex(0, 0); Complex(1, 0) |] |]
+
 
         Assert.Equal(identity, Matrix.Identity 2)
 
@@ -453,17 +382,15 @@ module ComplexMatrixTests =
     let ``Another example of identity matrix`` () =
 
         let identity =
-            Matrix(
-                [| [| Complex(1, 0)
-                      Complex(0, 0)
-                      Complex(0, 0) |]
-                   [| Complex(0, 0)
-                      Complex(1, 0)
-                      Complex(0, 0) |]
-                   [| Complex(0, 0)
-                      Complex(0, 0)
-                      Complex(1, 0) |] |]
-            )
+            Matrix [| [| Complex(1, 0)
+                         Complex(0, 0)
+                         Complex(0, 0) |]
+                      [| Complex(0, 0)
+                         Complex(1, 0)
+                         Complex(0, 0) |]
+                      [| Complex(0, 0)
+                         Complex(0, 0)
+                         Complex(1, 0) |] |]
 
         Assert.Equal(identity, Matrix.Identity 3)
 
@@ -471,30 +398,26 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Multiplying matrix by identity matrix does not change the matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2)
-                      Complex(3, 5)
-                      Complex(7, 11) |]
-                   [| Complex(7, 11)
-                      Complex(13, 19)
-                      Complex(23, 29) |]
-                   [| Complex(31, 37)
-                      Complex(41, 43)
-                      Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(1, 2)
+                         Complex(3, 5)
+                         Complex(7, 11) |]
+                      [| Complex(7, 11)
+                         Complex(13, 19)
+                         Complex(23, 29) |]
+                      [| Complex(31, 37)
+                         Complex(41, 43)
+                         Complex(47, 53) |] |]
 
         let identity =
-            Matrix(
-                [| [| Complex(1, 0)
-                      Complex(0, 0)
-                      Complex(0, 0) |]
-                   [| Complex(0, 0)
-                      Complex(1, 0)
-                      Complex(0, 0) |]
-                   [| Complex(0, 0)
-                      Complex(0, 0)
-                      Complex(1, 0) |] |]
-            )
+            Matrix [| [| Complex(1, 0)
+                         Complex(0, 0)
+                         Complex(0, 0) |]
+                      [| Complex(0, 0)
+                         Complex(1, 0)
+                         Complex(0, 0) |]
+                      [| Complex(0, 0)
+                         Complex(0, 0)
+                         Complex(1, 0) |] |]
 
         let product = Matrix.Product matrix identity
 
@@ -504,26 +427,22 @@ module ComplexMatrixTests =
     let ``Algebra of matrices acts on vectors to yield new vectors`` () =
 
         let matrix =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
-        let vector = Vector([| Complex(23, 29); Complex(31, 37) |])
+        let vector =
+            Vector [| Complex(23, 29)
+                      Complex(31, 37) |]
 
         let vectorAsMatrix =
-            Matrix(
-                [| [| Complex(23, 29) |]
-                   [| Complex(31, 37) |] |]
-            )
+            Matrix [| [| Complex(23, 29) |]
+                      [| Complex(31, 37) |] |]
 
         let resultOfAction = Matrix.Act matrix vector
 
         Assert.Equal(
-            Vector(
-                [| Complex(-127.0, 341.0)
-                   Complex(-458.0, 1526.0) |]
-            ),
+            Vector [| Complex(-127.0, 341.0)
+                      Complex(-458.0, 1526.0) |],
             resultOfAction
         )
 
@@ -532,63 +451,54 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Matrix is hermitian if adjoint of matrix does not change the matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 0)
-                      Complex(3, 4)
-                      Complex(5, 6) |]
-                   [| Complex(3, -4)
-                      Complex(7, 0)
-                      Complex(10, 0) |]
-                   [| Complex(5, -6)
-                      Complex(10, 0)
-                      Complex(9, 0) |] |]
-            )
+            Matrix [| [| Complex(1, 0)
+                         Complex(3, 4)
+                         Complex(5, 6) |]
+                      [| Complex(3, -4)
+                         Complex(7, 0)
+                         Complex(10, 0) |]
+                      [| Complex(5, -6)
+                         Complex(10, 0)
+                         Complex(9, 0) |] |]
 
         Assert.True(Matrix.IsHermitian matrix)
 
     [<Fact>]
     let ``Another example of hermitian matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(5, 0)
-                      Complex(4, 5)
-                      Complex(6, -16) |]
-                   [| Complex(4, -5)
-                      Complex(13, 0)
-                      Complex(7, 0) |]
-                   [| Complex(6, 16)
-                      Complex(7, 0)
-                      Complex((-2.1, 0)) |]
+            Matrix [| [| Complex(5, 0)
+                         Complex(4, 5)
+                         Complex(6, -16) |]
+                      [| Complex(4, -5)
+                         Complex(13, 0)
+                         Complex(7, 0) |]
+                      [| Complex(6, 16)
+                         Complex(7, 0)
+                         Complex((-2.1, 0)) |] |]
 
-                   |]
-            )
 
         Assert.True(Matrix.IsHermitian matrix)
 
     [<Fact>]
     let ``Third example of hermitian matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(7, 0); Complex(6, 5) |]
-                   [| Complex(6, -5); Complex(-3, 0) |] |]
-            )
+            Matrix [| [| Complex(7, 0); Complex(6, 5) |]
+                      [| Complex(6, -5); Complex(-3, 0) |] |]
 
         Assert.True(Matrix.IsHermitian matrix)
 
     [<Fact>]
     let ``Fourth example of hermitian matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(1, 0)
-                      Complex(2, 0)
-                      Complex(3, 0) |]
-                   [| Complex(2, 0)
-                      Complex(2, 0)
-                      Complex(3, 0) |]
-                   [| Complex(3, 0)
-                      Complex(3, 0)
-                      Complex(9, 0) |] |]
-            )
+            Matrix [| [| Complex(1, 0)
+                         Complex(2, 0)
+                         Complex(3, 0) |]
+                      [| Complex(2, 0)
+                         Complex(2, 0)
+                         Complex(3, 0) |]
+                      [| Complex(3, 0)
+                         Complex(3, 0)
+                         Complex(9, 0) |] |]
 
         Assert.True(Matrix.IsHermitian matrix)
 
@@ -596,24 +506,27 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Example of non-hermitian matrix`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(7, 0); Complex(6, 5) |]
-                   [| Complex(6, 5); Complex(3, 0) |] |]
-            )
+            Matrix [| [| Complex(7, 0); Complex(6, 5) |]
+                      [| Complex(6, 5); Complex(3, 0) |] |]
+
 
         Assert.False(Matrix.IsHermitian matrix)
 
     [<Fact>]
     let ``If A is hermitian matrix then inner product of A*V and V' is equal to inner product of V and A*V'`` () =
 
-        let a = Vector([| Complex(1, 2); Complex(3, 5) |])
-        let b = Vector([| Complex(7, 11); Complex(13, 19) |])
+        let a =
+            Vector [| Complex(1, 2)
+                      Complex(3, 5) |]
+
+        let b =
+            Vector [| Complex(7, 11)
+                      Complex(13, 19) |]
 
         let hermitian =
-            Matrix(
-                [| [| Complex(7, 0); Complex(6, 5) |]
-                   [| Complex(6, -5); Complex(-3, 0) |] |]
-            )
+            Matrix [| [| Complex(7, 0); Complex(6, 5) |]
+                      [| Complex(6, -5); Complex(-3, 0) |] |]
+
 
         Assert.Equal(Vector.InnerProduct (hermitian * a) b, Vector.InnerProduct a (hermitian * b))
 
@@ -626,17 +539,16 @@ module ComplexMatrixTests =
         let a = 10.0
 
         let matrix =
-            Matrix(
-                [| [| Complex(cos a, 0)
-                      Complex(-1.0 * (sin a), 0)
-                      Complex(0, 0) |]
-                   [| Complex(sin a, 0)
-                      Complex(cos a, 0)
-                      Complex(0, 0) |]
-                   [| Complex(0, 0)
-                      Complex(0, 0)
-                      Complex(1, 0) |] |]
-            )
+            Matrix [| [| Complex(cos a, 0)
+                         Complex(-1.0 * (sin a), 0)
+                         Complex(0, 0) |]
+                      [| Complex(sin a, 0)
+                         Complex(cos a, 0)
+                         Complex(0, 0) |]
+                      [| Complex(0, 0)
+                         Complex(0, 0)
+                         Complex(1, 0) |] |]
+
 
         Assert.True(Matrix.IsUnitary matrix)
 
@@ -644,12 +556,11 @@ module ComplexMatrixTests =
     let ``Another example of unitary matrix`` () =
 
         let matrix =
-            Matrix(
-                [| [| Complex(1.0 / sqrt 2.0, 0)
-                      Complex(1.0 / sqrt 2.0, 0) |]
-                   [| Complex(0, 1.0 / sqrt 2.0)
-                      Complex(0, -1.0 / sqrt 2.0) |] |]
-            )
+            Matrix [| [| Complex(1.0 / sqrt 2.0, 0)
+                         Complex(1.0 / sqrt 2.0, 0) |]
+                      [| Complex(0, 1.0 / sqrt 2.0)
+                         Complex(0, -1.0 / sqrt 2.0) |] |]
+
 
         Assert.True(Matrix.IsUnitary matrix)
 
@@ -657,10 +568,8 @@ module ComplexMatrixTests =
     let ``Third example of unitary matrix`` () =
 
         let matrix =
-            Matrix(
-                [| [| Complex(1, 0); Complex(0, 0) |]
-                   [| Complex(0, 0); Complex(0, 1) |] |]
-            )
+            Matrix [| [| Complex(1, 0); Complex(0, 0) |]
+                      [| Complex(0, 0); Complex(0, 1) |] |]
 
         Assert.True(Matrix.IsUnitary matrix)
 
@@ -668,10 +577,8 @@ module ComplexMatrixTests =
     let ``Example of non-unitary matrix`` () =
 
         let matrix =
-            Matrix(
-                [| [| Complex(1.0, 0); Complex(1.0, 0) |]
-                   [| Complex(0, 1.0); Complex(0, -1.0) |] |]
-            )
+            Matrix [| [| Complex(1.0, 0); Complex(1.0, 0) |]
+                      [| Complex(0, 1.0); Complex(0, -1.0) |] |]
 
         Assert.False(Matrix.IsUnitary matrix)
 
@@ -679,18 +586,15 @@ module ComplexMatrixTests =
     let ``Product of unitary matrices is also unitary matrix`` () =
 
         let unitary =
-            Matrix(
-                [| [| Complex(1.0 / sqrt 2.0, 0)
-                      Complex(1.0 / sqrt 2.0, 0) |]
-                   [| Complex(0, 1.0 / sqrt 2.0)
-                      Complex(0, -1.0 / sqrt 2.0) |] |]
-            )
+            Matrix [| [| Complex(1.0 / sqrt 2.0, 0)
+                         Complex(1.0 / sqrt 2.0, 0) |]
+                      [| Complex(0, 1.0 / sqrt 2.0)
+                         Complex(0, -1.0 / sqrt 2.0) |] |]
 
         let anotherUnitary =
-            Matrix(
-                [| [| Complex(1, 0); Complex(0, 0) |]
-                   [| Complex(0, 0); Complex(0, 1) |] |]
-            )
+            Matrix [| [| Complex(1, 0); Complex(0, 0) |]
+                      [| Complex(0, 0); Complex(0, 1) |] |]
+
 
         Assert.True(Matrix.IsUnitary(unitary * anotherUnitary))
 
@@ -698,14 +602,18 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Unitary matrices preserve inner products`` () =
 
-        let a = Vector([| Complex(1, 2); Complex(3, 5) |])
-        let b = Vector([| Complex(7, 11); Complex(13, 19) |])
+        let a =
+            Vector [| Complex(1, 2)
+                      Complex(3, 5) |]
+
+        let b =
+            Vector [| Complex(7, 11)
+                      Complex(13, 19) |]
 
         let unitary =
-            Matrix(
-                [| [| Complex(1, 0); Complex(0, 0) |]
-                   [| Complex(0, 0); Complex(0, 1) |] |]
-            )
+            Matrix [| [| Complex(1, 0); Complex(0, 0) |]
+                      [| Complex(0, 0); Complex(0, 1) |] |]
+
 
         Assert.Equal(Vector.InnerProduct (unitary * a) (unitary * b), Vector.InnerProduct a b)
 
@@ -713,14 +621,18 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Unitary matrices preserve distance`` () =
 
-        let a = Vector([| Complex(1, 2); Complex(3, 5) |])
-        let b = Vector([| Complex(7, 11); Complex(13, 19) |])
+        let a =
+            Vector [| Complex(1, 2)
+                      Complex(3, 5) |]
+
+        let b =
+            Vector [| Complex(7, 11)
+                      Complex(13, 19) |]
 
         let unitary =
-            Matrix(
-                [| [| Complex(1, 0); Complex(0, 0) |]
-                   [| Complex(0, 0); Complex(0, 1) |] |]
-            )
+            Matrix [| [| Complex(1, 0); Complex(0, 0) |]
+                      [| Complex(0, 0); Complex(0, 1) |] |]
+
 
         Assert.Equal(Vector.Distance (unitary * a) (unitary * b), Vector.Distance a b)
 
@@ -728,12 +640,10 @@ module ComplexMatrixTests =
     let ``Multiplying unitary matrix by it's adjoint produces an identity matrix`` () =
 
         let unitary =
-            Matrix(
-                [| [| Complex(1.0 / sqrt 2.0, 0)
-                      Complex(1.0 / sqrt 2.0, 0) |]
-                   [| Complex(0, 1.0 / sqrt 2.0)
-                      Complex(0, -1.0 / sqrt 2.0) |] |]
-            )
+            Matrix [| [| Complex(1.0 / sqrt 2.0, 0)
+                         Complex(1.0 / sqrt 2.0, 0) |]
+                      [| Complex(0, 1.0 / sqrt 2.0)
+                         Complex(0, -1.0 / sqrt 2.0) |] |]
 
         Assert.Equal(Matrix.Identity 2, unitary * Matrix.Adjoint unitary |> Matrix.Round)
 
@@ -804,38 +714,32 @@ module ComplexMatrixTests =
     let ``Tensor product of matrix contains combinations scalar products of all elements of both matrix`` () =
 
         let a =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         let tensorProduct = Matrix.TensorProduct a b
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(-35.0, 75.0)
-                      Complex(-43.0, 99.0)
-                      Complex(-76.0, 202.0)
-                      Complex(-92.0, 266.0) |]
-                   [| Complex(-45.0, 125.0)
-                      Complex(-59.0, 147.0)
-                      Complex(-92.0, 334.0)
-                      Complex(-124.0, 394.0) |]
-                   [| Complex(-158.0, 456.0)
-                      Complex(-190.0, 600.0)
-                      Complex(-252.0, 814.0)
-                      Complex(-300.0, 1070.0) |]
-                   [| Complex(-186.0, 752.0)
-                      Complex(-254.0, 888.0)
-                      Complex(-284.0, 1338.0)
-                      Complex(-396.0, 1582.0) |] |]
-            ),
+            Matrix [| [| Complex(-35.0, 75.0)
+                         Complex(-43.0, 99.0)
+                         Complex(-76.0, 202.0)
+                         Complex(-92.0, 266.0) |]
+                      [| Complex(-45.0, 125.0)
+                         Complex(-59.0, 147.0)
+                         Complex(-92.0, 334.0)
+                         Complex(-124.0, 394.0) |]
+                      [| Complex(-158.0, 456.0)
+                         Complex(-190.0, 600.0)
+                         Complex(-252.0, 814.0)
+                         Complex(-300.0, 1070.0) |]
+                      [| Complex(-186.0, 752.0)
+                         Complex(-254.0, 888.0)
+                         Complex(-284.0, 1338.0)
+                         Complex(-396.0, 1582.0) |] |],
             tensorProduct
         )
 
@@ -843,117 +747,111 @@ module ComplexMatrixTests =
     let ``Another example of tensor product`` () =
 
         let a =
-            Matrix(
-                [| [| Complex(3, 2)
-                      Complex(5, -1)
-                      Complex(0, 2) |]
-                   [| Complex(0, 0)
-                      Complex(12, 0)
-                      Complex(6, -3) |]
-                   [| Complex(2, 0)
-                      Complex(4, 4)
-                      Complex(9, 3) |] |]
-            )
+            Matrix [| [| Complex(3, 2)
+                         Complex(5, -1)
+                         Complex(0, 2) |]
+                      [| Complex(0, 0)
+                         Complex(12, 0)
+                         Complex(6, -3) |]
+                      [| Complex(2, 0)
+                         Complex(4, 4)
+                         Complex(9, 3) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(1, 0)
-                      Complex(3, 4)
-                      Complex(5, -7) |]
-                   [| Complex(10, 2)
-                      Complex(6, 0)
-                      Complex(2, 5) |]
-                   [| Complex(0, 0)
-                      Complex(1, 0)
-                      Complex(2, 9) |] |]
-            )
+            Matrix [| [| Complex(1, 0)
+                         Complex(3, 4)
+                         Complex(5, -7) |]
+                      [| Complex(10, 2)
+                         Complex(6, 0)
+                         Complex(2, 5) |]
+                      [| Complex(0, 0)
+                         Complex(1, 0)
+                         Complex(2, 9) |] |]
 
         let tensorProduct = Matrix.TensorProduct a b
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(3.0, 2.0)
-                      Complex(1.0, 18.0)
-                      Complex(29.0, -11.0)
-                      Complex(5.0, -1.0)
-                      Complex(19.0, 17.0)
-                      Complex(18.0, -40.0)
-                      Complex(0.0, 2.0)
-                      Complex(-8.0, 6.0)
-                      Complex(14.0, 10.0) |]
-                   [| Complex(26.0, 26.0)
-                      Complex(18.0, 12.0)
-                      Complex(-4.0, 19.0)
-                      Complex(52.0, 0.0)
-                      Complex(30.0, -6.0)
-                      Complex(15.0, 23.0)
-                      Complex(-4.0, 20.0)
-                      Complex(0.0, 12.0)
-                      Complex(-10.0, 4.0) |]
-                   [| Complex(0.0, 0.0)
-                      Complex(3.0, 2.0)
-                      Complex(-12.0, 31.0)
-                      Complex(0.0, 0.0)
-                      Complex(5.0, -1.0)
-                      Complex(19.0, 43.0)
-                      Complex(0.0, 0.0)
-                      Complex(0.0, 2.0)
-                      Complex(-18.0, 4.0) |]
-                   [| Complex(0.0, 0.0)
-                      Complex(0.0, 0.0)
-                      Complex(0.0, 0.0)
-                      Complex(12.0, 0.0)
-                      Complex(36.0, 48.0)
-                      Complex(60.0, -84.0)
-                      Complex(6.0, -3.0)
-                      Complex(30.0, 15.0)
-                      Complex(9.0, -57.0) |]
-                   [| Complex(0.0, 0.0)
-                      Complex(0.0, 0.0)
-                      Complex(0.0, 0.0)
-                      Complex(120.0, 24.0)
-                      Complex(72.0, 0.0)
-                      Complex(24.0, 60.0)
-                      Complex(66.0, -18.0)
-                      Complex(36.0, -18.0)
-                      Complex(27.0, 24.0) |]
-                   [| Complex(0.0, 0.0)
-                      Complex(0.0, 0.0)
-                      Complex(0.0, 0.0)
-                      Complex(0.0, 0.0)
-                      Complex(12.0, 0.0)
-                      Complex(24.0, 108.0)
-                      Complex(0.0, 0.0)
-                      Complex(6.0, -3.0)
-                      Complex(39.0, 48.0) |]
-                   [| Complex(2.0, 0.0)
-                      Complex(6.0, 8.0)
-                      Complex(10.0, -14.0)
-                      Complex(4.0, 4.0)
-                      Complex(-4.0, 28.0)
-                      Complex(48.0, -8.0)
-                      Complex(9.0, 3.0)
-                      Complex(15.0, 45.0)
-                      Complex(66.0, -48.0) |]
-                   [| Complex(20.0, 4.0)
-                      Complex(12.0, 0.0)
-                      Complex(4.0, 10.0)
-                      Complex(32.0, 48.0)
-                      Complex(24.0, 24.0)
-                      Complex(-12.0, 28.0)
-                      Complex(84.0, 48.0)
-                      Complex(54.0, 18.0)
-                      Complex(3.0, 51.0) |]
-                   [| Complex(0.0, 0.0)
-                      Complex(2.0, 0.0)
-                      Complex(4.0, 18.0)
-                      Complex(0.0, 0.0)
-                      Complex(4.0, 4.0)
-                      Complex(-28.0, 44.0)
-                      Complex(0.0, 0.0)
-                      Complex(9.0, 3.0)
-                      Complex(-9.0, 87.0) |] |]
-            ),
+            Matrix [| [| Complex(3.0, 2.0)
+                         Complex(1.0, 18.0)
+                         Complex(29.0, -11.0)
+                         Complex(5.0, -1.0)
+                         Complex(19.0, 17.0)
+                         Complex(18.0, -40.0)
+                         Complex(0.0, 2.0)
+                         Complex(-8.0, 6.0)
+                         Complex(14.0, 10.0) |]
+                      [| Complex(26.0, 26.0)
+                         Complex(18.0, 12.0)
+                         Complex(-4.0, 19.0)
+                         Complex(52.0, 0.0)
+                         Complex(30.0, -6.0)
+                         Complex(15.0, 23.0)
+                         Complex(-4.0, 20.0)
+                         Complex(0.0, 12.0)
+                         Complex(-10.0, 4.0) |]
+                      [| Complex(0.0, 0.0)
+                         Complex(3.0, 2.0)
+                         Complex(-12.0, 31.0)
+                         Complex(0.0, 0.0)
+                         Complex(5.0, -1.0)
+                         Complex(19.0, 43.0)
+                         Complex(0.0, 0.0)
+                         Complex(0.0, 2.0)
+                         Complex(-18.0, 4.0) |]
+                      [| Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(12.0, 0.0)
+                         Complex(36.0, 48.0)
+                         Complex(60.0, -84.0)
+                         Complex(6.0, -3.0)
+                         Complex(30.0, 15.0)
+                         Complex(9.0, -57.0) |]
+                      [| Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(120.0, 24.0)
+                         Complex(72.0, 0.0)
+                         Complex(24.0, 60.0)
+                         Complex(66.0, -18.0)
+                         Complex(36.0, -18.0)
+                         Complex(27.0, 24.0) |]
+                      [| Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(0.0, 0.0)
+                         Complex(12.0, 0.0)
+                         Complex(24.0, 108.0)
+                         Complex(0.0, 0.0)
+                         Complex(6.0, -3.0)
+                         Complex(39.0, 48.0) |]
+                      [| Complex(2.0, 0.0)
+                         Complex(6.0, 8.0)
+                         Complex(10.0, -14.0)
+                         Complex(4.0, 4.0)
+                         Complex(-4.0, 28.0)
+                         Complex(48.0, -8.0)
+                         Complex(9.0, 3.0)
+                         Complex(15.0, 45.0)
+                         Complex(66.0, -48.0) |]
+                      [| Complex(20.0, 4.0)
+                         Complex(12.0, 0.0)
+                         Complex(4.0, 10.0)
+                         Complex(32.0, 48.0)
+                         Complex(24.0, 24.0)
+                         Complex(-12.0, 28.0)
+                         Complex(84.0, 48.0)
+                         Complex(54.0, 18.0)
+                         Complex(3.0, 51.0) |]
+                      [| Complex(0.0, 0.0)
+                         Complex(2.0, 0.0)
+                         Complex(4.0, 18.0)
+                         Complex(0.0, 0.0)
+                         Complex(4.0, 4.0)
+                         Complex(-28.0, 44.0)
+                         Complex(0.0, 0.0)
+                         Complex(9.0, 3.0)
+                         Complex(-9.0, 87.0) |] |],
             tensorProduct
         )
 
@@ -961,87 +859,75 @@ module ComplexMatrixTests =
     let ``Third example of tensor product`` () =
 
         let a =
-            Matrix(
-                [| [| Complex(1, 1); Complex(2, 2) |]
-                   [| Complex(3, 3); Complex(4, 4) |] |]
-            )
+            Matrix [| [| Complex(1, 1); Complex(2, 2) |]
+                      [| Complex(3, 3); Complex(4, 4) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(1, 1)
-                      Complex(2, 2)
-                      Complex(3, 3) |]
-                   [| Complex(4, 4)
-                      Complex(5, 5)
-                      Complex(6, 6) |]
-                   [| Complex(7, 7)
-                      Complex(8, 8)
-                      Complex(9, 9) |] |]
-            )
+            Matrix [| [| Complex(1, 1)
+                         Complex(2, 2)
+                         Complex(3, 3) |]
+                      [| Complex(4, 4)
+                         Complex(5, 5)
+                         Complex(6, 6) |]
+                      [| Complex(7, 7)
+                         Complex(8, 8)
+                         Complex(9, 9) |] |]
 
         let tensorProduct = Matrix.TensorProduct a b
 
         Assert.Equal(
-            Matrix(
-                [| [| Complex(0.0, 2.0)
-                      Complex(0.0, 4.0)
-                      Complex(0.0, 6.0)
-                      Complex(0.0, 4.0)
-                      Complex(0.0, 8.0)
-                      Complex(0.0, 12.0) |]
-                   [| Complex(0.0, 8.0)
-                      Complex(0.0, 10.0)
-                      Complex(0.0, 12.0)
-                      Complex(0.0, 16.0)
-                      Complex(0.0, 20.0)
-                      Complex(0.0, 24.0) |]
-                   [| Complex(0.0, 14.0)
-                      Complex(0.0, 16.0)
-                      Complex(0.0, 18.0)
-                      Complex(0.0, 28.0)
-                      Complex(0.0, 32.0)
-                      Complex(0.0, 36.0) |]
-                   [| Complex(0.0, 6.0)
-                      Complex(0.0, 12.0)
-                      Complex(0.0, 18.0)
-                      Complex(0.0, 8.0)
-                      Complex(0.0, 16.0)
-                      Complex(0.0, 24.0) |]
-                   [| Complex(0.0, 24.0)
-                      Complex(0.0, 30.0)
-                      Complex(0.0, 36.0)
-                      Complex(0.0, 32.0)
-                      Complex(0.0, 40.0)
-                      Complex(0.0, 48.0) |]
-                   [| Complex(0.0, 42.0)
-                      Complex(0.0, 48.0)
-                      Complex(0.0, 54.0)
-                      Complex(0.0, 56.0)
-                      Complex(0.0, 64.0)
-                      Complex(0.0, 72.0) |] |]
-            ),
+            Matrix [| [| Complex(0.0, 2.0)
+                         Complex(0.0, 4.0)
+                         Complex(0.0, 6.0)
+                         Complex(0.0, 4.0)
+                         Complex(0.0, 8.0)
+                         Complex(0.0, 12.0) |]
+                      [| Complex(0.0, 8.0)
+                         Complex(0.0, 10.0)
+                         Complex(0.0, 12.0)
+                         Complex(0.0, 16.0)
+                         Complex(0.0, 20.0)
+                         Complex(0.0, 24.0) |]
+                      [| Complex(0.0, 14.0)
+                         Complex(0.0, 16.0)
+                         Complex(0.0, 18.0)
+                         Complex(0.0, 28.0)
+                         Complex(0.0, 32.0)
+                         Complex(0.0, 36.0) |]
+                      [| Complex(0.0, 6.0)
+                         Complex(0.0, 12.0)
+                         Complex(0.0, 18.0)
+                         Complex(0.0, 8.0)
+                         Complex(0.0, 16.0)
+                         Complex(0.0, 24.0) |]
+                      [| Complex(0.0, 24.0)
+                         Complex(0.0, 30.0)
+                         Complex(0.0, 36.0)
+                         Complex(0.0, 32.0)
+                         Complex(0.0, 40.0)
+                         Complex(0.0, 48.0) |]
+                      [| Complex(0.0, 42.0)
+                         Complex(0.0, 48.0)
+                         Complex(0.0, 54.0)
+                         Complex(0.0, 56.0)
+                         Complex(0.0, 64.0)
+                         Complex(0.0, 72.0) |] |],
             tensorProduct
         )
 
     [<Fact>]
     let ``Tensor product is associative`` () =
         let a =
-            Matrix(
-                [| [| Complex(1, 2); Complex(3, 5) |]
-                   [| Complex(7, 11); Complex(13, 19) |] |]
-            )
+            Matrix [| [| Complex(1, 2); Complex(3, 5) |]
+                      [| Complex(7, 11); Complex(13, 19) |] |]
 
         let b =
-            Matrix(
-                [| [| Complex(23, 29); Complex(31, 37) |]
-                   [| Complex(41, 43); Complex(47, 53) |] |]
-            )
+            Matrix [| [| Complex(23, 29); Complex(31, 37) |]
+                      [| Complex(41, 43); Complex(47, 53) |] |]
 
         let c =
-            Matrix(
-                [| [| Complex(59, 61); Complex(67, 71) |]
-                   [| Complex(73, 79); Complex(83, 89) |] |]
-            )
+            Matrix [| [| Complex(59, 61); Complex(67, 71) |]
+                      [| Complex(73, 79); Complex(83, 89) |] |]
 
         Assert.Equal(
             Matrix.TensorProduct (Matrix.TensorProduct a b) c,
@@ -1051,12 +937,12 @@ module ComplexMatrixTests =
     [<Fact>]
     let ``Matrix multiplied by it's eigen vector equals to eigen value multiplied by eigen vector`` () =
         let matrix =
-            Matrix(
-                [| [| Complex(4, 0); Complex(-1, 0) |]
-                   [| Complex(2, 0); Complex(1, 0) |] |]
-            )
+            Matrix [| [| Complex(4, 0); Complex(-1, 0) |]
+                      [| Complex(2, 0); Complex(1, 0) |] |]
 
-        let eigenVector = Vector([| Complex(1, 0); Complex(1, 0) |])
+        let eigenVector =
+            Vector [| Complex(1, 0)
+                      Complex(1, 0) |]
 
         let eigenValue = 3.0
 

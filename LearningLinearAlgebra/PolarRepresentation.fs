@@ -1,4 +1,4 @@
-﻿namespace Algebra.ComplexNumbers
+﻿namespace Algebra
 
 module PolarPresentation =
 
@@ -12,15 +12,15 @@ module PolarPresentation =
 
             PositiveModulo phase (RealNumbers.Pi * 2.0)
 
-        static member inline ToPolar(cartesian: CartesianPresentation.Complex) =
-            let (CartesianPresentation.Complex (real, imaginary)) = cartesian
+        static member inline ToPolar(cartesian: ComplexNumbers.Complex) =
+            let (ComplexNumbers.Complex (real, imaginary)) = cartesian
 
             Complex(sqrt (real * real + imaginary * imaginary), atan (real / imaginary))
 
         static member inline ToCartesian(polar: Complex) =
             let (Complex (magniture, phase)) = polar
 
-            CartesianPresentation.Complex(magniture * cos (phase), magniture * sin (phase))
+            ComplexNumbers.Complex(magniture * cos (phase), magniture * sin (phase))
 
         static member inline Add (left: Complex) (right: Complex) : Complex =
             (left |> Complex.ToCartesian)

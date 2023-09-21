@@ -4,7 +4,7 @@ open Xunit
 
 module CartesianRepresentationTests =
 
-    open ComplexNumbers.CartesianPresentation
+    open ComplexNumbers
 
     [<Fact>]
     let ``Sum of two complex numbers is calculated as sum of the components`` () =

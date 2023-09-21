@@ -7,10 +7,8 @@
 
   <ItemGroup>
     <Compile Include="RealNumbers.fs" />
-    <Compile Include="CartesianPresentation.fs" />
+    <Compile Include="ComplexNumbers.fs" />
     <Compile Include="PolarRepresentation.fs" />
-    <Compile Include="RealVectorSpace.fs" />
-    <Compile Include="ComplexVectorSpace.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
