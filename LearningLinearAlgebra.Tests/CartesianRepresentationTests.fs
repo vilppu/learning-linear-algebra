@@ -8,8 +8,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Sum of two complex numbers is calculated as sum of the components`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
+        let a = C(5, 7)
+        let b = C(11, 13)
 
         let sum = Complex.Add a b
 
@@ -18,8 +18,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Sum of complex numbers is commutative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
+        let a = C(5, 7)
+        let b = C(11, 13)
 
         let aPlusB = Complex.Add a b
         let bPlusA = Complex.Add b a
@@ -28,9 +28,9 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Sum of complex numbers is associative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
-        let c = Complex(17, 19)
+        let a = C(5, 7)
+        let b = C(11, 13)
+        let c = C(17, 19)
 
         let sumOfAndBPlusC = Complex.Add (Complex.Add a b) c
         let aPlusSumOfBAndC = Complex.Add a (Complex.Add b c)
@@ -39,8 +39,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Difference of two complex numbers is calculated as difference of the components`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
+        let a = C(5, 7)
+        let b = C(11, 13)
 
         let difference = Complex.Subtract a b
 
@@ -49,8 +49,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Difference of complex numbers is not commutative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
+        let a = C(5, 7)
+        let b = C(11, 13)
 
         let aPlusB = Complex.Subtract a b
         let bPlusA = Complex.Subtract b a
@@ -59,9 +59,9 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Difference of complex numbers is not associative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
-        let c = Complex(17, 19)
+        let a = C(5, 7)
+        let b = C(11, 13)
+        let c = C(17, 19)
 
         let differenceOfAndBPlusC = Complex.Subtract (Complex.Subtract a b) c
 
@@ -71,8 +71,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Product of complex numbers (a1, b1) and (a2, b2) is calculated as (a1*a2 - b1*b2, a1*b2 + a2*b1)`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
+        let a = C(5, 7)
+        let b = C(11, 13)
 
         let product = Complex.Multiply a b
 
@@ -81,8 +81,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Product of complex numbers is commutative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
+        let a = C(5, 7)
+        let b = C(11, 13)
 
         let aMultipliedByB = Complex.Multiply a b
         let bMultipliedByA = Complex.Multiply b a
@@ -91,9 +91,9 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Product of complex numbers is associative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
-        let c = Complex(17, 19)
+        let a = C(5, 7)
+        let b = C(11, 13)
+        let c = C(17, 19)
 
         let productOfAndBMultipliedByC = Complex.Multiply (Complex.Multiply a b) c
 
@@ -103,9 +103,9 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Multiplication of complex numbers distributes over addition`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
-        let c = Complex(17, 19)
+        let a = C(5, 7)
+        let b = C(11, 13)
+        let c = C(17, 19)
 
         let left = Complex.Multiply a (Complex.Add b c)
 
@@ -115,7 +115,7 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Square of complex number is the number multiplied by itself`` () =
-        let complex = Complex(5, 7)
+        let complex = C(5, 7)
 
         let squared = Complex.Square complex
 
@@ -123,8 +123,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Quotient of complex numbers is calculated calculated using complex conjucations`` () =
-        let a = Complex(-2, 1)
-        let b = Complex(1, 2)
+        let a = C(-2, 1)
+        let b = C(1, 2)
 
         let quotient = Complex.Divide a b
 
@@ -132,8 +132,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Another example of division of complex numbers`` () =
-        let a = Complex(0, 3)
-        let b = Complex(-1, -1)
+        let a = C(0, 3)
+        let b = C(-1, -1)
 
         let quotient = Complex.Divide a b
         let f = -3.0 / 2.0
@@ -141,8 +141,8 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Quotient of complex numbers is not commutative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
+        let a = C(5, 7)
+        let b = C(11, 13)
 
         let aDividedByB = Complex.Divide a b
         let bDividedByA = Complex.Divide b a
@@ -151,9 +151,9 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Quotient of complex numbers is not associative`` () =
-        let a = Complex(5, 7)
-        let b = Complex(11, 13)
-        let c = Complex(17, 19)
+        let a = C(5, 7)
+        let b = C(11, 13)
+        let c = C(17, 19)
 
         let quotientOfAndBDividedByC = Complex.Divide (Complex.Divide a b) c
 
@@ -163,7 +163,7 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Modulus of complex number is the square root of sum of second power of components`` () =
-        let a = Complex(5, 7)
+        let a = C(5, 7)
 
         let modulus = Complex.Modulus a
 
@@ -171,7 +171,7 @@ module CartesianRepresentationTests =
 
     [<Fact>]
     let ``Another example of modulus`` () =
-        let a = Complex(1, -1)
+        let a = C(1, -1)
 
         let modulus = Complex.Modulus a
 

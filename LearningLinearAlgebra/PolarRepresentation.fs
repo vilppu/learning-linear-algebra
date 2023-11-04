@@ -13,36 +13,34 @@ module PolarPresentation =
             PositiveModulo phase (RealNumbers.Pi * 2.0)
 
         static member inline ToPolar(cartesian: ComplexNumbers.Complex) =
-            let (ComplexNumbers.Complex (real, imaginary)) = cartesian
+            let (ComplexNumbers.Complex(real, imaginary)) = cartesian
 
             Complex(sqrt (real * real + imaginary * imaginary), atan (real / imaginary))
 
         static member inline ToCartesian(polar: Complex) =
-            let (Complex (magniture, phase)) = polar
+            let (Complex(magniture, phase)) = polar
 
             ComplexNumbers.Complex(magniture * cos (phase), magniture * sin (phase))
 
         static member inline Add (left: Complex) (right: Complex) : Complex =
-            (left |> Complex.ToCartesian)
-            + (right |> Complex.ToCartesian)
+            (left |> Complex.ToCartesian) + (right |> Complex.ToCartesian)
             |> Complex.ToPolar
 
         static member inline Subtract (left: Complex) (right: Complex) : Complex =
-            (left |> Complex.ToCartesian)
-            - (right |> Complex.ToCartesian)
+            (left |> Complex.ToCartesian) - (right |> Complex.ToCartesian)
             |> Complex.ToPolar
 
         static member inline Multiply (left: Complex) (right: Complex) : Complex =
 
-            let (Complex (leftMagnitude, leftPhase)) = left
-            let (Complex (rightMagnitude, rightPhase)) = right
+            let (Complex(leftMagnitude, leftPhase)) = left
+            let (Complex(rightMagnitude, rightPhase)) = right
 
             Complex(leftMagnitude * rightMagnitude, leftPhase + rightPhase |> Complex.NormalizePhase)
 
         static member inline Divide (left: Complex) (right: Complex) : Complex =
 
-            let (Complex (leftMagnitude, leftPhase)) = left
-            let (Complex (rightMagnitude, rightPhase)) = right
+            let (Complex(leftMagnitude, leftPhase)) = left
+            let (Complex(rightMagnitude, rightPhase)) = right
 
             Complex(leftMagnitude / rightMagnitude, leftPhase - rightPhase |> Complex.NormalizePhase)
 
@@ -50,3 +48,5 @@ module PolarPresentation =
         static member (-)(left: Complex, right: Complex) = Complex.Subtract left right
         static member (*)(left: Complex, right: Complex) = Complex.Multiply left right
         static member (/)(left: Complex, right: Complex) = Complex.Divide left right
+
+    let C = Complex
