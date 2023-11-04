@@ -7,112 +7,121 @@ module RealNumbers =
     let RoundToTwoDecimals (value: float) : float = System.Math.Round(value, 2)
     let Square (value: float) : float = value * value
 
-    type Vector =
-        | Vector of float[]
+    type Vector<'R> =
+        | V of 'R[]
 
-        static member Zero n : Vector = Vector(Array.create n 0)
+        static member inline Zero n =
+            V(Array.create n LanguagePrimitives.GenericZero)
 
-        static member AsScalar(Vector vector) : float = Array.exactlyOne vector
+        static member inline AsScalar(V vector) = Array.exactlyOne vector
 
-        static member Add (Vector left) (Vector right) : Vector =
+        static member inline Add (V left) (V right) =
 
             (Array.map2 (fun leftElement rightElement -> leftElement + rightElement) left right)
-            |> Vector
+            |> V
 
-        static member Subtract (Vector left) (Vector right) : Vector =
+        static member inline Subtract (V left) (V right) =
 
             (Array.map2 (fun leftElement rightElement -> leftElement - rightElement) left right)
-            |> Vector
+            |> V
 
-        static member Multiply (scalar: float) (Vector vector) : Vector =
+        static member inline Multiply (scalar) (V vector) =
 
-            vector |> Array.map (fun element -> scalar * element) |> Vector
+            vector |> Array.map (fun element -> scalar * element) |> V
 
-        static member InnerProduct (Vector left) (Vector right) : float =
+        static member inline InnerProduct (V left) (V right) =
 
             (Array.map2 (fun leftElement rightElement -> leftElement * rightElement) left right)
             |> Array.sum
 
-        static member Norm vector : float =
-            sqrt (Vector.InnerProduct vector vector)
+        static member inline Norm vector =
+            sqrt (Vector<float>.InnerProduct vector vector)
 
-        static member Distance left right : float =
-            (Vector.Subtract left right) |> Vector.Norm
+        static member inline Distance left right =
+            (Vector<_>.Subtract left right) |> Vector<_>.Norm
 
-        static member TensorProduct (Vector left) (Vector right) : Vector =
+        static member inline TensorProduct (V left) (V right) =
             let length = left.Length * right.Length
 
             Array.init length (fun index ->
                 let leftIndex = index / right.Length
                 let rightIndex = index % right.Length
                 left[leftIndex] * right[rightIndex])
-            |> Vector
+            |> V
 
-        static member Inverse(vector: Vector) : Vector = Vector.Multiply -1 vector
+        static member inline Inverse(vector) =
+            Vector<_>.Multiply -LanguagePrimitives.GenericOne vector
 
-        static member Round(Vector vector) : Vector =
-            vector |> Array.map (fun element -> Round element) |> Vector
+        static member inline Round(V vector) =
+            vector |> Array.map (fun element -> Round element) |> V
 
-        static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
-        static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
-        static member inline (*)(scalar: float, vector: Vector) = Vector.Multiply scalar vector
-        static member inline (*)(left: Vector, right: Vector) = Vector.InnerProduct left right
-        static member inline (~-)(vector: Vector) = Vector.Inverse vector
+        static member inline (+)(left, right) = Vector<_>.Add left right
+        static member inline (-)(left, right) = Vector<_>.Subtract left right
+        static member inline (*)(scalar, vector) = Vector<_>.Multiply scalar vector
+        static member inline (*)(left, right) = Vector<_>.InnerProduct left right
+        static member inline (~-)(vector) = Vector<_>.Inverse vector
 
-    type Matrix =
-        | Matrix of float[][]
+    type Matrix<'R> =
+        | M of 'R[][]
 
-        static member Fill m n elementValue : Matrix =
-            Array.init m (fun i -> Array.init n (fun j -> elementValue i j)) |> Matrix
+        static member inline Fill m n elementValue =
+            Array.init m (fun i -> Array.init n (fun j -> elementValue i j)) |> M
 
-        static member Zero m n : Matrix = Matrix.Fill m n (fun i j -> 0)
+        static member inline Zero m n =
+            Matrix<_>.Fill m n (fun i j -> LanguagePrimitives.GenericZero)
 
-        static member Identity m : Matrix =
-            Matrix.Fill m m (fun i j -> if i = j then 1.0 else 0.0)
+        static member inline Identity m =
+            Matrix<_>.Fill m m (fun i j ->
+                if i = j then
+                    LanguagePrimitives.GenericOne
+                else
+                    LanguagePrimitives.GenericZero)
 
-        static member AsVector(Matrix matrix) : Vector =
-            matrix |> Array.map (fun row -> Array.exactlyOne row) |> Vector
+        static member inline AsVector(M matrix) =
+            matrix |> Array.map (fun row -> Array.exactlyOne row) |> V
 
-        static member AsScalar matrix : float =
-            matrix |> Matrix.AsVector |> Vector.AsScalar
+        static member inline AsScalar matrix =
+            matrix |> Matrix<_>.AsVector |> Vector<_>.AsScalar
 
-        static member M(matrix: float[][]) = matrix.Length
+        static member inline Rows matrix = Array.length (matrix)
 
-        static member N(matrix: float[][]) =
-            if matrix.Length > 0 then matrix[0].Length else 0
+        static member inline Columns matrix =
+            if Array.length (matrix) > 0 then
+                Array.length (Array.head matrix)
+            else
+                0
 
-        static member Add (Matrix left) (Matrix right) : Matrix =
+        static member inline Add (M left) (M right) =
 
             let add leftRow rightRow =
                 rightRow
                 |> (leftRow
                     |> Array.map2 (fun leftElement rightElement -> leftElement + rightElement))
 
-            Array.map2 (fun leftRow rightRow -> add leftRow rightRow) left right |> Matrix
+            Array.map2 (fun leftRow rightRow -> add leftRow rightRow) left right |> M
 
-        static member Subtract (Matrix left) (Matrix right) : Matrix =
+        static member inline Subtract (M left) (M right) =
 
             let subtract leftRow rightRow =
                 rightRow
                 |> (leftRow
                     |> Array.map2 (fun leftElement rightElement -> leftElement - rightElement))
 
-            Array.map2 (fun leftRow rightRow -> subtract leftRow rightRow) left right
-            |> Matrix
+            Array.map2 (fun leftRow rightRow -> subtract leftRow rightRow) left right |> M
 
-        static member Multiply (scalar: float) (Matrix matrix) : Matrix =
+        static member inline Multiply (scalar) (M matrix) =
 
             matrix
             |> Array.map (fun row -> row |> Array.map (fun element -> scalar * element))
-            |> Matrix
+            |> M
 
-        static member Transpose(Matrix matrix) : Matrix =
-            Matrix.Fill (Matrix.N matrix) (Matrix.M matrix) (fun i j -> matrix[j][i])
+        static member inline Transpose(M matrix) =
+            Matrix<'R>.Fill (Matrix<'R>.Columns matrix) (Matrix<'R>.Rows matrix) (fun i j -> matrix[j][i])
 
-        static member Transpose(Vector vector) : Matrix =
-            vector |> Array.map (fun element -> [| element |]) |> Matrix
+        static member inline Transpose(V vector) =
+            vector |> Array.map (fun element -> [| element |]) |> M
 
-        static member Product (Matrix left) (Matrix right) : Matrix =
+        static member inline Product (M left) (M right) =
 
             left
             |> Array.mapi (fun i row ->
@@ -123,44 +132,42 @@ module RealNumbers =
 
                 ))
             |> Seq.toArray
-            |> Matrix
+            |> M
 
-        static member Act (Matrix matrix) (Vector vector) : Vector =
+        static member inline Act (M matrix) (V vector) =
             matrix
             |> Array.mapi (fun i row -> vector |> (row |> Array.map2 (fun x y -> x * y)) |> Array.sum
 
             )
             |> Seq.toArray
-            |> Vector
+            |> V
 
-        static member TensorProduct (Matrix left) (Matrix right) : Matrix =
+        static member inline TensorProduct (M left) (M right) =
 
-            let ColumnCount (matrix: float[][]) =
-                match matrix.Length with
+            let inline ColumnCount matrix =
+                match Array.length (matrix) with
                 | 0 -> 0
-                | _ -> matrix[0].Length
+                | _ -> Array.length (matrix[0])
 
-            let rowCount = left.Length * right.Length
+            let rowCount = Array.length (left) * Array.length (right)
             let columnCount = (left |> ColumnCount) * (right |> ColumnCount)
 
             let m = right.Length
             let n = (right |> ColumnCount)
 
-            Matrix.Fill rowCount columnCount (fun j k -> left[j / n][k / m] * right[j % n][k % m])
+            Matrix<_>.Fill rowCount columnCount (fun j k -> left[j / n][k / m] * right[j % n][k % m])
 
-        static member Round(Matrix matrix) : Matrix =
+        static member inline Round(M matrix) =
             matrix
             |> Array.map (fun row -> row |> Array.map (fun element -> Round element))
-            |> Matrix
+            |> M
 
-        static member Inverse(matrix: Matrix) : Matrix = Matrix.Multiply -1 matrix
+        static member inline Inverse(matrix) =
+            Matrix<_>.Multiply -LanguagePrimitives.GenericOne matrix
 
-        static member inline (+)(left: Matrix, right: Matrix) = Matrix.Add left right
-        static member inline (-)(left: Matrix, right: Matrix) = Matrix.Subtract left right
-        static member inline (*)(scalar: float, matrix: Matrix) = Matrix.Multiply scalar matrix
-        static member inline (*)(left: Matrix, right: Matrix) = Matrix.Product left right
-        static member inline (*)(matrix: Matrix, vector: Vector) = Matrix.Act matrix vector
-        static member inline (~-)(matrix: Matrix) = Matrix.Inverse matrix
-
-    let V = Vector
-    let M = Matrix
+        static member inline (+)(left, right) = Matrix<_>.Add left right
+        static member inline (-)(left, right) = Matrix<_>.Subtract left right
+        static member inline (*)(scalar, matrix) = Matrix<_>.Multiply scalar matrix
+        static member inline (*)(left, right) = Matrix<_>.Product left right
+        static member inline (*)(matrix, vector) = Matrix<_>.Act matrix vector
+        static member inline (~-)(matrix) = Matrix<_>.Inverse matrix
