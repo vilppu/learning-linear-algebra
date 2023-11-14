@@ -58,7 +58,7 @@ module RealNumbers =
         static member inline (+)(left, right) = Vector<_>.Add left right
         static member inline (-)(left, right) = Vector<_>.Subtract left right
         static member inline (*)(scalar, vector) = Vector<_>.Multiply scalar vector
-        static member inline (*)(left, right) = Vector<_>.InnerProduct left right
+        static member inline (^<>)(left, right) = Vector<_>.InnerProduct left right
         static member inline (~-)(vector) = Vector<_>.Inverse vector
 
     type Matrix<'R> =
@@ -168,6 +168,6 @@ module RealNumbers =
         static member inline (+)(left, right) = Matrix<_>.Add left right
         static member inline (-)(left, right) = Matrix<_>.Subtract left right
         static member inline (*)(scalar, matrix) = Matrix<_>.Multiply scalar matrix
-        static member inline (*)(left, right) = Matrix<_>.Product left right
-        static member inline (*)(matrix, vector) = Matrix<_>.Act matrix vector
+        static member inline (^<>)(left, right) = Matrix<_>.Product left right
+        static member inline (^<>)(matrix, vector) = Matrix<_>.Act matrix vector
         static member inline (~-)(matrix) = Matrix<_>.Inverse matrix

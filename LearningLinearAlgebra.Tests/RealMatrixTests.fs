@@ -164,7 +164,7 @@ module RealMatrixTests =
 
         Assert.Equal(M [| [| 146.0; 172.0 |]; [| 694.0; 828.0 |] |], product)
 
-        Assert.Equal(Matrix<_>.Product a b, a * b)
+        Assert.Equal(Matrix<_>.Product a b, a ^<> b)
 
     [<Fact>]
     let ``On identity matrix diagonal entries has value one and everytinhg else is zeroes`` () =
@@ -197,8 +197,8 @@ module RealMatrixTests =
 
         let transposeOfOrthogonal = Matrix<_>.Transpose orthogonal
 
-        Assert.Equal(Matrix<_>.Identity 3, orthogonal * transposeOfOrthogonal)
-        Assert.Equal(Matrix<_>.Identity 3, transposeOfOrthogonal * orthogonal)
+        Assert.Equal(Matrix<_>.Identity 3, orthogonal ^<> transposeOfOrthogonal)
+        Assert.Equal(Matrix<_>.Identity 3, transposeOfOrthogonal ^<> orthogonal)
 
     [<Fact>]
     let ``Algebra of matrices acts on vectors to yield new vectors`` () =
@@ -213,7 +213,7 @@ module RealMatrixTests =
 
         Assert.Equal(V [| 116.0; 564.0 |], resultOfAction)
 
-        Assert.Equal(Matrix<_>.Act matrix vector, matrix * vector)
+        Assert.Equal(Matrix<_>.Act matrix vector, matrix ^<> vector)
 
 
     [<Fact>]
@@ -275,4 +275,4 @@ module RealMatrixTests =
 
         let eigenValue = 3.0
 
-        Assert.Equal(matrix * eigenVector, eigenValue * eigenVector)
+        Assert.Equal(matrix ^<> eigenVector, eigenValue * eigenVector)

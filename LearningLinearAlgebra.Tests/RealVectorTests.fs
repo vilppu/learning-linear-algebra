@@ -105,10 +105,10 @@ module RealVectorTests =
         let a = V [| 5.0; 3.0; -7.0 |]
         let b = V [| 6.0; 2.0; 0.0 |]
 
-        let innerProduct = Vector<_>.InnerProduct a b
+        let innerProduct = Vector<float>.InnerProduct a b
 
         Assert.Equal(36.0, innerProduct)
-        Assert.Equal(Vector<_>.InnerProduct a b, a * b)
+        Assert.Equal(Vector<float>.InnerProduct a b, a ^<> b)
 
     [<Fact>]
     let ``Inner product respects addition`` () =
@@ -116,7 +116,7 @@ module RealVectorTests =
         let b = V [| -7.0; -13.0 |]
         let c = V [| -23.0; -31.0 |]
 
-        Assert.Equal((a + b) * c, (a * c) + (b * c))
+        Assert.Equal((a + b) ^<> c, (a ^<> c) + (b ^<> c))
 
     [<Fact>]
     let ``Inner product respects scalar multiplication`` () =
@@ -124,7 +124,7 @@ module RealVectorTests =
         let b = V [| -7.0; -13.0 |]
         let scalar = 23.0
 
-        Assert.Equal((scalar * a) * b, scalar * (a * b))
+        Assert.Equal((scalar * a) ^<> b, scalar * (a ^<> b))
 
     [<Fact>]
     let ``Norm is square root of inner product of vector with itself`` () =
