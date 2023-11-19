@@ -142,7 +142,7 @@ module ComplexVectorTests =
         let innerProduct = Vector.InnerProduct a b
 
         Assert.Equal(Complex(163.0, 11.0), innerProduct)
-        Assert.Equal(Vector.InnerProduct a b, a * b)
+        Assert.Equal(Vector.InnerProduct a b, a ^<> b)
 
     [<Fact>]
     let ``Inner product respects addition`` () =
@@ -152,7 +152,7 @@ module ComplexVectorTests =
 
         let c = V [| C(23, 29); C(31, 37) |]
 
-        Assert.Equal((a + b) * c, (a * c) + (b * c))
+        Assert.Equal((a + b) ^<> c, (a ^<> c) + (b ^<> c))
 
     [<Fact>]
     let ``Inner product respects scalar multiplication`` () =
@@ -162,7 +162,7 @@ module ComplexVectorTests =
 
         let scalar = C(23, 29)
 
-        Assert.Equal((scalar * a) * b, scalar * (a * b))
+        Assert.Equal((scalar * a) ^<> b, scalar * (a ^<> b))
 
     [<Fact>]
     let ``Inner product of a complex vector with itself is a real number`` () =

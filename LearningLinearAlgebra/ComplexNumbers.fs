@@ -8,8 +8,13 @@ module ComplexNumbers =
 
         static member FromReal real = Complex(real, 0)
         static member Zero = Complex(0, 0)
-        static member One = Complex.FromReal 1.0
-        static member MinusOne = Complex.FromReal -1.0
+        static member One = Complex(1, 0)
+        static member MinusOne = Complex(-1, 0)
+        static member MinusZero = Complex(-0, 0)
+        static member SqrtTwo = Complex(sqrt 2.0, 0)
+        static member MinusSqrtTwo = Complex(sqrt -2.0, 0)
+        static member OnePerSqrtTwo = Complex(1.0 / sqrt 2.0, 0)
+        static member MinusOnePerSqrtTwo = Complex(-1.0 / sqrt 2.0, 0)
 
         static member Add (left: Complex) (right: Complex) : Complex =
 
@@ -140,12 +145,13 @@ module ComplexNumbers =
             |> Array.map (fun element -> Complex.RoundToTwoDecimals element)
             |> Vector
 
-        static member inline (+)(left: Vector, right: Vector) = Vector.Add left right
-        static member inline (-)(left: Vector, right: Vector) = Vector.Subtract left right
-        static member inline (*)(scalar: Complex, vector: Vector) = Vector.Multiply scalar vector
+        static member inline (+)(left, right) = Vector.Add left right
+        static member inline (-)(left, right) = Vector.Subtract left right
+        static member inline (*)(scalar, vector) = Vector.Multiply scalar vector
         static member inline (*)(scalar: float, vector: Vector) = Vector.MultiplyByReal scalar vector
-        static member inline (*)(left: Vector, right: Vector) = Vector.InnerProduct left right
-        static member inline (~-)(vector: Vector) = Vector.Inverse vector
+        static member inline (^<>)(left, right) = Vector.InnerProduct left right
+        static member inline (^*)(left, right) = Vector.TensorProduct left right
+        static member inline (~-)(vector) = Vector.Inverse vector
 
     type Matrix =
         | Matrix of Complex[][]
@@ -290,12 +296,13 @@ module ComplexNumbers =
 
         static member Inverse(matrix: Matrix) : Matrix = Matrix.Multiply Complex.MinusOne matrix
 
-        static member inline (+)(left: Matrix, right: Matrix) = Matrix.Add left right
-        static member inline (-)(left: Matrix, right: Matrix) = Matrix.Subtract left right
-        static member inline (*)(scalar: Complex, matrix: Matrix) = Matrix.Multiply scalar matrix
+        static member inline (+)(left, right) = Matrix.Add left right
+        static member inline (-)(left, right) = Matrix.Subtract left right
+        static member inline (*)(scalar, matrix) = Matrix.Multiply scalar matrix
         static member inline (*)(left: Matrix, right: Matrix) = Matrix.Product left right
         static member inline (*)(matrix: Matrix, vector: Vector) = Matrix.Act matrix vector
-        static member inline (~-)(matrix: Matrix) = Matrix.Inverse matrix
+        static member inline (^*)(matrix, vector) = Matrix.TensorProduct matrix vector
+        static member inline (~-)(matrix) = Matrix.Inverse matrix
 
     let C = Complex
     let V = Vector
