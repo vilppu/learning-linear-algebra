@@ -14,8 +14,7 @@ module State =
     let Probability index (ket: Ket<float>) =
         let i = ket[index]
         let m = Modulus i
-        Square(m) / Square(Ket.Norm ket)
-
+        RealNumber.Square(m) / RealNumber.Square(Ket.Norm ket)
 
     let TransitionAmplitude startState endState = Ket.InnerProduct startState endState
 

@@ -15,7 +15,8 @@ module Qubit =
     let Pair x y = Ket.TensorProduct x y
 
     let Probabilities (system: Ket<float>) =
-        system.Components.Entries |> Array.map (fun qubit -> Square(Modulus qubit))
+        system.Components.Entries
+        |> Array.map (fun qubit -> RealNumber.Square(Modulus qubit))
 
     let TopZero pair =
         Probabilities(pair)[0] + Probabilities(pair)[1]

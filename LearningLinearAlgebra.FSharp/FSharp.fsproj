@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="RealNumber.fs" />
     <Compile Include="PolarRepresentation.fs" />
     <Compile Include="ComplexNumber.fs" />
     <Compile Include="RealMatrices.fs" />

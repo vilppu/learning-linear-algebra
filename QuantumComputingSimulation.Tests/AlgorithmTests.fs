@@ -4,7 +4,7 @@ open Xunit
 
 module AlgorithmTests =
 
-    open LearningLinearAlgebra.Numbers.RealNumber
+    open LearningLinearAlgebra.Numbers.RealNumber 
     open Qubit
     open Algorithms
 
