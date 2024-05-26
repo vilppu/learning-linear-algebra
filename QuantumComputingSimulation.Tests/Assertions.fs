@@ -9,16 +9,20 @@ module Should =
             let Number (expected: float) (actual: float) =
                 actual.Should().Be(expected, "") |> ignore
 
+            let Zero () (actual: float) = actual.Should().Be(0, "") |> ignore
+
+            let One () (actual: float) = actual.Should().Be(1, "") |> ignore
+
 
         module Complex =
 
             open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
-            let Ket (expected: Ket<'R>) (actual: Ket<'R>) =
-                actual.Should().BeEquivalentTo(expected, "") |> ignore
+            let Ket (expected: Ket) (actual: Ket) =
+                actual.Should().Equal(expected, "") |> ignore
 
-            let Bra (expected: Bra<'R>) (actual: Bra<'R>) =
-                actual.Should().BeEquivalentTo(expected, "") |> ignore
+            let Bra (expected: Bra) (actual: Bra) =
+                actual.Should().Equal(expected, "") |> ignore
 
-            let Operator (expected: Operator<'R>) (actual: Operator<'R>) =
+            let Operator (expected: Operator) (actual: Operator) =
                 actual.Should().BeEquivalentTo(expected, "") |> ignore

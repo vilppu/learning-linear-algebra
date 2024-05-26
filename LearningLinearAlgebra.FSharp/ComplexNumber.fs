@@ -1,5 +1,7 @@
 ﻿namespace LearningLinearAlgebra.Numbers
 
+type ComplexNumber = ComplexNumber<float>
+
 module Complex =
 
     let SqrtTwo: ComplexNumber<float> =

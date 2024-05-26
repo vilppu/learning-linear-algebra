@@ -65,7 +65,7 @@ public record ColumnVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
         RowVector<TRealNumber>.U(vector.Entries);
 
     public static ColumnVector<TRealNumber> TensorProduct(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
-        V(right.SelectMany(rightElement => left.Select(leftElement => leftElement * rightElement)));
+        V(left.SelectMany(leftElement => right.Select(rightElement => leftElement * rightElement)));
 
     public static ColumnVector<TRealNumber> Zip(ColumnVector<TRealNumber> first, ColumnVector<TRealNumber> second, Func<ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>> elementMapping) =>
         V(first.Entries.Zip(second.Entries, elementMapping));

@@ -61,9 +61,14 @@ module GateTests =
         let controlQubit = Zero
 
         let input = (Pair qubitToBeEvaluated controlQubit)
+        let expected = (Pair qubitToBeEvaluated One)
 
-        BalancedZeroToOne * input
-        |> Should.BeEquivalentTo.Complex.Ket((Pair qubitToBeEvaluated One))
+        let a = (Pair Zero Zero)
+        let b = (Pair Zero One)
+        let c = (Pair One Zero)
+        let d = (Pair One One)
+
+        BalancedZeroToOne * input |> Should.BeEquivalentTo.Complex.Ket(expected)
 
     [<Fact>]
     let ``Balanced "zero to one" puts zero to one and one to zero with control qubit XORing the result`` () =

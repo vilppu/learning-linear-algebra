@@ -4,6 +4,10 @@ module Real =
 
     open LearningLinearAlgebra.Matrices.Real
 
+    type RowVector = RowVector<float>
+    type ColumnVector = ColumnVector<float>
+    type SquareMatrix = SquareMatrix<float>
+
     module RowVector =
 
         let Zero n = RowVector<'R>.Zero(n)

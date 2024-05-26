@@ -69,7 +69,7 @@ public record RowVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
 
     // TODO: Move to linear vector space
     public static RowVector<TRealNumber> TensorProduct(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        U(right.SelectMany(rightElement => left.Select(leftElement => leftElement * rightElement)));
+        U(left.SelectMany(leftElement => right.Select(rightElement => leftElement * rightElement)));
 
     public static RowVector<TRealNumber> Zip(RowVector<TRealNumber> first, RowVector<TRealNumber> second, Func<ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>> elementMapping) =>
         U(first.Entries.Zip(second.Entries, elementMapping));

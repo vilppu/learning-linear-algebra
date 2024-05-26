@@ -6,10 +6,10 @@ module Algorithms =
     open Qubit
     open Gates
 
-    let DeutschOneLiner (gate: Operator<float>) input control =
+    let DeutschOneLiner (gate: Operator) input control =
         ((Hadamart * I) * (gate * (Hadamart * Hadamart))) * (Pair input control)
 
-    let Deutsch (gate: Operator<float>) (input: Ket<float>) (control: Ket<float>) =
+    let Deutsch (gate: Operator) (input: Ket) (control: Ket) =
 
         let topInSuperPosition = (Hadamart * input)
         let bottomInSuperPosition = (Hadamart * control)

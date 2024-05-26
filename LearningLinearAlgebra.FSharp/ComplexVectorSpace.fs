@@ -5,6 +5,11 @@ module ComplexVectorSpace =
     open LearningLinearAlgebra.Numbers
     open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
+    type ComplexNumber = ComplexNumber<float>
+    type Ket = Ket<float>
+    type Bra = Bra<float>
+    type Operator = Operator<float>
+
     module Ket =
 
         let Zero n = Ket<'R>.Zero(n)

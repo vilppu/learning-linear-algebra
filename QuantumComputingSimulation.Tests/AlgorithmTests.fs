@@ -4,7 +4,8 @@ open Xunit
 
 module AlgorithmTests =
 
-    open LearningLinearAlgebra.Numbers.RealNumber 
+    open LearningLinearAlgebra.Numbers.RealNumber
+    open Gates
     open Qubit
     open Algorithms
 
@@ -14,12 +15,12 @@ module AlgorithmTests =
         let result = Deutsch ConstantToOne Zero One
         let probabilityOfZeroOnTop = TopZero result
 
-        probabilityOfZeroOnTop |> Round |> Should.BeEquivalentTo.Real.Number(1.0)
+        probabilityOfZeroOnTop |> Round |> Should.BeEquivalentTo.Real.One()
 
         let result = Deutsch ConstantToZero Zero One
         let probabilityOfZeroOnTop = TopZero result
 
-        probabilityOfZeroOnTop |> Round |> Should.BeEquivalentTo.Real.Number(1.0)
+        probabilityOfZeroOnTop |> Round |> Should.BeEquivalentTo.Real.One()
 
 
     [<Fact>]
@@ -28,9 +29,9 @@ module AlgorithmTests =
         let result = Deutsch BalancedZeroToZero Zero One
         let probabilityOfOneOnTop = TopOne result
 
-        probabilityOfOneOnTop |> Round |> Should.BeEquivalentTo.Real.Number(1.0)
+        probabilityOfOneOnTop |> Round |> Should.BeEquivalentTo.Real.One()
 
         let result = Deutsch BalancedZeroToOne Zero One
         let probabilityOfOneOnTop = TopOne result
 
-        probabilityOfOneOnTop |> Round |> Should.BeEquivalentTo.Real.Number(1.0)
+        probabilityOfOneOnTop |> Round |> Should.BeEquivalentTo.Real.One()

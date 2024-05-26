@@ -2,232 +2,230 @@
 using LearningLinearAlgebra.Numbers;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using System.Numerics;
 using Xunit;
+
+using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
+using static LearningLinearAlgebra.Matrices.Complex.SquareMatrix<float>;
+using static LearningLinearAlgebra.Matrices.Complex.ColumnVector<float>;
+using static LearningLinearAlgebra.Matrices.Complex.RowVector<float>;
+using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.Matrices;
 
-public class SinglePrecisionCpuComplexRowVectorTests : ComplexRowVectorTests<SquareMatrix<float>, RowVector<float>, ColumnVector<float>, float> { }
-public class DoublePrecisionCpuComplexRowVectorTests : ComplexRowVectorTests<SquareMatrix<double>, RowVector<double>, ColumnVector<double>, double> { }
-
-public abstract class ComplexRowVectorTests<TMatrix, TRowVector, TColumnVector, TRealNumber>
-    where TMatrix : ISquareMatrix<TMatrix, TRowVector, TColumnVector, TRealNumber>
-    where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-    where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-    where TRealNumber : IFloatingPointIeee754<TRealNumber>
+public class ComplexRowVectorTests
 {
     [Fact]
     public void Sum_of_two_vectors_is_calculated_as_sum_of_the_components()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = U([(7, 11), (13, 19)]);
 
-        var sum = TRowVector.Add(a, b);
+        var sum = Add(a, b);
 
         using var _ = new AssertionScope();
 
-        sum.Should().BeEquivalentTo(TRowVector.U([(8, 13), (16, 24)]));
-        (a + b).Should().BeEquivalentTo(TRowVector.Add(a, b));
-        a.Add(b).Should().BeEquivalentTo(TRowVector.Add(a, b));
+        sum.Should().Equal(U([(8, 13), (16, 24)]));
+        (a + b).Should().Equal(Add(a, b));
+        a.Add(b).Should().Equal(Add(a, b));
     }
 
     [Fact]
     public void Sum_of_complex_vectors_is_commutative()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = U([(7, 11), (13, 19)]);
 
-        (b + a).Should().BeEquivalentTo(a + b);
+        (b + a).Should().Equal(a + b);
     }
 
     [Fact]
     public void Sum_of_complex_vectors_is_associative()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TRowVector.U([(7, 11), (13, 19)]);
-        var c = TRowVector.U([(23, 29), (31, 37)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = U([(7, 11), (13, 19)]);
+        var c = U([(23, 29), (31, 37)]);
 
-        (a + (b + c)).Should().BeEquivalentTo(a + b + c);
+        (a + (b + c)).Should().Equal(a + b + c);
     }
 
     [Fact]
     public void Sum_of_vector_and_its_the_inverse_is_zero()
     {
-        var vector = TRowVector.U([(1, 2), (3, 5)]);
+        var vector = U([(1, 2), (3, 5)]);
 
-        var zero = TRowVector.Zero(2);
+        var zero = RowVector<float>.Zero(2);
 
-        (vector + -vector).Should().BeEquivalentTo(zero);
+        (vector + -vector).Should().Equal(zero);
     }
 
     [Fact]
     public void Zero_is_an_additive_identity()
     {
-        var vector = TRowVector.U([(1, 2), (3, 5)]);
+        var vector = U([(1, 2), (3, 5)]);
 
-        var zero = TRowVector.Zero(2);
+        var zero = RowVector<float>.Zero(2);
 
         using var _ = new AssertionScope();
 
-        (vector + zero).Should().BeEquivalentTo(vector);
-        (zero + vector).Should().BeEquivalentTo(vector);
+        (vector + zero).Should().Equal(vector);
+        (zero + vector).Should().Equal(vector);
     }
 
     [Fact]
     public void Difference_of_two_vectors_is_calculated_as_difference_of_the_components()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
+        var a = U([(1, 2), (3, 5)]);
 
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var b = U([(7, 11), (13, 19)]);
 
-        var difference = TRowVector.Subtract(a, b);
+        var difference = Subtract(a, b);
 
         using var _ = new AssertionScope();
 
-        difference.Should().BeEquivalentTo(TRowVector.U([(-6, -9), (-10, -14)]));
-        (a - b).Should().BeEquivalentTo(TRowVector.Subtract(a, b));
-        a.Subtract(b).Should().BeEquivalentTo(TRowVector.Subtract(a, b));
+        difference.Should().Equal(U([(-6, -9), (-10, -14)]));
+        (a - b).Should().Equal(Subtract(a, b));
+        a.Subtract(b).Should().Equal(Subtract(a, b));
     }
 
     [Fact]
     public void When_multiplying_a_vector_by_scalar_then_each_element_of_the_vector_is_multiplied_by_the_scalar()
     {
-        var scalar = ComplexNumber<TRealNumber>.C(5, 7);
-        var vector = TRowVector.U([(11, 13), (19, 21)]);
+        var scalar = C(5, 7);
+        var vector = U([(11, 13), (19, 21)]);
 
-        var multiplied = TRowVector.Multiply(scalar, vector);
+        var multiplied = Multiply(scalar, vector);
 
         using var _ = new AssertionScope();
 
-        multiplied.Should().BeEquivalentTo(TRowVector.U([(-36, 142), (-52, 238)]));
-        (scalar * vector).Should().BeEquivalentTo(TRowVector.Multiply(scalar, vector));
-        scalar.Multiply(vector).Should().BeEquivalentTo(TRowVector.Multiply(scalar, vector));
+        multiplied.Should().Equal(U([(-36, 142), (-52, 238)]));
+        (scalar * vector).Should().Equal(Multiply(scalar, vector));
+        scalar.Multiply(vector).Should().Equal(Multiply(scalar, vector));
     }
 
     [Fact]
     public void Complex_vector_can_by_multiplied_by_a_real_scalar()
     {
-        var scalar = RealNumber<TRealNumber>.R(5);
-        var vector = TRowVector.U([(1, 0), (2, 0)]);
+        var scalar = R(5);
+        var vector = U([(1, 0), (2, 0)]);
 
-        var multiplied = TRowVector.Multiply(scalar, vector);
+        var multiplied = Multiply(scalar, vector);
 
         using var _ = new AssertionScope();
 
-        multiplied.Should().BeEquivalentTo(TRowVector.U([(5, 0), (10, 0)]));
-        (scalar * vector).Should().BeEquivalentTo(TRowVector.Multiply(scalar, vector));
-        scalar.Multiply(vector).Should().BeEquivalentTo(TRowVector.Multiply(scalar, vector));
+        multiplied.Should().Equal(U([(5, 0), (10, 0)]));
+        (scalar * vector).Should().Equal(Multiply(scalar, vector));
+        scalar.Multiply(vector).Should().Equal(Multiply(scalar, vector));
     }
 
     [Fact]
     public void Scalar_multiplication_respects_complex_multiplication()
     {
-        var scalarA = ComplexNumber<TRealNumber>.C(3, 5);
-        var scalarB = ComplexNumber<TRealNumber>.C(7, 11);
+        var scalarA = C(3, 5);
+        var scalarB = C(7, 11);
 
-        var vector = TRowVector.U([(23, 29), (31, 37)]);
+        var vector = U([(23, 29), (31, 37)]);
 
-        (scalarA * scalarB * vector).Should().BeEquivalentTo(scalarA * (scalarB * vector));
+        (scalarA * scalarB * vector).Should().Equal(scalarA * (scalarB * vector));
     }
 
     [Fact]
     public void Scalar_multiplication_distributes_over_addition()
     {
-        var scalar = ComplexNumber<TRealNumber>.C(3, 5);
-        var vectorA = TRowVector.U([(7, 11), (13, 19)]);
+        var scalar = C(3, 5);
+        var vectorA = U([(7, 11), (13, 19)]);
 
-        var vectorB = TRowVector.U([(23, 29), (31, 37)]);
+        var vectorB = U([(23, 29), (31, 37)]);
 
-        (scalar * vectorA + scalar * vectorB).Should().BeEquivalentTo(scalar * (vectorA + vectorB));
+        (scalar * vectorA + scalar * vectorB).Should().Equal(scalar * (vectorA + vectorB));
     }
 
     [Fact]
     public void Scalar_multiplication_distributes_over_complex_addition()
     {
-        var scalarA = ComplexNumber<TRealNumber>.C(3, 5);
-        var scalarB = ComplexNumber<TRealNumber>.C(7, 11);
+        var scalarA = C(3, 5);
+        var scalarB = C(7, 11);
 
-        var vector = TRowVector.U([(23, 29), (31, 37)]);
+        var vector = U([(23, 29), (31, 37)]);
 
-        (scalarA * vector + scalarB * vector).Should().BeEquivalentTo((scalarA + scalarB) * vector);
+        (scalarA * vector + scalarB * vector).Should().Equal((scalarA + scalarB) * vector);
     }
 
     [Fact]
     public void Conjucate_of_a_vector_is_where_each_element_is_a_complex_conjucate_of_the_original_vector()
     {
-        var vector = TRowVector.U([(1, 2), (3, 5)]);
+        var vector = U([(1, 2), (3, 5)]);
 
-        var conjucate = TRowVector.Conjucate(vector);
+        var conjucate = Conjucate(vector);
 
         using var _ = new AssertionScope();
 
-        conjucate.Should().BeEquivalentTo(TRowVector.U([(1, -2), (3, -5)]));
-        vector.Conjucate().Should().BeEquivalentTo(conjucate);
+        conjucate.Should().Equal(U([(1, -2), (3, -5)]));
+        vector.Conjucate().Should().Equal(conjucate);
     }
 
     [Fact]
     public void Transpose_of_a_row_vector_is_column_vector_with_same_entries_of_the_original_vector()
     {
-        var vector = TRowVector.U([(1, 2), (3, 5)]);
+        var vector = U([(1, 2), (3, 5)]);
 
-        var transpose = TRowVector.Transpose(vector);
+        var transpose = Transpose(vector);
 
         using var _ = new AssertionScope();
 
-        transpose.Should().BeEquivalentTo(TColumnVector.V([(1, 2), (3, 5)]));
-        vector.Transpose().Should().BeEquivalentTo(transpose);
+        transpose.Should().Equal(V([(1, 2), (3, 5)]));
+        vector.Transpose().Should().Equal(transpose);
     }
 
     [Fact]
     public void Adjoint_of_a_row_vector_is_column_vector_where_each_entry_is_a_complex_conjucate_of_the_original_vector()
     {
-        var vector = TRowVector.U([(1, 2), (3, 5)]);
+        var vector = U([(1, 2), (3, 5)]);
 
-        var adjoint = TRowVector.Adjoint(vector);
+        var adjoint = Adjoint(vector);
 
         using var _ = new AssertionScope();
 
-        adjoint.Should().BeEquivalentTo(TColumnVector.V([(1, -2), (3, -5)]));
-        vector.Adjoint().Should().BeEquivalentTo(adjoint);
+        adjoint.Should().Equal(V([(1, -2), (3, -5)]));
+        vector.Adjoint().Should().Equal(adjoint);
     }
 
     [Fact]
     public void Product_of_row_vector_and_column_vector_is_sum_of_products_of_vector_components()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TColumnVector.V([(7, 11), (13, 19)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = V([(7, 11), (13, 19)]);
 
-        var product = TRowVector.Multiply(a, b);
+        var product = Multiply(a, b);
 
         using var _ = new AssertionScope();
 
-        product.Should().BeEquivalentTo(ComplexNumber<TRealNumber>.C(-71, 147));
-        a.Multiply(b).Should().Be(TRowVector.Multiply(a, b));
-        (a * b).Should().BeEquivalentTo(TRowVector.Multiply(a, b));
+        product.Should().BeEquivalentTo(C(-71, 147));
+        a.Multiply(b).Should().Be(Multiply(a, b));
+        (a * b).Should().BeEquivalentTo(Multiply(a, b));
     }
 
     [Fact]
     public void Inner_product_is_a_sum_of_products_of_left_vector_components_and_conjucates_of_right_vector_components()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = U([(7, 11), (13, 19)]);
 
-        var innerProduct = TRowVector.InnerProduct(a, b);
+        var innerProduct = InnerProduct(a, b);
 
         using var _ = new AssertionScope();
 
-        innerProduct.Should().BeEquivalentTo(ComplexNumber<TRealNumber>.C(163, 11));
-        (a * b).Should().BeEquivalentTo(TRowVector.InnerProduct(a, b));
+        innerProduct.Should().BeEquivalentTo(C(163, 11));
+        (a * b).Should().BeEquivalentTo(InnerProduct(a, b));
     }
 
     [Fact]
     public void Inner_product_respects_addition()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
+        var a = U([(1, 2), (3, 5)]);
 
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var b = U([(7, 11), (13, 19)]);
 
-        var c = TRowVector.U([(23, 29), (31, 37)]);
+        var c = U([(23, 29), (31, 37)]);
 
         (a * c + b * c).Should().BeEquivalentTo((a + b) * c);
     }
@@ -235,9 +233,9 @@ public abstract class ComplexRowVectorTests<TMatrix, TRowVector, TColumnVector, 
     [Fact]
     public void Inner_product_respects_scalar_multiplication()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
+        var a = U([(1, 2), (3, 5)]);
 
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var b = U([(7, 11), (13, 19)]);
 
         var scalar = (23, 29);
 
@@ -247,73 +245,73 @@ public abstract class ComplexRowVectorTests<TMatrix, TRowVector, TColumnVector, 
     [Fact]
     public void Inner_product_of_a_complex_vector_with_itself_is_a_real_number()
     {
-        var vector = TRowVector.U([(1, 2), (3, 5)]);
+        var vector = U([(1, 2), (3, 5)]);
 
-        var innerProduct = TRowVector.InnerProduct(vector, vector);
+        var innerProduct = InnerProduct(vector, vector);
 
-        innerProduct.Should().BeEquivalentTo(ComplexNumber<TRealNumber>.C(39, 0));
+        innerProduct.Should().BeEquivalentTo(C(39, 0));
     }
 
     [Fact]
     public void Norm_is_square_root_of_inner_product_of_vector_with_itself()
     {
-        var vector = TRowVector.U([(4, 3), (6, -4), (12, -7), (0, 13)]);
+        var vector = U([(4, 3), (6, -4), (12, -7), (0, 13)]);
 
-        var norm = TRowVector.Norm(vector);
+        var norm = Norm(vector);
 
         using var _ = new AssertionScope();
 
-        norm.Should().Be(RealNumber<TRealNumber>.Sqrt(439));
-        vector.Norm().Should().Be(TRowVector.Norm(vector));
+        norm.Should().Be(Sqrt(439));
+        vector.Norm().Should().Be(Norm(vector));
     }
 
     [Fact]
     public void Vector_can_be_normalized_to_have_length_of_one_by_dividing_it_by_its_length()
     {
-        var vector = TRowVector.U([(3, 1), (2, 5), (-1, 0)]);
+        var vector = U([(3, 1), (2, 5), (-1, 0)]);
 
-        var normalized = TRowVector.Normalized(vector);
+        var normalized = Normalized(vector);
 
         using var _ = new AssertionScope();
 
-        normalized.Should().BeEquivalentTo(TRealNumber.One / ComplexNumber<TRealNumber>.Sqrt(vector * vector) * vector);
-        vector.Normalized().Should().BeEquivalentTo(TRowVector.Normalized(vector));
+        normalized.Should().Equal(1 / Sqrt(vector * vector) * vector);
+        vector.Normalized().Should().Equal(Normalized(vector));
     }
 
     [Fact]
     public void Distance_of_the_two_vectors_is_the_norm_of_the_difference()
     {
 
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = U([(7, 11), (13, 19)]);
 
-        var distance = TRowVector.Distance(a, b);
+        var distance = Distance(a, b);
 
         using var _ = new AssertionScope();
 
-        distance.Should().Be(RealNumber<TRealNumber>.Sqrt(413));
-        a.Distance(b).Should().Be(TRowVector.Distance(a, b));
+        distance.Should().Be(Sqrt(413));
+        a.Distance(b).Should().Be(Distance(a, b));
     }
 
     [Fact]
     public void Tensor_product_of_vectors_contains_combinations_of_products_of_all_elements_of_both_vectors()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TRowVector.U([(7, 11), (13, 19)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = U([(7, 11), (13, 19)]);
 
-        var tensorProduct = TRowVector.TensorProduct(a, b);
+        var tensorProduct = TensorProduct(a, b);
 
-        tensorProduct.Should().BeEquivalentTo(TRowVector.U([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
-        a.TensorProduct(b).Should().BeEquivalentTo(TRowVector.TensorProduct(a, b));
+        tensorProduct.Should().Equal(U([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
+        a.TensorProduct(b).Should().Equal(TensorProduct(a, b));
     }
 
     [Fact]
     public void Tensor_product_is_associative()
     {
-        var a = TRowVector.U([(1, 2), (3, 5)]);
-        var b = TRowVector.U([(7, 11), (13, 19)]);
-        var c = TRowVector.U([(23, 29), (31, 37)]);
+        var a = U([(1, 2), (3, 5)]);
+        var b = U([(7, 11), (13, 19)]);
+        var c = U([(23, 29), (31, 37)]);
 
-        TRowVector.TensorProduct(a, TRowVector.TensorProduct(b, c)).Should().BeEquivalentTo(TRowVector.TensorProduct(TRowVector.TensorProduct(a, b), c));
+        TensorProduct(a, TensorProduct(b, c)).Should().Equal(TensorProduct(TensorProduct(a, b), c));
     }
 }

@@ -12,8 +12,4 @@
     <None Remove="Cuda\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Computation\" />
-  </ItemGroup>
-
 </Project>

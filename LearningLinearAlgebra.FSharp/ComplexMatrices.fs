@@ -5,6 +5,11 @@ module Complex =
     open LearningLinearAlgebra.Numbers
     open LearningLinearAlgebra.Matrices.Complex
 
+    type ComplexNumber = ComplexNumber<float>
+    type RowVector = RowVector<float>
+    type ColumnVector = ColumnVector<float>
+    type SquareMatrix = SquareMatrix<float>
+
     module RowVector =
 
         let Zero n = RowVector<'R>.Zero(n)

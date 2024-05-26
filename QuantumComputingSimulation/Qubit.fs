@@ -8,13 +8,13 @@ module Qubit =
     open LearningLinearAlgebra.Numbers.Complex
     open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
-    let Qubit zeroWeight oneWeight : Ket<float> = V [| zeroWeight; oneWeight |]
-    let Zero: Ket<float> = Qubit ComplexNumber<float>.One ComplexNumber<float>.Zero
-    let One: Ket<float> = Qubit ComplexNumber<float>.Zero ComplexNumber<float>.One
+    let Qubit zeroWeight oneWeight : Ket = V [| zeroWeight; oneWeight |]
+    let Zero: Ket = Qubit ComplexNumber.One ComplexNumber.Zero
+    let One: Ket = Qubit ComplexNumber.Zero ComplexNumber.One
     let Q zeroWeight oneWeight = Qubit (C(zeroWeight)) (C(oneWeight))
     let Pair x y = Ket.TensorProduct x y
 
-    let Probabilities (system: Ket<float>) =
+    let Probabilities (system: Ket) =
         system.Components.Entries
         |> Array.map (fun qubit -> RealNumber.Square(Modulus qubit))
 

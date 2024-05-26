@@ -9,99 +9,99 @@ module Gates =
 
     let BinaryGate x y = Operator.TensorProduct x y
 
-    let I: Operator<float> =
+    let I: Operator =
         M
-            [| [| ComplexNumber<float>.One; ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero; ComplexNumber<float>.One |] |]
+            [| [| ComplexNumber.One; ComplexNumber.Zero |]
+               [| ComplexNumber.Zero; ComplexNumber.One |] |]
 
-    let Xor: Operator<float> =
+    let Xor: Operator =
         M
-            [| [| ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero |] |]
+            [| [| ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.One |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.One
+                  ComplexNumber.Zero |] |]
 
-    let Hadamart: Operator<float> =
+    let Hadamart: Operator =
         M
             [| [| Complex.OnePerSqrtTwo; Complex.OnePerSqrtTwo |]
                [| Complex.OnePerSqrtTwo; -Complex.OnePerSqrtTwo |] |]
 
-    let ConstantToZero: Operator<float> =
+    let ConstantToZero: Operator =
         M
-            [| [| ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One |] |]
+            [| [| ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.One |] |]
 
-    let ConstantToOne: Operator<float> =
+    let ConstantToOne: Operator =
         M
-            [| [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One |] |]
+            [| [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.One |] |]
 
-    let BalancedZeroToZero: Operator<float> =
+    let BalancedZeroToZero: Operator =
         M
-            [| [| ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero |] |]
+            [| [| ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.One |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero |] |]
 
-    let BalancedZeroToOne: Operator<float> =
+    let BalancedZeroToOne: Operator =
         M
-            [| [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One
-                  ComplexNumber<float>.Zero |]
-               [| ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.Zero
-                  ComplexNumber<float>.One |] |]
+            [| [| ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.One
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.One
+                  ComplexNumber.Zero |]
+               [| ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.Zero
+                  ComplexNumber.One |] |]

@@ -2,7 +2,7 @@
 
 module RealNumber =
 
-    let Pi = 3.141592653589
-    let Round (value: float) : float = System.Math.Round(value, 6)
-    let RoundToTwoDecimals (value: float) : float = System.Math.Round(value, 2)
-    let Square (value: float) : float = value * value
+    let Pi: float = RealNumber.Pi
+    let Round (value: float) : float = value.Round()
+    let RoundToTwoDecimals (value: float) : float = value.Round()
+    let Square (value: float) : float = RealNumber.Square(value)

@@ -1,5 +1,6 @@
 ﻿namespace LearningLinearAlgebra.Numbers
 
+type Polar = Polar<float>
 
 module PolarPresentation =
 

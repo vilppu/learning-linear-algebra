@@ -1,7 +1,15 @@
 ﻿using FluentAssertions;
-using Xunit;
 using LearningLinearAlgebra.Numbers;
+using Xunit;
+
+using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Bra<float>;
+using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Ket<float>;
+using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Operator<float>;
+using static LearningLinearAlgebra.Matrices.Complex.ColumnVector<float>;
+using static LearningLinearAlgebra.Matrices.Complex.RowVector<float>;
+using static LearningLinearAlgebra.Matrices.Complex.SquareMatrix<float>;
 using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
+using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.Numbers;
 
@@ -243,8 +251,8 @@ public class CartesianRepresentationTests
     {
         var almostZero = C(0.0000001f, 0.0000001f);
 
-        Round(almostZero).Should().Be(Zero);
-        almostZero.Round().Should().Be(Zero);
+        Round(almostZero).Should().Be(ComplexNumber<float>.Zero);
+        almostZero.Round().Should().Be(ComplexNumber<float>.Zero);
     }
 
     [Fact]
@@ -252,8 +260,8 @@ public class CartesianRepresentationTests
     {
         var almostZero = C(0.000001f, 0.000001f);
 
-        Round(almostZero).Should().NotBe(Zero);
-        almostZero.Round().Should().NotBe(Zero);
+        Round(almostZero).Should().NotBe(ComplexNumber<float>.Zero);
+        almostZero.Round().Should().NotBe(ComplexNumber<float>.Zero);
     }
 
     [Fact]
