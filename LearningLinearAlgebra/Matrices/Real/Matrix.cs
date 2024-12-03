@@ -2,7 +2,7 @@
 
 namespace LearningLinearAlgebra.Matrices.Real;
 
-public interface IMatrix<TSelf, TRealNumber> :
+public interface IMatrix<TSelf, in TRealNumber> :
     IAddition<TSelf>,
     ICanBeRounded<TSelf>,
     IEquality<TSelf>,
@@ -43,15 +43,15 @@ public interface ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber> :
     where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static TSelf M(TRealNumber[,] entries);
-    public abstract static TSelf M(float[,] entries);
-    public abstract static TSelf M(double[,] entries);
-    public abstract static TSelf M(int m, Func<int, int, TRealNumber> initializer);
-    public abstract static TSelf Zero(int m);
-    public abstract static TSelf Identity(int m);
+    public static abstract TSelf M(TRealNumber[,] entries);
+    public static abstract TSelf M(float[,] entries);
+    public static abstract TSelf M(double[,] entries);
+    public static abstract TSelf M(int m, Func<int, int, TRealNumber> initializer);
+    public static abstract TSelf Zero(int m);
+    public static abstract TSelf Identity(int m);
 }
 
-public interface IColumnVector<TSelf, TRowVector, TRealNumber> :
+public interface IColumnVector<TSelf, out TRowVector, TRealNumber> :
     IMatrix<TSelf, TRealNumber>,
     IAddition<TSelf>,
     ICanBeNormalized<TSelf, TRealNumber>,
@@ -77,11 +77,11 @@ public interface IColumnVector<TSelf, TRowVector, TRealNumber> :
     where TRowVector : IRowVector<TRowVector, TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static TSelf V(TRealNumber[] entries);
-    public abstract static TSelf V(float[] entries);
-    public abstract static TSelf V(IEnumerable<TRealNumber> entries);
-    public abstract static TSelf V(int length, Func<int, TRealNumber> initializer);
-    public abstract static TSelf Zero(int length);
+    public static abstract TSelf V(TRealNumber[] entries);
+    public static abstract TSelf V(float[] entries);
+    public static abstract TSelf V(IEnumerable<TRealNumber> entries);
+    public static abstract TSelf V(int length, Func<int, TRealNumber> initializer);
+    public static abstract TSelf Zero(int length);
 }
 
 public interface IRowVector<TSelf, TColumnVector, TRealNumber> :
@@ -111,10 +111,10 @@ public interface IRowVector<TSelf, TColumnVector, TRealNumber> :
     where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static TSelf V(TRealNumber[] entries);
-    public abstract static TSelf V(float[] entries);
-    public abstract static TSelf V(IEnumerable<TRealNumber> entries);
-    public abstract static TSelf V(int length, Func<int, TRealNumber> initializer);
-    public abstract static TSelf Zero(int length);
+    public static abstract TSelf U(TRealNumber[] entries);
+    public static abstract TSelf U(float[] entries);
+    public static abstract TSelf U(IEnumerable<TRealNumber> entries);
+    public static abstract TSelf U(int length, Func<int, TRealNumber> initializer);
+    public static abstract TSelf Zero(int length);
 }
 

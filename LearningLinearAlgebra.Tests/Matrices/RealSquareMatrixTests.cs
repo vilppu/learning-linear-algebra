@@ -1,12 +1,9 @@
-﻿using LearningLinearAlgebra.Matrices.Real;
-using LearningLinearAlgebra.Numbers;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
+using LearningLinearAlgebra.Matrices.Real;
 using Xunit;
-
 using static LearningLinearAlgebra.Matrices.Real.SquareMatrix<float>;
 using static LearningLinearAlgebra.Matrices.Real.ColumnVector<float>;
-using static LearningLinearAlgebra.Matrices.Real.RowVector<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.Matrices;
@@ -228,7 +225,7 @@ public class RealSquareMatrixTests
     }
 
     [Fact]
-    public void On_identity_matrix_diagonal_entries_has_value_one_and_everytinhg_else_is_zeroes()
+    public void On_identity_matrix_diagonal_entries_has_value_one_and_everything_else_is_zeroes()
     {
         var identity = M(new float[,] {
             { 1, 0 },
@@ -258,7 +255,7 @@ public class RealSquareMatrixTests
     [Fact]
     public void Matrix_can_be_rounded_to_identity_if_it_is_close_to_identity()
     {
-        var almostIdentity = M(new float[,] {
+        var almostIdentity = M(new[,] {
             { 0.9999999f, 0.0000001f, 0.0000001f },
             { 0.0000001f, 0.9999999f, 0.0000001f },
             { 0.0000001f, 0.0000001f, 0.9999999f } });
@@ -273,9 +270,9 @@ public class RealSquareMatrixTests
     }
 
     [Fact]
-    public void Matrix_cannot_be_rounded_to_identity_if_it_is_not_close_enought_to_identity()
+    public void Matrix_cannot_be_rounded_to_identity_if_it_is_not_close_enough_to_identity()
     {
-        var almostIdentity = M(new float[,] {
+        var almostIdentity = M(new[,] {
             { 0.999999f, 0.000001f, 0.000001f },
             { 0.000001f, 0.999999f, 0.000001f },
             { 0.000001f, 0.000001f, 0.999999f } });
@@ -332,13 +329,13 @@ public class RealSquareMatrixTests
             { 1, 3 },
             { 7, 13 } });
 
-        var vector = ColumnVector<float>.V([23, 31]);
+        var vector = V([23, 31]);
 
         var resultOfAction = Act(matrix, vector);
 
         using var _ = new AssertionScope();
 
-        resultOfAction.Should().Equal(ColumnVector<float>.V([116, 564]));
+        resultOfAction.Should().Equal(V([116, 564]));
         (matrix * vector).Should().Equal(Act(matrix, vector));
         matrix.Act(vector).Should().Equal(Act(matrix, vector));
     }
@@ -436,7 +433,7 @@ public class RealSquareMatrixTests
             { 4, -1 },
             { 2, 1 } });
 
-        var eigenVector = ColumnVector<float>.V([1, 1]);
+        var eigenVector = V([1, 1]);
         var eigenValue = R(3);
 
         (eigenValue * eigenVector).Should().Equal(matrix * eigenVector);

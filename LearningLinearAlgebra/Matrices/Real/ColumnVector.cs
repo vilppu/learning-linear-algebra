@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Numerics;
-using LearningLinearAlgebra.Matrices.Real;
 using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.Matrices.Real;
@@ -29,7 +28,7 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         V(Enumerable.Repeat(TRealNumber.Zero, length).ToArray());
 
     public static bool AreEquivalent(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
-        left.Entries.Cast<TRealNumber>().SequenceEqual(right.Entries.Cast<TRealNumber>());
+        left.Entries.SequenceEqual(right.Entries);
 
     public static ColumnVector<TRealNumber> Add(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
         left.Zip(right, (a, b) => a + b);
@@ -57,7 +56,7 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         left.Zip(right, (a, b) => a - b);
 
     public static RowVector<TRealNumber> Transpose(ColumnVector<TRealNumber> vector) =>
-        RowVector<TRealNumber>.V(vector.Entries);
+        RowVector<TRealNumber>.U(vector.Entries);
 
     public static ColumnVector<TRealNumber> TensorProduct(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
         V(right.SelectMany(rightElement => left.Select(leftElement => leftElement * rightElement)));

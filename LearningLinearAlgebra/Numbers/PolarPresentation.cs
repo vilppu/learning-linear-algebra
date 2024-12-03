@@ -4,8 +4,8 @@ namespace LearningLinearAlgebra.Numbers;
 
 public record Polar<TRealNumber>(TRealNumber Magnitude, TRealNumber Phase) where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static Polar<TRealNumber> P(TRealNumber magniture, TRealNumber phase) =>
-         new(magniture, phase);
+    public static Polar<TRealNumber> P(TRealNumber magnitude, TRealNumber phase) =>
+         new(magnitude, phase);
 
     public static TRealNumber NormalizePhase(TRealNumber phase) =>
         PositiveModulo(phase, TRealNumber.Pi * (TRealNumber.One + TRealNumber.One));

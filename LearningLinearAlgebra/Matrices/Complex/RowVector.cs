@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Numerics;
-using LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
-using LearningLinearAlgebra.Matrices.Complex;
 using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.Matrices.Complex;
@@ -21,20 +19,20 @@ public record RowVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
         new(entries.ToArray());
 
     public static RowVector<TRealNumber> U(int length, Func<int, ComplexNumber<TRealNumber>> initializer) =>
-        U(Enumerable.Range(0, length).Select(index => initializer(index)));
+        U(Enumerable.Range(0, length).Select(initializer));
 
     public static RowVector<TRealNumber> Zero(int length) =>
         U(Enumerable.Repeat(ComplexNumber<TRealNumber>.Zero, length).ToArray());
 
     public static bool AreEquivalent(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        left.Entries.Cast<ComplexNumber<TRealNumber>>().SequenceEqual(right.Entries.Cast<ComplexNumber<TRealNumber>>());
+        left.Entries.SequenceEqual(right.Entries);
 
     public static RowVector<TRealNumber> Add(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
         left.Zip(right, (a, b) => a + b);
 
     // TODO: Move to linear vector space
     public static ColumnVector<TRealNumber> Adjoint(RowVector<TRealNumber> vector) =>
-        ColumnVector<TRealNumber>.Conjucate(RowVector<TRealNumber>.Transpose(vector));
+        ColumnVector<TRealNumber>.Conjucate(Transpose(vector));
 
     public static RowVector<TRealNumber> Conjucate(RowVector<TRealNumber> vector) =>
         vector.Map(ComplexNumber<TRealNumber>.Conjucate);
@@ -43,7 +41,7 @@ public record RowVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
         vector.Map(entry => -entry);
 
     public static RowVector<TRealNumber> Map(RowVector<TRealNumber> source, Func<ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>> elementMapping) =>
-        U(source.Select(value => elementMapping(value)));
+        U(source.Select(elementMapping));
 
     public static RowVector<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, RowVector<TRealNumber> vector) =>
         vector.Map(entry => entry * scalar);

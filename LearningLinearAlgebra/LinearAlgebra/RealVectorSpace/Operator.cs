@@ -1,25 +1,24 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Matrices.Complex;
-using LearningLinearAlgebra.Numbers;
+using LearningLinearAlgebra.Matrices.Real;
 
-namespace LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
+namespace LearningLinearAlgebra.LinearAlgebra.RealVectorSpace;
 
 public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
     : IOperator<Operator<TRealNumber>, Ket<TRealNumber>, Bra<TRealNumber>, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public ComplexNumber<TRealNumber> this[int i, int j] => Components[i, j];
+    public TRealNumber this[int i, int j] => Components[i, j];
 
     public static Operator<TRealNumber> M(SquareMatrix<TRealNumber> components) =>
         new(components);
 
-    public static Operator<TRealNumber> M(ComplexNumber<TRealNumber>[,] components) =>
+    public static Operator<TRealNumber> M(TRealNumber[,] components) =>
         M(SquareMatrix<TRealNumber>.M(components));
 
-    public static Operator<TRealNumber> M(ComplexNumber<float>[,] components) =>
+    public static Operator<TRealNumber> M(float[,] components) =>
         M(SquareMatrix<TRealNumber>.M(components));
 
-    public static Operator<TRealNumber> M(ComplexNumber<double>[,] components) =>
+    public static Operator<TRealNumber> M(double[,] components) =>
         M(SquareMatrix<TRealNumber>.M(components));
 
     public static Operator<TRealNumber> Identity(int dimension) =>
@@ -49,10 +48,10 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
     public static Operator<TRealNumber> operator -(Operator<TRealNumber> @operator) =>
         M(SquareMatrix<TRealNumber>.AdditiveInverse(@operator.Components));
 
-    public static Operator<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
+    public static Operator<TRealNumber> Multiply(TRealNumber scalar, Operator<TRealNumber> @operator) =>
         M(SquareMatrix<TRealNumber>.Multiply(scalar, @operator.Components));
 
-    public static Operator<TRealNumber> operator *(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
+    public static Operator<TRealNumber> operator *(TRealNumber scalar, Operator<TRealNumber> @operator) =>
         M(SquareMatrix<TRealNumber>.Multiply(scalar, @operator.Components));
 
     public static Operator<TRealNumber> Multiply(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
@@ -79,21 +78,12 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
     public static Bra<TRealNumber> operator *(Bra<TRealNumber> bra, Operator<TRealNumber> @operator) =>
         Bra<TRealNumber>.Create(SquareMatrix<TRealNumber>.Act(bra.Components, @operator.Components));
 
-    public static Operator<TRealNumber> Conjucate(Operator<TRealNumber> @operator) =>
-        M(SquareMatrix<TRealNumber>.Conjucate(@operator.Components));
-
-    public static Operator<TRealNumber> Adjoint(Operator<TRealNumber> @operator) =>
-        M(SquareMatrix<TRealNumber>.Adjoint(@operator.Components));
-
     public static Operator<TRealNumber> Round(Operator<TRealNumber> @operator) =>
         M(SquareMatrix<TRealNumber>.Round(@operator.Components));
 
     public static bool IsIdentity(Operator<TRealNumber> @operator) =>
         SquareMatrix<TRealNumber>.IsIdentity(@operator.Components);
 
-    public static bool IsUnitary(Operator<TRealNumber> @operator) =>
-        SquareMatrix<TRealNumber>.IsUnitary(@operator.Components);
-
-    public static bool IsHermitian(Operator<TRealNumber> @operator) =>
-        SquareMatrix<TRealNumber>.IsHermitian(@operator.Components);
+    public override string ToString() => 
+        Components.ToString();
 }

@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Matrices.Complex;
 using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.Matrices.Complex;

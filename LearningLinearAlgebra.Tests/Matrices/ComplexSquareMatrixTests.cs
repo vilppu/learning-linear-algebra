@@ -1,9 +1,8 @@
-﻿using LearningLinearAlgebra.Matrices.Complex;
-using LearningLinearAlgebra.Numbers;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
+using LearningLinearAlgebra.Matrices.Complex;
+using LearningLinearAlgebra.Numbers;
 using Xunit;
-
 using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
 using static LearningLinearAlgebra.Matrices.Complex.SquareMatrix<float>;
 using static LearningLinearAlgebra.Matrices.Complex.ColumnVector<float>;
@@ -318,7 +317,7 @@ public class ComplexSquareMatrixTests
     }
 
     [Fact]
-    public void On_identity_matrix_diagonal_entries_has_value_one_and_everytinhg_else_is_zeroes()
+    public void On_identity_matrix_diagonal_entries_has_value_one_and_everything_else_is_zeroes()
     {
         var identity = M(new ComplexNumber<float>[,] {
             { (1, 0), (0, 0) },
@@ -348,7 +347,7 @@ public class ComplexSquareMatrixTests
     [Fact]
     public void Matrix_can_be_rounded_to_identity_if_it_is_close_to_identity()
     {
-        var almostIdentity = M(new ComplexNumber<float>[,] {
+        var almostIdentity = M(new[,] {
             { C(0.9999999f, 0.0000001f), C(0.0000001f, 0.0000001f), C(0.0000001f, 0.0000001f) },
             { C(0.0000001f, 0.0000001f), C(0.9999999f, 0.0000001f), C(0.0000001f, 0.0000001f) },
             { C(0.0000001f, 0.0000001f), C(0.0000001f, 0.0000001f), C(0.9999999f, 0.0000001f) } });
@@ -363,9 +362,9 @@ public class ComplexSquareMatrixTests
     }
 
     [Fact]
-    public void Matrix_cannot_be_rounded_to_identity_if_it_is_not_close_enought_to_identity()
+    public void Matrix_cannot_be_rounded_to_identity_if_it_is_not_close_enough_to_identity()
     {
-        var almostIdentity = M(new ComplexNumber<float>[,] {
+        var almostIdentity = M(new[,] {
             { C(0.999999f, 0.000001f), C(0.0000001f, 0.0000001f), C(0.0000001f, 0.0000001f) },
             { C(0.0000001f, 0.0000001f), C(0.999999f, 0.000001f), C(0.0000001f, 0.0000001f) },
             { C(0.0000001f, 0.0000001f), C(0.0000001f, 0.0000001f), C(0.999999f, 0.000001f) } });
@@ -498,7 +497,7 @@ public class ComplexSquareMatrixTests
 
     [Fact]
     public void Inner_product_when_applying_hermitian_matrix()
-    // If A is hermitian matrix then inner product of A*ColumnVector<float>.V and ColumnVector<float>.V' is equal to inner product of ColumnVector<float>.V and A*ColumnVector<float>.V
+    // If A is hermitian matrix then inner product of A*ColumnVector<float>.U and ColumnVector<float>.U' is equal to inner product of ColumnVector<float>.U and A*ColumnVector<float>.U
     {
         var a = V([(1, 2), (3, 5)]);
         var b = V([(7, 11), (13, 19)]);
@@ -629,9 +628,9 @@ public class ComplexSquareMatrixTests
             { (0, 0), (0, 0), (0, 1) }
         });
 
-        var transposeOfunitary = Adjoint(unitary);
+        var transposeOfUnitary = Adjoint(unitary);
 
-        (unitary * transposeOfunitary).Round().Should().BeEquivalentTo(Identity(3));
+        (unitary * transposeOfUnitary).Round().Should().BeEquivalentTo(Identity(3));
     }
 
     [Fact]

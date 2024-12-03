@@ -1,6 +1,8 @@
-﻿namespace LearningLinearAlgebra.Numbers;
+﻿using System.Numerics;
 
-public record ComplexNumber<TRealNumber>(TRealNumber Real, TRealNumber Imaginary) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+namespace LearningLinearAlgebra.Numbers;
+
+public record ComplexNumber<TRealNumber>(TRealNumber Real, TRealNumber Imaginary) where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public static readonly ComplexNumber<TRealNumber> One = C(TRealNumber.One, TRealNumber.Zero);
     public static readonly ComplexNumber<TRealNumber> Two = C(TRealNumber.One + TRealNumber.One, TRealNumber.Zero);
@@ -94,36 +96,36 @@ public record ComplexNumber<TRealNumber>(TRealNumber Real, TRealNumber Imaginary
 
 public static class OperationsAsExtensions
 {
-    public static ComplexNumber<TRealNumber> Add<TRealNumber>(this ComplexNumber<TRealNumber> left, ComplexNumber<TRealNumber> right) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Add<TRealNumber>(this ComplexNumber<TRealNumber> left, ComplexNumber<TRealNumber> right) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Add(left, right);
 
-    public static ComplexNumber<TRealNumber> Subtract<TRealNumber>(this ComplexNumber<TRealNumber> left, ComplexNumber<TRealNumber> right) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Subtract<TRealNumber>(this ComplexNumber<TRealNumber> left, ComplexNumber<TRealNumber> right) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Subtract(left, right);
 
-    public static ComplexNumber<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> left, ComplexNumber<TRealNumber> right) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> left, ComplexNumber<TRealNumber> right) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Multiply(left, right);
 
-    public static ComplexNumber<TRealNumber> Multiply<TRealNumber>(this TRealNumber scalar, ComplexNumber<TRealNumber> complex) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Multiply<TRealNumber>(this TRealNumber scalar, ComplexNumber<TRealNumber> complex) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Multiply(scalar, complex);
 
-    public static ComplexNumber<TRealNumber> Divide<TRealNumber>(this ComplexNumber<TRealNumber> numerator, ComplexNumber<TRealNumber> denominator) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Divide<TRealNumber>(this ComplexNumber<TRealNumber> numerator, ComplexNumber<TRealNumber> denominator) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Divide(numerator, denominator);
 
-    public static ComplexNumber<TRealNumber> Square<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Square<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Square(complex);
 
-    public static ComplexNumber<TRealNumber> Conjucate<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Conjucate<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Conjucate(complex);
 
-    public static TRealNumber Modulus<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static TRealNumber Modulus<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Modulus(complex);
 
-    public static ComplexNumber<TRealNumber> Sqrt<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Sqrt<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Sqrt(complex);
 
-    public static ComplexNumber<TRealNumber> AdditiveInverse<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> AdditiveInverse<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Sqrt(complex);
 
-    public static ComplexNumber<TRealNumber> Round<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static ComplexNumber<TRealNumber> Round<TRealNumber>(this ComplexNumber<TRealNumber> complex) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         ComplexNumber<TRealNumber>.Round(complex);
 }

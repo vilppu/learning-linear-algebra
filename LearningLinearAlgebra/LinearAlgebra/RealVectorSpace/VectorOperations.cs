@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
+namespace LearningLinearAlgebra.LinearAlgebra.RealVectorSpace;
 
 public static class FluentKetOperations
 {
@@ -29,19 +28,19 @@ public static class FluentKetOperations
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TKet.AdditiveInverse((TKet)ket);
 
-    public static TKet Multiply<TKet, TBra, TRealNumber>(this ComplexNumber<TRealNumber> scalar, IKet<TKet, TBra, TRealNumber> ket)
+    public static TKet Multiply<TKet, TBra, TRealNumber>(this TRealNumber scalar, IKet<TKet, TBra, TRealNumber> ket)
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TBra : IBra<TBra, TKet, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TKet.Multiply(scalar, (TKet)ket);
 
-    public static ComplexNumber<TRealNumber> Multiply<TKet, TBra, TRealNumber>(this IBra<TBra, TKet, TRealNumber> bra, TKet ket)
+    public static TRealNumber Multiply<TKet, TBra, TRealNumber>(this IBra<TBra, TKet, TRealNumber> bra, TKet ket)
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TBra : IBra<TBra, TKet, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TKet.Multiply((TBra)bra, ket);
 
-    public static ComplexNumber<TRealNumber> InnerProduct<TKet, TBra, TRealNumber>(this IKet<TKet, TBra, TRealNumber> left, TKet right)
+    public static TRealNumber InnerProduct<TKet, TBra, TRealNumber>(this IKet<TKet, TBra, TRealNumber> left, TKet right)
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TBra : IBra<TBra, TKet, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
@@ -76,12 +75,6 @@ public static class FluentKetOperations
         where TBra : IBra<TBra, TKet, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TKet.Normalized((TKet)ket);
-
-    public static TKet Conjucate<TBra, TKet, TRealNumber>(this IKet<TKet, TBra, TRealNumber> ket)
-        where TKet : IKet<TKet, TBra, TRealNumber>
-        where TBra : IBra<TBra, TKet, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TKet.Conjucate((TKet)ket);
 }
 
 public static class FluentBraOperations
@@ -110,13 +103,13 @@ public static class FluentBraOperations
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TBra.AdditiveInverse((TBra)ket);
 
-    public static TBra Multiply<TBra, TKet, TRealNumber>(this ComplexNumber<TRealNumber> scalar, IBra<TBra, TKet, TRealNumber> ket)
+    public static TBra Multiply<TBra, TKet, TRealNumber>(this TRealNumber scalar, IBra<TBra, TKet, TRealNumber> ket)
         where TBra : IBra<TBra, TKet, TRealNumber>
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TBra.Multiply(scalar, (TBra)ket);
 
-    public static ComplexNumber<TRealNumber> InnerProduct<TBra, TKet, TRealNumber>(this IBra<TBra, TKet, TRealNumber> left, TBra right)
+    public static TRealNumber InnerProduct<TBra, TKet, TRealNumber>(this IBra<TBra, TKet, TRealNumber> left, TBra right)
         where TBra : IBra<TBra, TKet, TRealNumber>
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
@@ -151,12 +144,6 @@ public static class FluentBraOperations
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TBra.Normalized((TBra)bra);
-
-    public static TBra Conjucate<TBra, TKet, TRealNumber>(this IBra<TBra, TKet, TRealNumber> bra)
-        where TBra : IBra<TBra, TKet, TRealNumber>
-        where TKet : IKet<TKet, TBra, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TBra.Conjucate((TBra)bra);
 }
 
 public static class FluentOperatorOperations
@@ -189,7 +176,7 @@ public static class FluentOperatorOperations
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TOperator.AdditiveInverse((TOperator)@operator);
 
-    public static TOperator Multiply<TOperator, TKet, TBra, TRealNumber>(this ComplexNumber<TRealNumber> scalar, IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
+    public static TOperator Multiply<TOperator, TKet, TBra, TRealNumber>(this TRealNumber scalar, IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
         where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TBra : IBra<TBra, TKet, TRealNumber>
@@ -210,13 +197,6 @@ public static class FluentOperatorOperations
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TOperator.TensorProduct((TOperator)left, right);
 
-    public static TOperator Commutator<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> left, TOperator right)
-        where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
-        where TKet : IKet<TKet, TBra, TRealNumber>
-        where TBra : IBra<TBra, TKet, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TOperator.Commutator((TOperator)left, right);
-
     public static TKet Act<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator, TKet ket)
         where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
         where TKet : IKet<TKet, TBra, TRealNumber>
@@ -231,27 +211,6 @@ public static class FluentOperatorOperations
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TOperator.Act((TBra)bra, @operator);
 
-    public static TOperator Conjucate<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
-        where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
-        where TKet : IKet<TKet, TBra, TRealNumber>
-        where TBra : IBra<TBra, TKet, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TOperator.Conjucate((TOperator)@operator);
-
-    public static TOperator Adjoint<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
-        where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
-        where TKet : IKet<TKet, TBra, TRealNumber>
-        where TBra : IBra<TBra, TKet, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TOperator.Adjoint((TOperator)@operator);
-
-    public static TOperator Round<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
-        where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
-        where TKet : IKet<TKet, TBra, TRealNumber>
-        where TBra : IBra<TBra, TKet, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TOperator.Round((TOperator)@operator);
-
     public static bool IsIdentity<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
         where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
         where TKet : IKet<TKet, TBra, TRealNumber>
@@ -259,17 +218,10 @@ public static class FluentOperatorOperations
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TOperator.IsIdentity((TOperator)@operator);
 
-    public static bool IsUnitary<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
+    public static TOperator Round<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
         where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
         where TKet : IKet<TKet, TBra, TRealNumber>
         where TBra : IBra<TBra, TKet, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TOperator.IsUnitary((TOperator)@operator);
-
-    public static bool IsHermitian<TOperator, TKet, TBra, TRealNumber>(this IOperator<TOperator, TKet, TBra, TRealNumber> @operator)
-        where TOperator : IOperator<TOperator, TKet, TBra, TRealNumber>
-        where TKet : IKet<TKet, TBra, TRealNumber>
-        where TBra : IBra<TBra, TKet, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TOperator.IsHermitian((TOperator)@operator);
+        TOperator.Round((TOperator)@operator);
 }

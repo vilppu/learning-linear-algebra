@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using LearningLinearAlgebra.Matrices.Complex;
-using LearningLinearAlgebra.Matrices.Real;
 using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.Matrices.Real;
@@ -91,7 +90,8 @@ public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
     public static ColumnVector<TRealNumber> Act(SquareMatrix<TRealNumber> matrix, ColumnVector<TRealNumber> vector) =>
         ColumnVector<TRealNumber>.V(matrix.M(), i => matrix.Row(i).Zip(vector, (x, y) => x * y).Aggregate(TRealNumber.Zero, (x, y) => x + y));
 
-
+    public static RowVector<TRealNumber> Act(RowVector<TRealNumber> vector, SquareMatrix<TRealNumber> matrix) =>
+        RowVector<TRealNumber>.U(matrix.N(), i => matrix.Row(i).Zip(vector, (x, y) => x * y).Aggregate(TRealNumber.Zero, (x, y) => x + y));
     // TODO: Move to linear vector space
     public static SquareMatrix<TRealNumber> TensorProduct(SquareMatrix<TRealNumber> left, SquareMatrix<TRealNumber> right) =>
         M(left.M() * right.M(),
@@ -111,4 +111,7 @@ public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
     public static SquareMatrix<TRealNumber> operator *(SquareMatrix<TRealNumber> left, SquareMatrix<TRealNumber> right) => Multiply(left, right);
     public static ColumnVector<TRealNumber> operator *(SquareMatrix<TRealNumber> matrix, ColumnVector<TRealNumber> vector) => Act(matrix, vector);
     public static SquareMatrix<TRealNumber> operator -(SquareMatrix<TRealNumber> vector) => AdditiveInverse(vector);
+
+    public override string ToString() => 
+        $"{{ {string.Join(",\r\n  ", Enumerable.Range(0, this.M()).Select(row => $"{{{string.Join(", ", this.Row(row))} }}"))} }}";
 }

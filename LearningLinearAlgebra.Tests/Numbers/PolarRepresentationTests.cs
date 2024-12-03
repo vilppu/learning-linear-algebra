@@ -1,13 +1,5 @@
 ﻿using FluentAssertions;
 using Xunit;
-
-using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
-using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Bra<float>;
-using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Ket<float>;
-using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Operator<float>;
-using static LearningLinearAlgebra.Matrices.Complex.SquareMatrix<float>;
-using static LearningLinearAlgebra.Matrices.Complex.ColumnVector<float>;
-using static LearningLinearAlgebra.Matrices.Complex.RowVector<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 using static LearningLinearAlgebra.Numbers.Polar<float>;
 

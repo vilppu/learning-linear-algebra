@@ -1,24 +1,23 @@
 ﻿using System.Collections;
 using System.Numerics;
-using LearningLinearAlgebra.Matrices.Complex;
-using LearningLinearAlgebra.Numbers;
+using LearningLinearAlgebra.Matrices.Real;
 
-namespace LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
+namespace LearningLinearAlgebra.LinearAlgebra.RealVectorSpace;
 
 public record Bra<TRealNumber>(RowVector<TRealNumber> Components)
-    : IBra<Bra<TRealNumber>, Ket<TRealNumber>, TRealNumber>, IEnumerable<ComplexNumber<TRealNumber>>
+    : IBra<Bra<TRealNumber>, Ket<TRealNumber>, TRealNumber>, IEnumerable<TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     IEnumerator IEnumerable.GetEnumerator() => Components.GetEnumerator();
 
-    public IEnumerator<ComplexNumber<TRealNumber>> GetEnumerator() => Components.GetEnumerator();
+    public IEnumerator<TRealNumber> GetEnumerator() => Components.GetEnumerator();
 
-    public ComplexNumber<TRealNumber> this[int index] => Components[index];
+    public TRealNumber this[int index] => Components[index];
 
     public static Bra<TRealNumber> Create(RowVector<TRealNumber> components) =>
         new(components);
 
-    public static Bra<TRealNumber> U(ComplexNumber<TRealNumber>[] components) =>
+    public static Bra<TRealNumber> U(TRealNumber[] components) =>
         Create(RowVector<TRealNumber>.U(components));
 
     public static int Dimension(Bra<TRealNumber> bra) =>
@@ -45,23 +44,23 @@ public record Bra<TRealNumber>(RowVector<TRealNumber> Components)
     public static Bra<TRealNumber> operator -(Bra<TRealNumber> bra) =>
         Create(RowVector<TRealNumber>.AdditiveInverse(bra.Components));
 
-    public static Bra<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> bra) =>
+    public static Bra<TRealNumber> Multiply(TRealNumber scalar, Bra<TRealNumber> bra) =>
         Create(RowVector<TRealNumber>.Multiply(scalar, bra.Components));
 
-    public static Bra<TRealNumber> operator *(ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> bra) =>
+    public static Bra<TRealNumber> operator *(TRealNumber scalar, Bra<TRealNumber> bra) =>
         Create(RowVector<TRealNumber>.Multiply(scalar, bra.Components));
 
-    public static ComplexNumber<TRealNumber> InnerProduct(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
+    public static TRealNumber InnerProduct(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
         RowVector<TRealNumber>.InnerProduct(left.Components, right.Components);
 
-    public static ComplexNumber<TRealNumber> operator *(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
+    public static TRealNumber operator *(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
         RowVector<TRealNumber>.InnerProduct(left.Components, right.Components);
 
     public static Bra<TRealNumber> TensorProduct(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
         Create(RowVector<TRealNumber>.TensorProduct(left.Components, right.Components));
 
     public static Ket<TRealNumber> Ket(Bra<TRealNumber> bra) =>
-        Ket<TRealNumber>.Create(RowVector<TRealNumber>.Adjoint(bra.Components));
+        Ket<TRealNumber>.Create(RowVector<TRealNumber>.Transpose(bra.Components));
 
     public static TRealNumber Norm(Bra<TRealNumber> bra) =>
         RowVector<TRealNumber>.Norm(bra.Components);
@@ -71,7 +70,4 @@ public record Bra<TRealNumber>(RowVector<TRealNumber> Components)
 
     public static Bra<TRealNumber> Normalized(Bra<TRealNumber> bra) =>
         Create(RowVector<TRealNumber>.Normalized(bra.Components));
-
-    public static Bra<TRealNumber> Conjucate(Bra<TRealNumber> bra) =>
-        Create(RowVector<TRealNumber>.Conjucate(bra.Components));
 }

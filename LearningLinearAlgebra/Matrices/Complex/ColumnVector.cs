@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Numerics;
-using LearningLinearAlgebra.Matrices.Complex;
 using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.Matrices.Complex;
@@ -20,19 +19,19 @@ public record ColumnVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
         new(entries.ToArray());
 
     public static ColumnVector<TRealNumber> V(int length, Func<int, ComplexNumber<TRealNumber>> initializer) =>
-        V(Enumerable.Range(0, length).Select(index => initializer(index)));
+        V(Enumerable.Range(0, length).Select(initializer));
 
     public static ColumnVector<TRealNumber> Zero(int length) =>
         V(Enumerable.Repeat(ComplexNumber<TRealNumber>.Zero, length).ToArray());
 
     public static bool AreEquivalent(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
-        left.Entries.Cast<ComplexNumber<TRealNumber>>().SequenceEqual(right.Entries.Cast<ComplexNumber<TRealNumber>>());
+        left.Entries.SequenceEqual(right.Entries);
 
     public static ColumnVector<TRealNumber> Add(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
         left.Zip(right, (a, b) => a + b);
 
     public static RowVector<TRealNumber> Adjoint(ColumnVector<TRealNumber> vector) =>
-        RowVector<TRealNumber>.Conjucate(ColumnVector<TRealNumber>.Transpose(vector));
+        RowVector<TRealNumber>.Conjucate(Transpose(vector));
 
     public static ColumnVector<TRealNumber> Conjucate(ColumnVector<TRealNumber> vector) =>
         vector.Map(ComplexNumber<TRealNumber>.Conjucate);
@@ -41,7 +40,7 @@ public record ColumnVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
         vector.Map(entry => -entry);
 
     public static ColumnVector<TRealNumber> Map(ColumnVector<TRealNumber> source, Func<ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>> elementMapping) =>
-        V(source.Select(value => elementMapping(value)));
+        V(source.Select(elementMapping));
 
     public static ColumnVector<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, ColumnVector<TRealNumber> vector) =>
         vector.Map(entry => entry * scalar);

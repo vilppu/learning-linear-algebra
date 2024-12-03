@@ -1,16 +1,15 @@
-﻿using LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
-using LearningLinearAlgebra.Numbers;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
+using LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
+using LearningLinearAlgebra.Numbers;
 using Xunit;
-
 using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
 using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Bra<float>;
 using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Ket<float>;
 using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Operator<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
-namespace LearningLinearAlgebra.Tests.LinearAlgebra;
+namespace LearningLinearAlgebra.Tests.LinearAlgebra.Complex;
 
 public class OperatorTests
 {
@@ -31,7 +30,7 @@ public class OperatorTests
     }
 
     [Fact]
-    public void On_identity_operator_diagonal_entries_has_value_one_and_everytinhg_else_is_zeroes()
+    public void On_identity_operator_diagonal_entries_has_value_one_and_everything_else_is_zeroes()
     {
         var identity = M(new ComplexNumber<float>[,] {
             { (1, 0), (0, 0) },
@@ -48,8 +47,8 @@ public class OperatorTests
         var zero = Operator<float>.Zero(2);
 
         zero.Should().BeEquivalentTo(M(new ComplexNumber<float>[,] {
-          { (0, 0), (0,0) },
-          { (0, 0), (0,0) } }));
+          { (0, 0), (0, 0) },
+          { (0, 0), (0, 0) } }));
     }
 
     [Fact]
@@ -121,7 +120,7 @@ public class OperatorTests
             { (1, 2), (3, 5) },
             { (7, 11), (13, 19) } });
 
-        var zero = Operator<float>.Zero(2);
+        Operator<float>.Zero(2);
 
         (@operator + AdditiveInverse(@operator)).Should().BeEquivalentTo(Operator<float>.Zero(2));
         (@operator + -@operator).Should().BeEquivalentTo(Operator<float>.Zero(2));
@@ -314,7 +313,7 @@ public class OperatorTests
 
         product.Should().BeEquivalentTo(matrix);
     }
-    
+
     [Fact]
     public void Matrix_is_hermitian_if_adjoint_of_operator_does_not_change_the_operator()
     {
@@ -378,7 +377,7 @@ public class OperatorTests
 
     [Fact]
     public void Inner_product_when_applying_hermitian_operator()
-    // If A is hermitian matrix then inner product of A*Ket<float>.V and Ket<float>.V' is equal to inner product of Ket<float>.V and A*Ket<float>.V
+    // If A is hermitian matrix then inner product of A*Ket<float>.U and Ket<float>.U' is equal to inner product of Ket<float>.U and A*Ket<float>.U
     {
         var a = V([(1, 2), (3, 5)]);
         var b = V([(7, 11), (13, 19)]);
@@ -509,9 +508,9 @@ public class OperatorTests
             { (0, 0), (0, 0), (0, 1) }
         });
 
-        var transposeOfunitary = Adjoint(unitary);
+        var transposeOfUnitary = Adjoint(unitary);
 
-        (unitary * transposeOfunitary).Round().Should().BeEquivalentTo(Identity(3));
+        (unitary * transposeOfUnitary).Round().Should().BeEquivalentTo(Identity(3));
     }
 
     [Fact]

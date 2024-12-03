@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Numerics;
-using LearningLinearAlgebra.Matrices.Real;
 using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.Matrices.Real;
@@ -13,23 +12,23 @@ public record RowVector<TRealNumber>(TRealNumber[] Entries)
 
     IEnumerator IEnumerable.GetEnumerator() => Entries.GetEnumerator();
 
-    public static RowVector<TRealNumber> V(TRealNumber[] entries) =>
+    public static RowVector<TRealNumber> U(TRealNumber[] entries) =>
         new(entries);
 
-    public static RowVector<TRealNumber> V(float[] entries) =>
-        V(entries.Select(RealNumber<TRealNumber>.R));
+    public static RowVector<TRealNumber> U(float[] entries) =>
+        U(entries.Select(RealNumber<TRealNumber>.R));
 
-    public static RowVector<TRealNumber> V(IEnumerable<TRealNumber> entries) =>
+    public static RowVector<TRealNumber> U(IEnumerable<TRealNumber> entries) =>
         new(entries.ToArray());
 
-    public static RowVector<TRealNumber> V(int length, Func<int, TRealNumber> initializer) =>
-        V(Enumerable.Range(0, length).Select(index => initializer(index)));
+    public static RowVector<TRealNumber> U(int length, Func<int, TRealNumber> initializer) =>
+        U(Enumerable.Range(0, length).Select(initializer));
 
     public static RowVector<TRealNumber> Zero(int length) =>
-        V(Enumerable.Repeat(TRealNumber.Zero, length).ToArray());
+        U(Enumerable.Repeat(TRealNumber.Zero, length).ToArray());
 
     public static bool AreEquivalent(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        left.Entries.Cast<TRealNumber>().SequenceEqual(right.Entries.Cast<TRealNumber>());
+        left.Entries.SequenceEqual(right.Entries);
 
     public static RowVector<TRealNumber> Add(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
         left.Zip(right, (a, b) => a + b);
@@ -38,7 +37,7 @@ public record RowVector<TRealNumber>(TRealNumber[] Entries)
         vector.Map(entry => -entry);
 
     public static RowVector<TRealNumber> Map(RowVector<TRealNumber> source, Func<TRealNumber, TRealNumber> elementMapping) =>
-        V(source.Select(value => elementMapping(value)));
+        U(source.Select(elementMapping));
 
     public static RowVector<TRealNumber> Multiply(TRealNumber scalar, RowVector<TRealNumber> vector) =>
         vector.Map(entry => entry * scalar);
@@ -61,10 +60,10 @@ public record RowVector<TRealNumber>(TRealNumber[] Entries)
 
     // TODO: Move to linear vector space
     public static RowVector<TRealNumber> TensorProduct(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        V(right.SelectMany(rightElement => left.Select(leftElement => leftElement * rightElement)));
+        U(right.SelectMany(rightElement => left.Select(leftElement => leftElement * rightElement)));
 
     public static RowVector<TRealNumber> Zip(RowVector<TRealNumber> first, RowVector<TRealNumber> second, Func<TRealNumber, TRealNumber, TRealNumber> elementMapping) =>
-        V(first.Entries.Zip(second.Entries, elementMapping));
+        U(first.Entries.Zip(second.Entries, elementMapping));
 
     // TODO: This is wrong
     public static TRealNumber InnerProduct(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>

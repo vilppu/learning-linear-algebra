@@ -1,6 +1,8 @@
-﻿namespace LearningLinearAlgebra.Numbers;
+﻿using System.Numerics;
 
-public static class RealNumber<TRealNumber> where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+namespace LearningLinearAlgebra.Numbers;
+
+public static class RealNumber<TRealNumber> where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public static TRealNumber Pi = TRealNumber.Pi; 
     
@@ -26,10 +28,10 @@ public static class RealNumber<TRealNumber> where TRealNumber : System.Numerics.
        TRealNumber.Sqrt(real);
 
     public static TRealNumber Sqrt(int real) =>
-       TRealNumber.Sqrt(RealNumber<TRealNumber>.R(real));
+       TRealNumber.Sqrt(R(real));
 
     public static TRealNumber Sqrt(float real) =>
-       TRealNumber.Sqrt(RealNumber<TRealNumber>.R(real));
+       TRealNumber.Sqrt(R(real));
 
     public static TRealNumber Square(TRealNumber real) =>
        TRealNumber.CreateChecked(real) * TRealNumber.CreateChecked(real);
@@ -67,6 +69,6 @@ public static class RealNumber<TRealNumber> where TRealNumber : System.Numerics.
 
 public static class RealExtensions
 {
-    public static TRealNumber Round<TRealNumber>(this TRealNumber real) where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+    public static TRealNumber Round<TRealNumber>(this TRealNumber real) where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
       TRealNumber.Round(real, 6);
 }

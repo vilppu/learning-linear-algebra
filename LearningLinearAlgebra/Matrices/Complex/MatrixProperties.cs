@@ -1,99 +1,100 @@
-﻿using LearningLinearAlgebra.Numbers;
+﻿using System.Numerics;
+using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.Matrices.Complex;
 
-public interface ICanBeHermitian<TSelf>
+public interface ICanBeHermitian<in TSelf>
     where TSelf : ICanBeHermitian<TSelf>
 {
-    public abstract static bool IsHermitian(TSelf matrix);
+    public static abstract bool IsHermitian(TSelf matrix);
 }
 
-public interface ICanBeIdentity<TSelf>
+public interface ICanBeIdentity<in TSelf>
     where TSelf : ICanBeIdentity<TSelf>
 {
-    public abstract static bool IsIdentity(TSelf matrix);
+    public static abstract bool IsIdentity(TSelf matrix);
 }
 
-public interface ICanBeUnitary<TSelf>
+public interface ICanBeUnitary<in TSelf>
     where TSelf : ICanBeUnitary<TSelf>
 {
-    public abstract static bool IsUnitary(TSelf matrix);
+    public static abstract bool IsUnitary(TSelf matrix);
 }
 
-public interface IDistance<TSelf, TRealNumber>
+public interface IDistance<in TSelf, out TRealNumber>
     where TSelf : IDistance<TSelf, TRealNumber>
-    where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static TRealNumber Distance(TSelf left, TSelf right);
+    public static abstract TRealNumber Distance(TSelf left, TSelf right);
 }
 
-public interface IEquality<TSelf>
+public interface IEquality<in TSelf>
     where TSelf : IEquality<TSelf>
 {
-    public abstract static bool AreEquivalent(TSelf left, TSelf right);
+    public static abstract bool AreEquivalent(TSelf left, TSelf right);
 }
 
-public interface IHasColumns<TSelf, TRealNumber>
+public interface IHasColumns<in TSelf, TRealNumber>
     where TSelf : IHasColumns<TSelf, TRealNumber>
-    where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static IEnumerable<ComplexNumber<TRealNumber>> Column(TSelf matrix, int j);
+    public static abstract IEnumerable<ComplexNumber<TRealNumber>> Column(TSelf matrix, int j);
 }
 
-public interface IHasColumns<TSelf>
+public interface IHasColumns<in TSelf>
     where TSelf : IHasColumns<TSelf>
 {
-    public abstract static int N(TSelf matrix);
+    public static abstract int N(TSelf matrix);
 }
 
 public interface IHasCommutator<TSelf>
     where TSelf : IHasCommutator<TSelf>
 {
-    public abstract static TSelf Commutator(TSelf left, TSelf right);
+    public static abstract TSelf Commutator(TSelf left, TSelf right);
 }
 
-public interface ISum<TSelf, TRealNumber>
+public interface ISum<in TSelf, TRealNumber>
     where TSelf : ISum<TSelf, TRealNumber>
-    where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static ComplexNumber<TRealNumber> Sum(TSelf vector);
+    public static abstract ComplexNumber<TRealNumber> Sum(TSelf vector);
 }
 
-public interface IHasLength<TSelf>
+public interface IHasLength<in TSelf>
     where TSelf : IHasLength<TSelf>
 {
-    public abstract static int Length(TSelf vector);
+    public static abstract int Length(TSelf vector);
 }
 
 public interface IHasMatrixEntries<TSelf, TRealNumber>
     where TSelf : IHasMatrixEntries<TSelf, TRealNumber>
-    where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public ComplexNumber<TRealNumber> this[int i, int j] { get; }
 }
 
-public interface IHasNorm<TSelf, TRealNumber>
+public interface IHasNorm<in TSelf, out TRealNumber>
     where TSelf : IHasNorm<TSelf, TRealNumber>
-    where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static TRealNumber Norm(TSelf vector);
+    public static abstract TRealNumber Norm(TSelf vector);
 }
 
-public interface IHasRows<TSelf, TRealNumber>
+public interface IHasRows<in TSelf, TRealNumber>
     where TSelf : IHasRows<TSelf, TRealNumber>
-    where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public abstract static IEnumerable<ComplexNumber<TRealNumber>> Row(TSelf matrix, int i);
+    public static abstract IEnumerable<ComplexNumber<TRealNumber>> Row(TSelf matrix, int i);
 }
 
-public interface IHasRows<TSelf> where TSelf : IHasRows<TSelf>
+public interface IHasRows<in TSelf> where TSelf : IHasRows<TSelf>
 {
-    public abstract static int M(TSelf matrix);
+    public static abstract int M(TSelf matrix);
 }
 
 public interface IHasVectorEntries<TSelf, TRealNumber>
     where TSelf : IHasVectorEntries<TSelf, TRealNumber>
-    where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public ComplexNumber<TRealNumber> this[int index] { get; }
 }
@@ -114,12 +115,12 @@ public static class FluentMatrixProperties
 
     public static IEnumerable<ComplexNumber<TRealNumber>> Column<TSelf, TRealNumber>(this IHasColumns<TSelf, TRealNumber> matrix, int j)
         where TSelf : IHasColumns<TSelf, TRealNumber>
-        where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Column((TSelf)matrix, j);
 
     public static IEnumerable<ComplexNumber<TRealNumber>> Row<TSelf, TRealNumber>(this IHasRows<TSelf, TRealNumber> matrix, int i)
         where TSelf : IHasRows<TSelf, TRealNumber>
-        where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Row((TSelf)matrix, i);
 
     public static int Length<TSelf>(this TSelf vector)
@@ -134,12 +135,12 @@ public static class FluentMatrixProperties
 
     public static TRealNumber Distance<TSelf, TRealNumber>(this IDistance<TSelf, TRealNumber> left, TSelf right
         ) where TSelf : IDistance<TSelf, TRealNumber>
-        where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Distance((TSelf)left, right);
 
     public static TRealNumber Norm<TSelf, TRealNumber>(this IHasNorm<TSelf, TRealNumber> vector)
         where TSelf : IHasNorm<TSelf, TRealNumber>
-        where TRealNumber : System.Numerics.IFloatingPointIeee754<TRealNumber> =>
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Norm((TSelf)vector);
 
     public static TSelf Commutator<TSelf>(this TSelf left, TSelf right) where TSelf : IHasCommutator<TSelf> =>

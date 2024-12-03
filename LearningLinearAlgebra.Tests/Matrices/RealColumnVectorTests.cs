@@ -1,10 +1,7 @@
-﻿using LearningLinearAlgebra.Matrices.Real;
-using LearningLinearAlgebra.Numbers;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
+using LearningLinearAlgebra.Matrices.Real;
 using Xunit;
-
-using static LearningLinearAlgebra.Matrices.Real.SquareMatrix<float>;
 using static LearningLinearAlgebra.Matrices.Real.ColumnVector<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
@@ -51,7 +48,7 @@ public class RealColumnVectorTests
     {
         var vector = V([-1, -3]);
 
-        var zero = ColumnVector<float>.Zero(2);
+        var zero = Zero(2);
 
         (vector + -vector).Should().Equal(zero);
     }
@@ -60,7 +57,7 @@ public class RealColumnVectorTests
     public void Zero_is_an_additive_identity()
     {
         var vector = V([-1, -3]);
-        var zero = ColumnVector<float>.Zero(2);
+        var zero = Zero(2);
 
         using var _ = new AssertionScope();
 
@@ -131,11 +128,11 @@ public class RealColumnVectorTests
     {
         var vector = V([5, 3, -7]);
 
-        var transpose = ColumnVector<float>.Transpose(vector);
+        var transpose = Transpose(vector);
 
         using var _ = new AssertionScope();
 
-        transpose.Should().Equal(RowVector<float>.V([5, 3, -7]));
+        transpose.Should().Equal(RowVector<float>.U([5, 3, -7]));
         vector.Transpose().Should().Equal(transpose);
     }
 

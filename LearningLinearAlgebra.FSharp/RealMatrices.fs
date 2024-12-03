@@ -93,7 +93,7 @@ module Real =
 
         let Product (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = SquareMatrix<'R>.Multiply(left, right)
 
-        let Act left right = SquareMatrix<'R>.Act(left, right)
+        let Act (left: SquareMatrix<'R>) (right: ColumnVector<'R>) = SquareMatrix<'R>.Act(left, right)
 
         let Commutator left right =
             SquareMatrix<'R>.Commutator(left, right)
