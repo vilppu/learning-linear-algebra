@@ -16,15 +16,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Cuda\**" />
-    <EmbeddedResource Remove="Cuda\**" />
-    <None Remove="Cuda\**" />
+    <Folder Include="Matrices\Complex\Cuda\" />
+    <Folder Include="Matrices\Complex\Auto\" />
+    <Folder Include="Matrices\Real\Auto\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\x64\Debug\CudaComputation.dll" Link="CudaComputation.dll">
+    <None Include="..\x64\Debug\CudaComputation.dll" Link="CudaComputation\CudaComputation.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CudaComputation\CudaComputation.vcxproj" />
   </ItemGroup>
 
 </Project>

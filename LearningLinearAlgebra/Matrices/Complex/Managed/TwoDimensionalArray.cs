@@ -1,4 +1,4 @@
-﻿namespace LearningLinearAlgebra.Matrices.Complex;
+﻿namespace LearningLinearAlgebra.Matrices.Complex.Managed;
 
 static class TwoDimensionalArray<TElement>
 {
@@ -6,9 +6,9 @@ static class TwoDimensionalArray<TElement>
     {
         var entries = new TElement[m, n];
 
-        for (int i = 0; i < m; i++)
+        for (var i = 0; i < m; i++)
         {
-            for (int j = 0; j < n; j++)
+            for (var j = 0; j < n; j++)
             {
                 entries[i, j] = initializer(i, j);
             }

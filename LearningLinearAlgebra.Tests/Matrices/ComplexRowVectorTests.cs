@@ -1,11 +1,12 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using LearningLinearAlgebra.Matrices.Complex;
 using Xunit;
 using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
-using static LearningLinearAlgebra.Matrices.Complex.ColumnVector<float>;
-using static LearningLinearAlgebra.Matrices.Complex.RowVector<float>;
+using static LearningLinearAlgebra.Matrices.Complex.Managed.ColumnVector<float>;
+using static LearningLinearAlgebra.Matrices.Complex.Managed.RowVector<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
+using LearningLinearAlgebra.Matrices.Complex.Abstract;
+using LearningLinearAlgebra.Matrices.Complex.Managed;
 
 namespace LearningLinearAlgebra.Tests.Matrices;
 

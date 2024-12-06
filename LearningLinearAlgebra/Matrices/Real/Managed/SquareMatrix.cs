@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Matrices.Complex;
+using LearningLinearAlgebra.Matrices.Real.Abstract;
 using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.Matrices.Real;
+namespace LearningLinearAlgebra.Matrices.Real.Managed;
 
 public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
     : ISquareMatrix<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
@@ -112,6 +112,8 @@ public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
     public static ColumnVector<TRealNumber> operator *(SquareMatrix<TRealNumber> matrix, ColumnVector<TRealNumber> vector) => Act(matrix, vector);
     public static SquareMatrix<TRealNumber> operator -(SquareMatrix<TRealNumber> vector) => AdditiveInverse(vector);
 
-    public override string ToString() => 
+    public override string ToString() =>
         $"{{ {string.Join(",\r\n  ", Enumerable.Range(0, this.M()).Select(row => $"{{{string.Join(", ", this.Row(row))} }}"))} }}";
+
+    public void Dispose() => GC.SuppressFinalize(this);
 }

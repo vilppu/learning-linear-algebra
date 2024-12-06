@@ -1,24 +1,11 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.Matrices.Complex;
-
-public interface ICanBeHermitian<in TSelf>
-    where TSelf : ICanBeHermitian<TSelf>
-{
-    public static abstract bool IsHermitian(TSelf matrix);
-}
+namespace LearningLinearAlgebra.Matrices.Real.Abstract;
 
 public interface ICanBeIdentity<in TSelf>
     where TSelf : ICanBeIdentity<TSelf>
 {
     public static abstract bool IsIdentity(TSelf matrix);
-}
-
-public interface ICanBeUnitary<in TSelf>
-    where TSelf : ICanBeUnitary<TSelf>
-{
-    public static abstract bool IsUnitary(TSelf matrix);
 }
 
 public interface IDistance<in TSelf, out TRealNumber>
@@ -34,11 +21,11 @@ public interface IEquality<in TSelf>
     public static abstract bool AreEquivalent(TSelf left, TSelf right);
 }
 
-public interface IHasColumns<in TSelf, TRealNumber>
+public interface IHasColumns<in TSelf, out TRealNumber>
     where TSelf : IHasColumns<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract IEnumerable<ComplexNumber<TRealNumber>> Column(TSelf matrix, int j);
+    public static abstract IEnumerable<TRealNumber> Column(TSelf matrix, int j);
 }
 
 public interface IHasColumns<in TSelf>
@@ -53,11 +40,11 @@ public interface IHasCommutator<TSelf>
     public static abstract TSelf Commutator(TSelf left, TSelf right);
 }
 
-public interface ISum<in TSelf, TRealNumber>
+public interface ISum<in TSelf, out TRealNumber>
     where TSelf : ISum<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract ComplexNumber<TRealNumber> Sum(TSelf vector);
+    public static abstract TRealNumber Sum(TSelf vector);
 }
 
 public interface IHasLength<in TSelf>
@@ -66,11 +53,11 @@ public interface IHasLength<in TSelf>
     public static abstract int Length(TSelf vector);
 }
 
-public interface IHasMatrixEntries<TSelf, TRealNumber>
+public interface IHasMatrixEntries<TSelf, out TRealNumber>
     where TSelf : IHasMatrixEntries<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public ComplexNumber<TRealNumber> this[int i, int j] { get; }
+    public TRealNumber this[int i, int j] { get; }
 }
 
 public interface IHasNorm<in TSelf, out TRealNumber>
@@ -80,11 +67,11 @@ public interface IHasNorm<in TSelf, out TRealNumber>
     public static abstract TRealNumber Norm(TSelf vector);
 }
 
-public interface IHasRows<in TSelf, TRealNumber>
+public interface IHasRows<in TSelf, out TRealNumber>
     where TSelf : IHasRows<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract IEnumerable<ComplexNumber<TRealNumber>> Row(TSelf matrix, int i);
+    public static abstract IEnumerable<TRealNumber> Row(TSelf matrix, int i);
 }
 
 public interface IHasRows<in TSelf> where TSelf : IHasRows<TSelf>
@@ -92,11 +79,11 @@ public interface IHasRows<in TSelf> where TSelf : IHasRows<TSelf>
     public static abstract int M(TSelf matrix);
 }
 
-public interface IHasVectorEntries<TSelf, TRealNumber>
+public interface IHasVectorEntries<TSelf, out TRealNumber>
     where TSelf : IHasVectorEntries<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public ComplexNumber<TRealNumber> this[int index] { get; }
+    public TRealNumber this[int index] { get; }
 }
 
 public static class FluentMatrixProperties
@@ -104,21 +91,15 @@ public static class FluentMatrixProperties
     public static bool IsEquivalentTo<TSelf>(this TSelf left, TSelf right) where TSelf : IEquality<TSelf> =>
         TSelf.AreEquivalent(left, right);
 
-    public static bool IsHermitian<TSelf>(this TSelf matrix) where TSelf : ICanBeHermitian<TSelf> =>
-        TSelf.IsHermitian(matrix);
-
     public static bool IsIdentity<TSelf>(this TSelf matrix) where TSelf : ICanBeIdentity<TSelf> =>
         TSelf.IsIdentity(matrix);
 
-    public static bool IsUnitary<TSelf>(this TSelf matrix) where TSelf : ICanBeUnitary<TSelf> =>
-        TSelf.IsUnitary(matrix);
-
-    public static IEnumerable<ComplexNumber<TRealNumber>> Column<TSelf, TRealNumber>(this IHasColumns<TSelf, TRealNumber> matrix, int j)
+    public static IEnumerable<TRealNumber> Column<TSelf, TRealNumber>(this IHasColumns<TSelf, TRealNumber> matrix, int j)
         where TSelf : IHasColumns<TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Column((TSelf)matrix, j);
 
-    public static IEnumerable<ComplexNumber<TRealNumber>> Row<TSelf, TRealNumber>(this IHasRows<TSelf, TRealNumber> matrix, int i)
+    public static IEnumerable<TRealNumber> Row<TSelf, TRealNumber>(this IHasRows<TSelf, TRealNumber> matrix, int i)
         where TSelf : IHasRows<TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Row((TSelf)matrix, i);

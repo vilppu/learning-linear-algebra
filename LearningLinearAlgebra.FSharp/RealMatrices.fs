@@ -2,7 +2,7 @@
 
 module Real =
 
-    open LearningLinearAlgebra.Matrices.Real
+    open LearningLinearAlgebra.Matrices.Real.Managed
 
     type RowVector = RowVector<float>
     type ColumnVector = ColumnVector<float>

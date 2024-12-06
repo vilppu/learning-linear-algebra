@@ -3,7 +3,7 @@
 module Complex =
 
     open LearningLinearAlgebra.Numbers
-    open LearningLinearAlgebra.Matrices.Complex
+    open LearningLinearAlgebra.Matrices.Complex.Managed
 
     type ComplexNumber = ComplexNumber<float>
     type RowVector = RowVector<float>

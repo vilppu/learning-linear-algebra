@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LearningLinearAlgebra
+namespace LearningLinearAlgebra.CudaComputation
 {
     public static partial class CudaComputation
     {
@@ -11,7 +11,7 @@ namespace LearningLinearAlgebra
         }
 
 
-        [LibraryImport("CudaComputation.dll", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+        [LibraryImport("CudaComputation/CudaComputation.dll", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
         private static partial int Compute();
     }
 }

@@ -8,7 +8,7 @@ public class CudaComputationTests
     [Fact]
     public void Compute_on_NVIDIA_GPU()
     {
-        var result = CudaComputation.ComputeInGpu();
+        var result = CudaComputation.CudaComputation.ComputeInGpu();
 
         result.Should().Be(11);
     }

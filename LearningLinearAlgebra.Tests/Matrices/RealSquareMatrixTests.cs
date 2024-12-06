@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using LearningLinearAlgebra.Matrices.Real;
 using Xunit;
-using static LearningLinearAlgebra.Matrices.Real.SquareMatrix<float>;
-using static LearningLinearAlgebra.Matrices.Real.ColumnVector<float>;
+using LearningLinearAlgebra.Matrices.Real.Abstract;
+using LearningLinearAlgebra.Matrices.Real.Managed;
+using static LearningLinearAlgebra.Matrices.Real.Managed.SquareMatrix<float>;
+using static LearningLinearAlgebra.Matrices.Real.Managed.ColumnVector<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.Matrices;

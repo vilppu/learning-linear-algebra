@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.Matrices.Complex;
+namespace LearningLinearAlgebra.Matrices.Real.Abstract;
 
 public interface IAction<in TSelf, TRowVector, TColumnVector, TRealNumber>
     where TSelf : IAction<TSelf, TRowVector, TColumnVector, TRealNumber>
@@ -10,22 +9,15 @@ public interface IAction<in TSelf, TRowVector, TColumnVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public static abstract TColumnVector Act(TSelf self, TColumnVector vector);
-    public static abstract TRowVector Act(TRowVector vector, TSelf self);
     public static abstract TColumnVector operator *(TSelf self, TColumnVector vector);
-    public static abstract TRowVector operator *(TRowVector vector, TSelf self);
 }
 
 public interface IAddition<TSelf>
     where TSelf : IAddition<TSelf>
 {
+
     public static abstract TSelf Add(TSelf left, TSelf right);
     public static abstract TSelf operator +(TSelf left, TSelf right);
-}
-
-public interface IHasSquareMatrixAdjoint<TSelf>
-    where TSelf : IHasSquareMatrixAdjoint<TSelf>
-{
-    public static abstract TSelf Adjoint(TSelf self);
 }
 
 public interface ICanBeNormalized<TSelf, TRealNumber>
@@ -41,12 +33,6 @@ public interface ICanBeRounded<TSelf>
     public static abstract TSelf Round(TSelf self);
 }
 
-public interface IHasConjucate<TSelf>
-    where TSelf : IHasConjucate<TSelf>
-{
-    public static abstract TSelf Conjucate(TSelf self);
-}
-
 public interface IHasInverse<TSelf>
     where TSelf : IHasInverse<TSelf>
 {
@@ -54,12 +40,12 @@ public interface IHasInverse<TSelf>
     public static abstract TSelf operator -(TSelf self);
 }
 
-public interface IInnerProduct<in TSelf, TRealNumber>
+public interface IInnerProduct<in TSelf, out TRealNumber>
     where TSelf : IInnerProduct<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract ComplexNumber<TRealNumber> InnerProduct(TSelf left, TSelf right);
-    public static abstract ComplexNumber<TRealNumber> operator *(TSelf left, TSelf right);
+    public static abstract TRealNumber InnerProduct(TSelf left, TSelf right);
+    public static abstract TRealNumber operator *(TSelf left, TSelf right);
 }
 
 public interface IMultiplication<TSelf>
@@ -69,24 +55,21 @@ public interface IMultiplication<TSelf>
     public static abstract TSelf operator *(TSelf left, TSelf right);
 }
 
-public interface IScalarMultiplication<TSelf, TRealNumber>
+public interface IScalarMultiplication<TSelf, in TRealNumber>
     where TSelf : IScalarMultiplication<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public static abstract TSelf Multiply(TRealNumber scalar, TSelf self);
     public static abstract TSelf operator *(TRealNumber scalar, TSelf self);
-
-    public static abstract TSelf Multiply(ComplexNumber<TRealNumber> scalar, TSelf self);
-    public static abstract TSelf operator *(ComplexNumber<TRealNumber> scalar, TSelf self);
 }
 
-public interface IVectorMultiplication<in TRowVector, in TColumnVector, TRealNumber>
+public interface IVectorMultiplication<in TRowVector, in TColumnVector, out TRealNumber>
     where TRowVector : IVectorMultiplication<TRowVector, TColumnVector, TRealNumber>, IRowVector<TRowVector, TColumnVector, TRealNumber>
     where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract ComplexNumber<TRealNumber> Multiply(TRowVector left, TColumnVector right);
-    public static abstract ComplexNumber<TRealNumber> operator *(TRowVector left, TColumnVector right);
+    public static abstract TRealNumber Multiply(TRowVector left, TColumnVector right);
+    public static abstract TRealNumber operator *(TRowVector left, TColumnVector right);
 }
 
 public interface ISubtraction<TSelf>
@@ -106,21 +89,6 @@ public interface IHasSquareMatrixTranspose<TSelf>
 {
     public static abstract TSelf Transpose(TSelf self);
 }
-public interface IHasColumnVectorAdjoint<in TRowVector, out TColumnVector, TRealNumber>
-    where TRowVector : IHasColumnVectorAdjoint<TRowVector, TColumnVector, TRealNumber>, IRowVector<TRowVector, TColumnVector, TRealNumber>
-    where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-    where TRealNumber : IFloatingPointIeee754<TRealNumber>
-{
-    public static abstract TColumnVector Adjoint(TRowVector self);
-}
-
-public interface IHasRowVectorAdjoint<in TColumnVector, out TRowVector, TRealNumber>
-    where TColumnVector : IHasRowVectorAdjoint<TColumnVector, TRowVector, TRealNumber>, IColumnVector<TColumnVector, TRowVector, TRealNumber>
-    where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-    where TRealNumber : IFloatingPointIeee754<TRealNumber>
-{
-    public static abstract TRowVector Adjoint(TColumnVector self);
-}
 
 public interface IHasColumnVectorTranspose<in TRowVector, out TColumnVector, TRealNumber>
     where TRowVector : IHasColumnVectorTranspose<TRowVector, TColumnVector, TRealNumber>, IRowVector<TRowVector, TColumnVector, TRealNumber>
@@ -131,7 +99,7 @@ public interface IHasColumnVectorTranspose<in TRowVector, out TColumnVector, TRe
 }
 
 public interface IHasRowVectorTranspose<in TColumnVector, out TRowVector, TRealNumber>
-    where TColumnVector : IHasRowVectorTranspose<TColumnVector, TRowVector, TRealNumber>,  IColumnVector<TColumnVector, TRowVector, TRealNumber>
+    where TColumnVector : IHasRowVectorTranspose<TColumnVector, TRowVector, TRealNumber>, IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
@@ -147,43 +115,17 @@ public static class FluentMatrixOperations
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Act((TSelf)self, vector);
 
-    public static TRowVector Act<TSelf, TRowVector, TColumnVector, TRealNumber>(this IAction<TSelf, TRowVector, TColumnVector, TRealNumber> self, TRowVector vector)
-        where TSelf : IAction<TSelf, TRowVector, TColumnVector, TRealNumber>
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Act(vector, (TSelf)self);
-
     public static TSelf Add<TSelf>(this TSelf left, TSelf right)
         where TSelf : IAddition<TSelf> =>
         TSelf.Add(left, right);
 
-    public static TSelf Adjoint<TSelf>(this TSelf self) 
-        where TSelf : IHasSquareMatrixAdjoint<TSelf> =>
-        TSelf.Adjoint(self);
-
-    public static TColumnVector Adjoint<TRowVector, TColumnVector, TRealNumber>(this IHasColumnVectorAdjoint<TRowVector, TColumnVector, TRealNumber> self)
-        where TRowVector : IHasColumnVectorAdjoint<TRowVector, TColumnVector, TRealNumber>, IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TRowVector.Adjoint((TRowVector)self);
-
-    public static TRowVector Adjoint<TColumnVector, TRowVector, TRealNumber>(this IHasRowVectorAdjoint<TColumnVector, TRowVector, TRealNumber> self) 
-        where TColumnVector : IHasRowVectorAdjoint<TColumnVector, TRowVector, TRealNumber>, IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TColumnVector.Adjoint((TColumnVector)self);
-
-    public static TSelf Conjucate<TSelf>(this TSelf self) where TSelf : IHasConjucate<TSelf> =>
-        TSelf.Conjucate(self);
-
-    public static ComplexNumber<TRealNumber> Multiply<TRowVector, TColumnVector, TRealNumber>(this IVectorMultiplication<TRowVector, TColumnVector, TRealNumber> left, TColumnVector right)
+    public static TRealNumber Multiply<TRowVector, TColumnVector, TRealNumber>(this IVectorMultiplication<TRowVector, TColumnVector, TRealNumber> left, TColumnVector right)
         where TRowVector : IVectorMultiplication<TRowVector, TColumnVector, TRealNumber>, IRowVector<TRowVector, TColumnVector, TRealNumber>
         where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TRowVector.Multiply((TRowVector)left, right);
 
-    public static ComplexNumber<TRealNumber> InnerProduct<TSelf, TRealNumber>(this IInnerProduct<TSelf, TRealNumber> left, TSelf right)
+    public static TRealNumber InnerProduct<TSelf, TRealNumber>(this IInnerProduct<TSelf, TRealNumber> left, TSelf right)
         where TSelf : IInnerProduct<TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.InnerProduct((TSelf)left, right);
@@ -191,11 +133,6 @@ public static class FluentMatrixOperations
     public static TSelf AdditiveInverse<TSelf>(this TSelf self)
         where TSelf : IHasInverse<TSelf> =>
         TSelf.AdditiveInverse(self);
-
-    public static TSelf Multiply<TSelf, TRealNumber>(this ComplexNumber<TRealNumber> scalar, IScalarMultiplication<TSelf, TRealNumber> matrix)
-        where TSelf : IScalarMultiplication<TSelf, TRealNumber>
-        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Multiply(scalar, (TSelf)matrix);
 
     public static TSelf Multiply<TSelf, TRealNumber>(this TRealNumber scalar, IScalarMultiplication<TSelf, TRealNumber> matrix)
         where TSelf : IScalarMultiplication<TSelf, TRealNumber>
@@ -223,7 +160,7 @@ public static class FluentMatrixOperations
         where TSelf : ISubtraction<TSelf> =>
         TSelf.Subtract(left, right);
 
-    public static ComplexNumber<TRealNumber> Sum<TSelf, TRealNumber>(this ISum<TSelf, TRealNumber> self)
+    public static TRealNumber Sum<TSelf, TRealNumber>(this ISum<TSelf, TRealNumber> self)
         where TSelf : ISum<TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Sum((TSelf)self);
@@ -232,8 +169,7 @@ public static class FluentMatrixOperations
         where TSelf : ITensorProduct<TSelf> => TSelf.TensorProduct(left, right);
 
     public static TSelf Transpose<TSelf>(this TSelf self)
-        where TSelf : IHasSquareMatrixTranspose<TSelf> => 
-        TSelf.Transpose(self);
+        where TSelf : IHasSquareMatrixTranspose<TSelf> => TSelf.Transpose(self);
 
     public static TColumnVector Transpose<TRowVector, TColumnVector, TRealNumber>(this IHasColumnVectorTranspose<TRowVector, TColumnVector, TRealNumber> self)
         where TRowVector : IHasColumnVectorTranspose<TRowVector, TColumnVector, TRealNumber>, IRowVector<TRowVector, TColumnVector, TRealNumber>

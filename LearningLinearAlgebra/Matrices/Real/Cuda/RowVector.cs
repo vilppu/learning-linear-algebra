@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Numerics;
+using LearningLinearAlgebra.Matrices.Real.Abstract;
+using LearningLinearAlgebra.Matrices.Real.Managed;
 using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.Matrices.Real;
+namespace LearningLinearAlgebra.Matrices.Real.Cuda;
 
 public record RowVector<TRealNumber>(TRealNumber[] Entries)
     : IRowVector<RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
@@ -90,5 +92,7 @@ public record RowVector<TRealNumber>(TRealNumber[] Entries)
     public static RowVector<TRealNumber> operator *(TRealNumber scalar, RowVector<TRealNumber> vector) => Multiply(scalar, vector);
     public static TRealNumber operator *(RowVector<TRealNumber> left, ColumnVector<TRealNumber> right) => Multiply(left, right);
     public static TRealNumber operator *(RowVector<TRealNumber> left, RowVector<TRealNumber> right) => InnerProduct(left, right);
-    public static RowVector<TRealNumber> operator -(RowVector<TRealNumber> vector) => AdditiveInverse(vector);
+    public static RowVector<TRealNumber> operator -(RowVector<TRealNumber> vector) => AdditiveInverse(vector); 
+    
+    public void Dispose() => GC.SuppressFinalize(this);
 }

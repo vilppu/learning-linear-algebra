@@ -1,17 +1,16 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.Matrices.Complex;
+namespace LearningLinearAlgebra.Matrices.Real.Abstract;
 
-public interface IMatrix<TSelf, TRealNumber> :
+public interface IMatrix<TSelf, in TRealNumber> :
     IAddition<TSelf>,
     ICanBeRounded<TSelf>,
     IEquality<TSelf>,
-    IHasConjucate<TSelf>,
     IHasInverse<TSelf>,
     IScalarMultiplication<TSelf, TRealNumber>,
     ISubtraction<TSelf>,
-    ITensorProduct<TSelf>
+    ITensorProduct<TSelf>,
+    IDisposable
 
     where TSelf : IMatrix<TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
@@ -22,16 +21,12 @@ public interface ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber> :
     IMatrix<TSelf, TRealNumber>,
     IAction<TSelf, TRowVector, TColumnVector, TRealNumber>,
     IAddition<TSelf>,
-    IHasSquareMatrixAdjoint<TSelf>,
-    ICanBeHermitian<TSelf>,
     ICanBeIdentity<TSelf>,
     ICanBeRounded<TSelf>,
-    ICanBeUnitary<TSelf>,
     IEquality<TSelf>,
     IHasColumns<TSelf, TRealNumber>,
     IHasColumns<TSelf>,
     IHasCommutator<TSelf>,
-    IHasConjucate<TSelf>,
     IHasInverse<TSelf>,
     IHasMatrixEntries<TSelf, TRealNumber>,
     IHasRows<TSelf, TRealNumber>,
@@ -42,17 +37,18 @@ public interface ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber> :
     ISubtraction<TSelf>,
     ITensorProduct<TSelf>,
     ITwoDimensionalMap<TSelf, TRealNumber>,
-    ITwoDimensionalZip<TSelf, TRealNumber>
+    ITwoDimensionalZip<TSelf, TRealNumber>,
+    IDisposable
 
     where TSelf : ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber>
     where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
     where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract TSelf M(ComplexNumber<TRealNumber>[,] entries);
-    public static abstract TSelf M(ComplexNumber<float>[,] entries);
-    public static abstract TSelf M(ComplexNumber<double>[,] entries);
-    public static abstract TSelf M(int m, Func<int, int, ComplexNumber<TRealNumber>> initializer);
+    public static abstract TSelf M(TRealNumber[,] entries);
+    public static abstract TSelf M(float[,] entries);
+    public static abstract TSelf M(double[,] entries);
+    public static abstract TSelf M(int m, Func<int, int, TRealNumber> initializer);
     public static abstract TSelf Zero(int m);
     public static abstract TSelf Identity(int m);
 }
@@ -63,13 +59,11 @@ public interface IColumnVector<TSelf, out TRowVector, TRealNumber> :
     ICanBeNormalized<TSelf, TRealNumber>,
     ICanBeRounded<TSelf>,
     IDistance<TSelf, TRealNumber>,
-    IEnumerable<ComplexNumber<TRealNumber>>,
+    IEnumerable<TRealNumber>,
     IEquality<TSelf>,
-    IHasConjucate<TSelf>,
     IHasInverse<TSelf>,
     IHasLength<TSelf>,
     IHasNorm<TSelf, TRealNumber>,
-    IHasRowVectorAdjoint<TSelf, TRowVector, TRealNumber>,
     IHasRowVectorTranspose<TSelf, TRowVector, TRealNumber>,
     IHasVectorEntries<TSelf, TRealNumber>,
     IInnerProduct<TSelf, TRealNumber>,
@@ -79,15 +73,17 @@ public interface IColumnVector<TSelf, out TRowVector, TRealNumber> :
     IScalarMultiplication<TSelf, TRealNumber>,
     ISubtraction<TSelf>,
     ISum<TSelf, TRealNumber>,
-    ITensorProduct<TSelf>
+    ITensorProduct<TSelf>,
+    IDisposable
 
     where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
     where TRowVector : IRowVector<TRowVector, TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract TSelf V(ComplexNumber<TRealNumber>[] entries);
-    public static abstract TSelf V(IEnumerable<ComplexNumber<TRealNumber>> entries);
-    public static abstract TSelf V(int length, Func<int, ComplexNumber<TRealNumber>> initializer);
+    public static abstract TSelf V(TRealNumber[] entries);
+    public static abstract TSelf V(float[] entries);
+    public static abstract TSelf V(IEnumerable<TRealNumber> entries);
+    public static abstract TSelf V(int length, Func<int, TRealNumber> initializer);
     public static abstract TSelf Zero(int length);
 }
 
@@ -97,13 +93,11 @@ public interface IRowVector<TSelf, TColumnVector, TRealNumber> :
     ICanBeNormalized<TSelf, TRealNumber>,
     ICanBeRounded<TSelf>,
     IDistance<TSelf, TRealNumber>,
-    IEnumerable<ComplexNumber<TRealNumber>>,
+    IEnumerable<TRealNumber>,
     IEquality<TSelf>,
-    IHasConjucate<TSelf>,
     IHasInverse<TSelf>,
     IHasLength<TSelf>,
     IHasNorm<TSelf, TRealNumber>,
-    IHasColumnVectorAdjoint<TSelf, TColumnVector, TRealNumber>,
     IHasColumnVectorTranspose<TSelf, TColumnVector, TRealNumber>,
     IHasVectorEntries<TSelf, TRealNumber>,
     IInnerProduct<TSelf, TRealNumber>,
@@ -114,15 +108,17 @@ public interface IRowVector<TSelf, TColumnVector, TRealNumber> :
     ISubtraction<TSelf>,
     ISum<TSelf, TRealNumber>,
     IVectorMultiplication<TSelf, TColumnVector, TRealNumber>,
-    ITensorProduct<TSelf>
+    ITensorProduct<TSelf>,
+    IDisposable
 
     where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
     where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    public static abstract TSelf U(ComplexNumber<TRealNumber>[] entries);
-    public static abstract TSelf U(IEnumerable<ComplexNumber<TRealNumber>> entries);
-    public static abstract TSelf U(int length, Func<int, ComplexNumber<TRealNumber>> initializer);
+    public static abstract TSelf U(TRealNumber[] entries);
+    public static abstract TSelf U(float[] entries);
+    public static abstract TSelf U(IEnumerable<TRealNumber> entries);
+    public static abstract TSelf U(int length, Func<int, TRealNumber> initializer);
     public static abstract TSelf Zero(int length);
 }
 

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Numerics;
+using LearningLinearAlgebra.Matrices.Complex.Abstract;
 using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.Matrices.Complex;
+namespace LearningLinearAlgebra.Matrices.Complex.Managed;
 
 public record ColumnVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
     : IColumnVector<ColumnVector<TRealNumber>, RowVector<TRealNumber>, TRealNumber>

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Numerics;
-using LearningLinearAlgebra.Matrices.Real;
+using LearningLinearAlgebra.Matrices.Real.Managed;
 
 namespace LearningLinearAlgebra.LinearAlgebra.RealVectorSpace;
 

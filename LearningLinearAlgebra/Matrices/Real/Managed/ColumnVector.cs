@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Numerics;
+using LearningLinearAlgebra.Matrices.Real.Abstract;
 using LearningLinearAlgebra.Numbers;
 
-namespace LearningLinearAlgebra.Matrices.Real;
+namespace LearningLinearAlgebra.Matrices.Real.Managed;
 
 public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
     : IColumnVector<ColumnVector<TRealNumber>, RowVector<TRealNumber>, TRealNumber>
@@ -22,7 +23,7 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         new(entries.ToArray());
 
     public static ColumnVector<TRealNumber> V(int length, Func<int, TRealNumber> initializer) =>
-        V(Enumerable.Range(0, length).Select(index => initializer(index)));
+        V(Enumerable.Range(0, length).Select(initializer));
 
     public static ColumnVector<TRealNumber> Zero(int length) =>
         V(Enumerable.Repeat(TRealNumber.Zero, length).ToArray());
@@ -37,7 +38,7 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         vector.Map(entry => -entry);
 
     public static ColumnVector<TRealNumber> Map(ColumnVector<TRealNumber> source, Func<TRealNumber, TRealNumber> elementMapping) =>
-        V(source.Select(value => elementMapping(value)));
+        V(source.Select(elementMapping));
 
     public static ColumnVector<TRealNumber> Multiply(TRealNumber scalar, ColumnVector<TRealNumber> vector) =>
         vector.Map(entry => entry * scalar);
@@ -86,4 +87,6 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
     public static ColumnVector<TRealNumber> operator *(TRealNumber scalar, ColumnVector<TRealNumber> vector) => Multiply(scalar, vector);
     public static TRealNumber operator *(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) => InnerProduct(left, right);
     public static ColumnVector<TRealNumber> operator -(ColumnVector<TRealNumber> vector) => AdditiveInverse(vector);
+
+    public void Dispose() => GC.SuppressFinalize(this);
 }
