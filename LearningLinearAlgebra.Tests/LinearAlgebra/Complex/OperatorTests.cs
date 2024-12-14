@@ -183,9 +183,9 @@ public class OperatorTests
 
         using var _ = new AssertionScope();
 
-        result.Should().Equal(V([(-127, 341), (-458, 1526)]));
-        (@operator * ket).Should().Equal(result);
-        @operator.Act(ket).Should().Equal(Act(@operator, ket));
+        result.Should().BeEquivalentTo(V([(-127, 341), (-458, 1526)]));
+        (@operator * ket).Should().BeEquivalentTo(result);
+        @operator.Act(ket).Should().BeEquivalentTo(Act(@operator, ket));
     }
 
     [Fact]
@@ -202,7 +202,7 @@ public class OperatorTests
 
         using var _ = new AssertionScope();
 
-        result.Should().Equal(V([(-127, 341), (-458, 1526)]));
+        result.Should().Equal(U([(-127, 341), (-458, 1526)]));
         (bra * @operator).Should().Equal(result);
         bra.Act(@operator).Should().Equal(Act(bra, @operator));
     }
@@ -233,7 +233,7 @@ public class OperatorTests
 
         var conjucate = Conjucate(vector);
 
-        conjucate.Should().Equal(V([(1, -2), (3, -5), (7, -11), (13, -19)]));
+        conjucate.Should().BeEquivalentTo(V([(1, -2), (3, -5), (7, -11), (13, -19)]));
     }
 
     [Fact]
@@ -665,6 +665,6 @@ public class OperatorTests
 
         var eigenValue = R(3);
 
-        (eigenValue * eigenVector).Should().Equal(matrix * eigenVector);
+        (eigenValue * eigenVector).Should().BeEquivalentTo(matrix * eigenVector);
     }
 }

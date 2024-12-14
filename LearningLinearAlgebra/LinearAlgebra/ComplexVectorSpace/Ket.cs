@@ -6,11 +6,9 @@ using LearningLinearAlgebra.Numbers;
 namespace LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
 
 public record Ket<TRealNumber>(ColumnVector<TRealNumber> Components)
-    : IKet<Ket<TRealNumber>, Bra<TRealNumber>, TRealNumber>, IEnumerable<ComplexNumber<TRealNumber>>
+    : IKet<Ket<TRealNumber>, Bra<TRealNumber>, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
-    IEnumerator IEnumerable.GetEnumerator() => Components.GetEnumerator();
-
     public IEnumerator<ComplexNumber<TRealNumber>> GetEnumerator() => Components.GetEnumerator();
 
     public ComplexNumber<TRealNumber> this[int index] => Components[index];

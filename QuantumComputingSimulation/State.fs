@@ -8,7 +8,7 @@ module State =
     open LearningLinearAlgebra.Numbers.Complex
     open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
-    let AsScalar (vector: Ket) = vector.Single()
+    let AsScalar (vector: Ket) = vector[0]
 
 
     let Probability index (ket: Ket) =

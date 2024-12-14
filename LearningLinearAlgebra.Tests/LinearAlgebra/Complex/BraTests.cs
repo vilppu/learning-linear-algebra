@@ -106,7 +106,7 @@ public class BraTests
 
         var tensorProduct = TensorProduct(a, b);
 
-        tensorProduct.Should().Equal(V([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
+        tensorProduct.Should().Equal(U([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
         a.TensorProduct(b).Should().Equal(TensorProduct(a, b));
     }
 
@@ -141,8 +141,8 @@ public class BraTests
 
         using var _ = new AssertionScope();
 
-        ket.Should().Equal(U([(1, -2), (3, -5)]));
-        bra.Ket().Should().Equal(Ket(bra));
+        ket.Should().BeEquivalentTo(V([(1, -2), (3, -5)]));
+        bra.Ket().Should().BeEquivalentTo(Ket(bra));
     }
 
     [Fact]

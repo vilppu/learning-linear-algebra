@@ -19,7 +19,7 @@ module Should =
             open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
             let Ket (expected: Ket) (actual: Ket) =
-                actual.Should().Equal(expected, "") |> ignore
+                actual.Should().BeEquivalentTo(expected, "") |> ignore
 
             let Bra (expected: Bra) (actual: Bra) =
                 actual.Should().Equal(expected, "") |> ignore
