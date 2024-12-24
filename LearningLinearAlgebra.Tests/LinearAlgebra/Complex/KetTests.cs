@@ -4,8 +4,8 @@ using LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
 using LearningLinearAlgebra.Numbers;
 using Xunit;
 using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
-using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Bra<float>;
-using static LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace.Ket<float>;
+using static LearningLinearAlgebra.ComplexVectorSpace.Bra<float>;
+using static LearningLinearAlgebra.ComplexVectorSpace.Ket<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Complex;

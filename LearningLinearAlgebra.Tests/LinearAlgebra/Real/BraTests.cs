@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using LearningLinearAlgebra.LinearAlgebra.RealVectorSpace;
 using LearningLinearAlgebra.Numbers;
 using Xunit;
-using static LearningLinearAlgebra.LinearAlgebra.RealVectorSpace.Bra<float>;
-using static LearningLinearAlgebra.LinearAlgebra.RealVectorSpace.Ket<float>;
+using static LearningLinearAlgebra.RealVectorSpace.Bra<float>;
+using static LearningLinearAlgebra.RealVectorSpace.Ket<float>;
 using static LearningLinearAlgebra.Numbers.RealNumber<float>;
+using LearningLinearAlgebra.RealVectorSpace;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Real;
 

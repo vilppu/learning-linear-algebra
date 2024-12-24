@@ -16,13 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\x64\$(Configuration)\CudaComputation.dll" Link="CudaComputation\CudaComputation.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CudaComputation\CudaComputation.vcxproj" />
+    <ProjectReference Include="..\Computation\Computation.csproj" />
   </ItemGroup>
 
 </Project>

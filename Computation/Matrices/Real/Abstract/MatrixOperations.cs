@@ -9,7 +9,9 @@ public interface IAction<in TSelf, TRowVector, TColumnVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public static abstract TColumnVector Act(TSelf self, TColumnVector vector);
+    public static abstract TRowVector Act(TRowVector vector, TSelf self);
     public static abstract TColumnVector operator *(TSelf self, TColumnVector vector);
+    public static abstract TRowVector operator *(TRowVector vector, TSelf self);
 }
 
 public interface IAddition<TSelf>
