@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace LearningLinearAlgebra.Numbers;
+namespace Computation.Numbers;
 
 public record ComplexNumber<TRealNumber>(TRealNumber Real, TRealNumber Imaginary) where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {

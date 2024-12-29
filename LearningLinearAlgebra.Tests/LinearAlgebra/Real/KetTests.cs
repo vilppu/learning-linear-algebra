@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using LearningLinearAlgebra.Numbers;
 using Xunit;
+using Computation.Numbers;
+using LearningLinearAlgebra.RealVectorSpace;
+using static Computation.Numbers.RealNumber<float>;
 using static LearningLinearAlgebra.RealVectorSpace.Bra<float>;
 using static LearningLinearAlgebra.RealVectorSpace.Ket<float>;
-using static LearningLinearAlgebra.Numbers.RealNumber<float>;
-using LearningLinearAlgebra.RealVectorSpace;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Real;
 
@@ -34,9 +34,9 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        sum.Should().Equal(V([8, 16]));
-        (a + b).Should().Equal(Add(a, b));
-        a.Add(b).Should().Equal(Add(a, b));
+        sum.Should().BeEquivalentTo(V([8, 16]));
+        (a + b).Should().BeEquivalentTo(Add(a, b));
+        a.Add(b).Should().BeEquivalentTo(Add(a, b));
     }
 
     [Fact]
@@ -49,9 +49,9 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        difference.Should().Equal(V([-6, -10]));
-        (a - b).Should().Equal(Subtract(a, b));
-        a.Subtract(b).Should().Equal(Subtract(a, b));
+        difference.Should().BeEquivalentTo(V([-6, -10]));
+        (a - b).Should().BeEquivalentTo(Subtract(a, b));
+        a.Subtract(b).Should().BeEquivalentTo(Subtract(a, b));
     }
 
     [Fact]
@@ -64,9 +64,9 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        product.Should().Equal(V([6, 18]));
-        (scalar * ket).Should().Equal(Multiply(scalar, ket));
-        scalar.Multiply(ket).Should().Equal(Multiply(scalar, ket));
+        product.Should().BeEquivalentTo(V([6, 18]));
+        (scalar * ket).Should().BeEquivalentTo(Multiply(scalar, ket));
+        scalar.Multiply(ket).Should().BeEquivalentTo(Multiply(scalar, ket));
     }
 
     [Fact]
@@ -78,9 +78,9 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        additiveInverse.Should().Equal(V([-1, -3]));
-        (-ket).Should().Equal(AdditiveInverse(ket));
-        ket.AdditiveInverse().Should().Equal(AdditiveInverse(ket));
+        additiveInverse.Should().BeEquivalentTo(V([-1, -3]));
+        (-ket).Should().BeEquivalentTo(AdditiveInverse(ket));
+        ket.AdditiveInverse().Should().BeEquivalentTo(AdditiveInverse(ket));
     }
 
     [Fact]
@@ -106,17 +106,17 @@ public class KetTests
 
         var tensorProduct = TensorProduct(a, b);
 
-        tensorProduct.Should().Equal(V([7, 21, 13, 39]));
-        a.TensorProduct(b).Should().Equal(TensorProduct(a, b));
+        tensorProduct.Should().BeEquivalentTo(V([7, 21, 13, 39]));
+        a.TensorProduct(b).Should().BeEquivalentTo(TensorProduct(a, b));
     }
 
     [Fact]
     public void More_examples_of_tensor_product()
     {
-        TensorProduct(V([1, 0]), V([1, 0])).Should().Equal(V([1, 0, 0, 0]));
-        TensorProduct(V([1, 0]), V([0, 1])).Should().Equal(V([0, 0, 1, 0]));
-        TensorProduct(V([0, 1]), V([1, 0])).Should().Equal(V([0, 1, 0, 0]));
-        TensorProduct(V([0, 1]), V([0, 1])).Should().Equal(V([0, 0, 0, 1]));
+        TensorProduct(V([1, 0]), V([1, 0])).Should().BeEquivalentTo(V([1, 0, 0, 0]));
+        TensorProduct(V([1, 0]), V([0, 1])).Should().BeEquivalentTo(V([0, 0, 1, 0]));
+        TensorProduct(V([0, 1]), V([1, 0])).Should().BeEquivalentTo(V([0, 1, 0, 0]));
+        TensorProduct(V([0, 1]), V([0, 1])).Should().BeEquivalentTo(V([0, 0, 0, 1]));
     }
 
     [Fact]
@@ -128,8 +128,8 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        bra.Should().Equal(U([1, 3]));
-        a.Bra().Should().Equal(Bra(a));
+        bra.Should().BeEquivalentTo(U([1, 3]));
+        a.Bra().Should().BeEquivalentTo(Bra(a));
     }
 
     [Fact]
@@ -169,8 +169,8 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        normalized.Should().Equal(1 / Sqrt(ket * ket) * ket);
-        ket.Normalized().Should().Equal(Normalized(ket));
+        normalized.Should().BeEquivalentTo(1 / Sqrt(ket * ket) * ket);
+        ket.Normalized().Should().BeEquivalentTo(Normalized(ket));
         normalized.Norm().Round().Should().Be(R(1));
     }
 }

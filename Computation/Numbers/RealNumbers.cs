@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace LearningLinearAlgebra.Numbers;
+namespace Computation.Numbers;
 
 public static class RealNumber<TRealNumber> where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {

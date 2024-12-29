@@ -4,7 +4,7 @@
 
 module Gates =
 
-    open LearningLinearAlgebra.Numbers
+    open Computation.Numbers
     open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
     let BinaryGate x y = Operator.TensorProduct x y

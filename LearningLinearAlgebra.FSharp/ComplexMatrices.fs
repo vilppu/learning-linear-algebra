@@ -1,9 +1,9 @@
-﻿namespace LearningLinearAlgebra.Matrices
+﻿namespace Computation.Matrices
 
 module Complex =
 
-    open LearningLinearAlgebra.Numbers
-    open LearningLinearAlgebra.Matrices.Complex.Managed
+    open Computation.Numbers
+    open Computation.Matrices.Complex
 
     type ComplexNumber = ComplexNumber<float>
     type RowVector = RowVector<float>
@@ -12,138 +12,126 @@ module Complex =
 
     module RowVector =
 
-        let Zero n = RowVector<'R>.Zero(n)
+        let Zero n = Matrices.ZeroRowVector(n)
 
-        let Add left right = RowVector<'R>.Add(left, right)
+        let Add (left: RowVector<'R>) (right: RowVector<'R>) = left.Add(right)
 
-        let Subtract left right = RowVector<'R>.Subtract(left, right)
+        let Subtract (left: RowVector<'R>) (right: RowVector<'R>) = left.Subtract(right)
 
-        let Multiply (scalar: ComplexNumber<'R>) (vector: RowVector<'R>) = RowVector<'R>.Multiply(scalar, vector)
+        let Multiply (scalar: ComplexNumber<'R>) (vector: RowVector<'R>) = vector.Multiply(scalar)
 
-        let MultiplyByReal (scalar: 'R) (vector: RowVector<'R>) = RowVector<'R>.Multiply(scalar, vector)
+        let MultiplyByReal (scalar: 'R) (vector: RowVector<'R>) = vector.Multiply(scalar)
 
-        let MultiplyVectors (left: RowVector<'R>) right = RowVector<'R>.Multiply(left, right)
+        let MultiplyVectors (left: RowVector<'R>) (right: ColumnVector<'R>) = left.Multiply(right)
 
-        let InnerProduct left right = RowVector<'R>.InnerProduct(left, right)
+        let InnerProduct (left: RowVector<'R>) (right: RowVector<'R>) = left.InnerProduct(right)
 
-        let Conjucate vector = RowVector<'R>.Conjucate(vector)
+        let Conjucate (vector: RowVector<'R>) = vector.Conjucate()
 
-        let Adjoint vector = RowVector<'R>.Adjoint(vector)
+        let Adjoint (vector: RowVector<'R>) = vector.Adjoint()
 
-        let Transpose vector = RowVector<'R>.Transpose(vector)
+        let Transpose (vector: RowVector<'R>) = vector.Transpose()
 
-        let Norm vector = RowVector<'R>.Norm(vector)
+        let Norm (vector: RowVector<'R>) = vector.Norm()
 
-        let Normalized vector = RowVector<'R>.Normalized(vector)
+        let Normalized (vector: RowVector<'R>) = vector.Normalized()
 
-        let Distance left right = RowVector<'R>.Distance(left, right)
+        let Distance (left: RowVector<'R>) (right: RowVector<'R>) = left.Distance(right)
 
-        let TensorProduct left right =
-            RowVector<'R>.TensorProduct(left, right)
+        let TensorProduct (left: RowVector<'R>) (right: RowVector<'R>) = left.TensorProduct(right)
 
-        let AdditiveInverse vector = RowVector<'R>.AdditiveInverse(vector)
+        let AdditiveInverse (vector: RowVector<'R>) = vector.AdditiveInverse()
 
-        let Round vector = RowVector<'R>.Round(vector)
+        let Round (vector: RowVector<'R>) = vector.Round()
 
     module ColumnVector =
 
-        let Entries (vector: ColumnVector<'R>) = vector.Entries
+        let Zero n = Matrices.ZeroRowVector(n)
 
-        let Zero n = ColumnVector<'R>.Zero(n)
+        let Add (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Add(right)
 
-        let Add left right = ColumnVector<'R>.Add(left, right)
+        let Subtract (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Subtract(right)
 
-        let Subtract left right = ColumnVector<'R>.Subtract(left, right)
+        let Multiply (scalar: ComplexNumber<'R>) (vector: ColumnVector<'R>) = vector.Multiply(scalar)
 
-        let Multiply (scalar: ComplexNumber<'R>) vector =
-            ColumnVector<'R>.Multiply(scalar, vector)
+        let MultiplyByReal (scalar: 'R) (vector: ColumnVector<'R>) = vector.Multiply(scalar)
 
-        let MultiplyByReal (scalar: 'R) vector =
-            ColumnVector<'R>.Multiply(scalar, vector)
+        let InnerProduct (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.InnerProduct(right)
 
-        let InnerProduct left right =
-            ColumnVector<'R>.InnerProduct(left, right)
+        let Conjucate (vector: ColumnVector<'R>) = vector.Conjucate()
 
-        let Conjucate vector = ColumnVector<'R>.Conjucate(vector)
+        let Adjoint (vector: ColumnVector<'R>) = vector.Adjoint()
 
-        let Adjoint vector = ColumnVector<'R>.Adjoint(vector)
+        let Transpose (vector: ColumnVector<'R>) tor = vector.Transpose()
 
-        let Transpose vector = ColumnVector<'R>.Transpose(vector)
+        let Norm (vector: ColumnVector<'R>) = vector.Norm()
 
-        let Norm vector = ColumnVector<'R>.Norm(vector)
+        let Normalized (vector: ColumnVector<'R>) = vector.Normalized()
 
-        let Normalized vector = ColumnVector<'R>.Normalized(vector)
+        let Distance (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Distance(right)
 
-        let Distance left right = ColumnVector<'R>.Distance(left, right)
+        let TensorProduct (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.TensorProduct(right)
 
-        let TensorProduct left right =
-            ColumnVector<'R>.TensorProduct(left, right)
+        let AdditiveInverse (vector: ColumnVector<'R>) = vector.AdditiveInverse()
 
-        let AdditiveInverse vector =
-            ColumnVector<'R>.AdditiveInverse(vector)
-
-        let Round vector = ColumnVector<'R>.Round(vector)
+        let Round (vector: ColumnVector<'R>) = vector.Round()
 
     module SquareMatrix =
 
-        let Zero m = SquareMatrix<'R>.Zero(m)
+        let Zero m = Matrices.Zero(m)
 
-        let Identity m = SquareMatrix<'R>.Identity(m)
+        let Identity m = Matrices.Identity(m)
 
-        let M (matrix: SquareMatrix<'R>) = SquareMatrix<'R>.M(matrix)
+        let M (matrix: SquareMatrix<'R>) = matrix.M()
 
-        let N matrix = SquareMatrix<'R>.N(matrix)
+        let N (matrix: SquareMatrix<'R>) = matrix.N()
 
-        let Add left right = SquareMatrix<'R>.Add(left, right)
+        let Add (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Add(right)
 
-        let Subtract left right = SquareMatrix<'R>.Subtract(left, right)
+        let Subtract (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Subtract(right)
 
-        let Multiply (scalar: ComplexNumber<'R>) matrix =
-            SquareMatrix<'R>.Multiply(scalar, matrix)
+        let Multiply (scalar: ComplexNumber<'R>) (matrix: SquareMatrix<'R>) = matrix.Multiply(scalar)
 
-        let Transpose (matrix) = SquareMatrix<'R>.Transpose(matrix)
+        let Transpose (matrix: SquareMatrix<'R>) = matrix.Transpose()
 
-        let Conjucate (matrix) = SquareMatrix<'R>.Conjucate(matrix)
+        let Conjucate (matrix: SquareMatrix<'R>) = matrix.Conjucate()
 
-        let Adjoint matrix = SquareMatrix<'R>.Adjoint(matrix)
+        let Adjoint (matrix: SquareMatrix<'R>) = matrix.Adjoint()
 
-        let Product (left: SquareMatrix<'R>) right = SquareMatrix<'R>.Multiply(left, right)
+        let Product (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Multiply(right)
 
-        let Act (left: SquareMatrix<'R>) (right: ColumnVector<'R>) = SquareMatrix<'R>.Act(left, right)
+        let Act (left: SquareMatrix<'R>) (right: ColumnVector<'R>) = left.Act(right)
 
-        let ActToLeft (left: RowVector<'R>) (right: SquareMatrix<'R>) = SquareMatrix<'R>.Act(left, right)
+        let ActToLeft (left: RowVector<'R>) (right: SquareMatrix<'R>) = right.Act(left)
 
-        let Commutator left right =
-            SquareMatrix<'R>.Commutator(left, right)
+        let Commutator (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Commutator(right)
 
-        let Round matrix = SquareMatrix<'R>.Round(matrix)
+        let Round (matrix: SquareMatrix<'R>) = matrix.Round()
 
-        let IsHermitian matrix = SquareMatrix<'R>.IsHermitian(matrix)
+        let IsHermitian (matrix: SquareMatrix<'R>) = matrix.IsHermitian()
 
-        let IsUnitary matrix = SquareMatrix<'R>.IsUnitary(matrix)
+        let IsUnitary (matrix: SquareMatrix<'R>) = matrix.IsUnitary()
 
-        let TensorProduct left right =
-            SquareMatrix<'R>.TensorProduct(left, right)
+        let TensorProduct (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.TensorProduct(right)
 
-        let AdditiveInverse matrix =
-            SquareMatrix<'R>.AdditiveInverse(matrix)
+        let AdditiveInverse (matrix: SquareMatrix<'R>) = matrix.AdditiveInverse()
 
     let Unwrap<'R when 'R :> System.Numerics.IFloatingPointIeee754<'R>> complex : ComplexNumber<'R> = complex
 
-    let CreateColumnVector entries =
-        entries |> Array.map Unwrap |> ColumnVector<float>
+    let CreateColumnVector (components: ComplexNumber<'R> array) =
+        components |> Array.map Unwrap |> Matrices<'R>.V
 
-    let CreateRowVector entries =
-        entries |> Array.map Unwrap |> RowVector<float>
+    let CreateRowVector (components: ComplexNumber<'R> array) =
+        components |> Array.map Unwrap |> Matrices<'R>.U
 
-    let CreateMatrix entries =
-        entries
+    let CreateMatrix (components: ComplexNumber<'R> array array) =
+        components
         |> Array.map (fun row -> row |> Array.map (fun element -> Unwrap element))
         |> array2D
-        |> SquareMatrix<float>
+        |> Matrices<'R>.M
 
-    let V (entries: ComplexNumber<float> array) = CreateColumnVector entries
+    let V (components: ComplexNumber<float> array) = CreateColumnVector components
 
-    let U (entries: ComplexNumber<float> array) = CreateRowVector entries
+    let U (components: ComplexNumber<float> array) = CreateRowVector components
 
-    let M (entries: ComplexNumber<float> array array) = CreateMatrix entries
+    let M (components: ComplexNumber<float> array array) = CreateMatrix components

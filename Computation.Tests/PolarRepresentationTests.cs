@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
-using Xunit;
-using static LearningLinearAlgebra.Numbers.RealNumber<float>;
-using static LearningLinearAlgebra.Numbers.Polar<float>;
+using static Computation.Numbers.RealNumber<float>;
+using static Computation.Numbers.Polar<float>;
 
-namespace LearningLinearAlgebra.Tests.Numbers;
+namespace Computation.Tests;
 
 public class PolarRepresentationTests
 {

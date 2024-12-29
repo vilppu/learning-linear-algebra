@@ -8,13 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\x64\$(Configuration)\CudaComputation.dll" Link="CudaComputation\CudaComputation.dll">
+    <None Include="..\x64\$(Configuration)\CudaComputation.dll" Link="Cuda\CudaComputation.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CudaComputation\CudaComputation.vcxproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Boxed\" />
   </ItemGroup>
 
 </Project>

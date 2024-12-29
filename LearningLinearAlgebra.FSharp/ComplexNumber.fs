@@ -1,4 +1,4 @@
-﻿namespace LearningLinearAlgebra.Numbers
+﻿namespace Computation.Numbers
 
 type ComplexNumber = ComplexNumber<float>
 

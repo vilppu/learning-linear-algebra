@@ -1,301 +1,177 @@
 ﻿using System.Numerics;
-using LearningLinearAlgebra.Matrices.Complex.Abstract;
-using LearningLinearAlgebra.Numbers;
+using Computation.Numbers;
 
 namespace LearningLinearAlgebra.ComplexVectorSpace;
 
 public static class FluentKetOperations
 {
-    public static int Dimension<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static int Dimension<TRealNumber>(this Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Dimension(ket);
+        Ket<TRealNumber>.Dimension(ket);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Add<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> Add<TRealNumber>(this Ket<TRealNumber> left, Ket<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Add(left, right);
+        Ket<TRealNumber>.Add(left, right);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Subtract<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> Subtract<TRealNumber>(this Ket<TRealNumber> left, Ket<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Subtract(left, right);
+        Ket<TRealNumber>.Subtract(left, right);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> AdditiveInverse<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> AdditiveInverse<TRealNumber>(this Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.AdditiveInverse(ket);
+        Ket<TRealNumber>.AdditiveInverse(ket);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Multiply<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this ComplexNumber<TRealNumber> scalar, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> scalar, Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Multiply(scalar, ket);
+        Ket<TRealNumber>.Multiply(scalar, ket);
 
-    public static ComplexNumber<TRealNumber> Multiply<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> bra, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static ComplexNumber<TRealNumber> Multiply<TRealNumber>(this Bra<TRealNumber> bra, Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Multiply(bra, ket);
+        Ket<TRealNumber>.Multiply(bra, ket);
 
-    public static ComplexNumber<TRealNumber> InnerProduct<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static ComplexNumber<TRealNumber> InnerProduct<TRealNumber>(this Ket<TRealNumber> left, Ket<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.InnerProduct(left, right);
+        Ket<TRealNumber>.InnerProduct(left, right);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> TensorProduct<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> TensorProduct<TRealNumber>(this Ket<TRealNumber> left, Ket<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.TensorProduct(left, right);
+        Ket<TRealNumber>.TensorProduct(left, right);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> Bra<TRealNumber>(this Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Bra(ket);
+        Ket<TRealNumber>.Bra(ket);
 
-    public static TRealNumber Norm<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static TRealNumber Norm<TRealNumber>(this Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Norm(ket);
+        Ket<TRealNumber>.Norm(ket);
 
-    public static TRealNumber Distance<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static TRealNumber Distance<TRealNumber>(this Ket<TRealNumber> left, Ket<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Distance(left, right);
+        Ket<TRealNumber>.Distance(left, right);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Normalized<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> Normalized<TRealNumber>(this Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Normalized(ket);
+        Ket<TRealNumber>.Normalized(ket);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Conjucate<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> Conjucate<TRealNumber>(this Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Conjucate(ket);
+        Ket<TRealNumber>.Conjucate(ket);
 }
 
 public static class FluentBraOperations
 {
-    public static int Dimension<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static int Dimension<TRealNumber>(this Bra<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Dimension(ket);
+        Bra<TRealNumber>.Dimension(ket);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Add<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> Add<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Add(left, right);
+        Bra<TRealNumber>.Add(left, right);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Subtract<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> Subtract<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Subtract(left, right);
+        Bra<TRealNumber>.Subtract(left, right);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> AdditiveInverse<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> AdditiveInverse<TRealNumber>(this Bra<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.AdditiveInverse(ket);
+        Bra<TRealNumber>.AdditiveInverse(ket);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Multiply<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this ComplexNumber<TRealNumber> scalar, Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Multiply(scalar, ket);
+        Bra<TRealNumber>.Multiply(scalar, ket);
 
-    public static ComplexNumber<TRealNumber> InnerProduct<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static ComplexNumber<TRealNumber> InnerProduct<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.InnerProduct(left, right);
+        Bra<TRealNumber>.InnerProduct(left, right);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> TensorProduct<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> TensorProduct<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.TensorProduct(left, right);
+        Bra<TRealNumber>.TensorProduct(left, right);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> bra)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> Ket<TRealNumber>(this Bra<TRealNumber> bra)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Ket(bra);
+        Bra<TRealNumber>.Ket(bra);
 
-    public static TRealNumber Norm<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> bra)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static TRealNumber Norm<TRealNumber>(this Bra<TRealNumber> bra)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Norm(bra);
+        Bra<TRealNumber>.Norm(bra);
 
-    public static TRealNumber Distance<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static TRealNumber Distance<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Distance(left, right);
+        Bra<TRealNumber>.Distance(left, right);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Normalized<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> bra)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> Normalized<TRealNumber>(this Bra<TRealNumber> bra)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Normalized(bra);
+        Bra<TRealNumber>.Normalized(bra);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Conjucate<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> bra)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> Conjucate<TRealNumber>(this Bra<TRealNumber> bra)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Conjucate(bra);
+        Bra<TRealNumber>.Conjucate(bra);
 }
 
 public static class FluentOperatorOperations
 {
-    public static int Dimension<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static int Dimension<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Dimension(@operator);
+        Operator<TRealNumber>.Dimension(@operator);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Add<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Add<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Add(left, right);
+        Operator<TRealNumber>.Add(left, right);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Subtract<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Subtract<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Subtract(left, right);
+        Operator<TRealNumber>.Subtract(left, right);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> AdditiveInverse<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> AdditiveInverse<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.AdditiveInverse(@operator);
+        Operator<TRealNumber>.AdditiveInverse(@operator);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Multiply<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this ComplexNumber<TRealNumber> scalar, Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-    Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Multiply(scalar, @operator);
+    Operator<TRealNumber>.Multiply(scalar, @operator);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Multiply<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Multiply<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Multiply(left, right);
+        Operator<TRealNumber>.Multiply(left, right);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> TensorProduct<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> TensorProduct<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.TensorProduct(left, right);
+        Operator<TRealNumber>.TensorProduct(left, right);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Commutator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> left, Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> right)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Commutator<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Commutator(left, right);
+        Operator<TRealNumber>.Commutator(left, right);
 
-    public static Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Act<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator, Ket<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> ket)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Ket<TRealNumber> Act<TRealNumber>(this Operator<TRealNumber> @operator, Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Act(@operator, ket);
+        Operator<TRealNumber>.Act(@operator, ket);
 
-    public static Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Act<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Bra<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> bra, Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Bra<TRealNumber> Act<TRealNumber>(this Bra<TRealNumber> bra, Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Act(bra, @operator);
+        Operator<TRealNumber>.Act(bra, @operator);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Conjucate<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Conjucate<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Conjucate(@operator);
+        Operator<TRealNumber>.Conjucate(@operator);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Adjoint<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Adjoint<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Adjoint(@operator);
+        Operator<TRealNumber>.Adjoint(@operator);
 
-    public static Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> Round<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static Operator<TRealNumber> Round<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.Round(@operator);
+        Operator<TRealNumber>.Round(@operator);
 
-    public static bool IsIdentity<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static bool IsIdentity<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.IsIdentity(@operator);
+        Operator<TRealNumber>.IsIdentity(@operator);
 
-    public static bool IsUnitary<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static bool IsUnitary<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.IsUnitary(@operator);
+        Operator<TRealNumber>.IsUnitary(@operator);
 
-    public static bool IsHermitian<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>(this Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber> @operator)
-        where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
-        where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
-        where TSquareMatrix : ISquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>
+    public static bool IsHermitian<TRealNumber>(this Operator<TRealNumber> @operator)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRowVector, TColumnVector, TSquareMatrix, TRealNumber>.IsHermitian(@operator);
+        Operator<TRealNumber>.IsHermitian(@operator);
 }

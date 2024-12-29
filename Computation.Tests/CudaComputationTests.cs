@@ -1,14 +1,14 @@
-﻿using FluentAssertions;
-using Xunit;
+﻿using Computation.Cuda;
+using FluentAssertions;
 
-namespace LearningLinearAlgebra.Tests;
+namespace Computation.Tests;
 
 public class CudaComputationTests
 {
     [Fact]
     public void Compute_on_NVIDIA_GPU()
     {
-        var result = CudaComputation.CudaComputation.ComputeInGpu();
+        var result = CudaComputation.ComputeInGpu();
 
         result.Should().Be(11);
     }

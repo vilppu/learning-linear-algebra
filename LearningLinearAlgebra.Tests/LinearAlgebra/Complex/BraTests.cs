@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
-using LearningLinearAlgebra.Numbers;
 using Xunit;
-using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
+using Computation.Numbers;
+using LearningLinearAlgebra.ComplexVectorSpace;
+using static Computation.Numbers.RealNumber<float>;
+using static Computation.Numbers.ComplexNumber<float>;
 using static LearningLinearAlgebra.ComplexVectorSpace.Bra<float>;
 using static LearningLinearAlgebra.ComplexVectorSpace.Ket<float>;
-using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Complex;
 
@@ -35,9 +35,9 @@ public class BraTests
 
         using var _ = new AssertionScope();
 
-        sum.Should().Equal(U([(8, 13), (16, 22)]));
-        (a + b).Should().Equal(Add(a, b));
-        a.Add(b).Should().Equal(Add(a, b));
+        sum.Should().BeEquivalentTo(U([(8, 13), (16, 22)]));
+        (a + b).Should().BeEquivalentTo(Add(a, b));
+        a.Add(b).Should().BeEquivalentTo(Add(a, b));
     }
 
     [Fact]
@@ -50,9 +50,9 @@ public class BraTests
 
         using var _ = new AssertionScope();
 
-        difference.Should().Equal(U([(-6, -9), (-10, -12)]));
-        (a - b).Should().Equal(Subtract(a, b));
-        a.Subtract(b).Should().Equal(Subtract(a, b));
+        difference.Should().BeEquivalentTo(U([(-6, -9), (-10, -12)]));
+        (a - b).Should().BeEquivalentTo(Subtract(a, b));
+        a.Subtract(b).Should().BeEquivalentTo(Subtract(a, b));
     }
 
     [Fact]
@@ -65,9 +65,9 @@ public class BraTests
 
         using var _ = new AssertionScope();
 
-        product.Should().Equal(U([(-8, 19), (-17, 51)]));
-        (scalar * bra).Should().Equal(Multiply(scalar, bra));
-        scalar.Multiply(bra).Should().Equal(Multiply(scalar, bra));
+        product.Should().BeEquivalentTo(U([(-8, 19), (-17, 51)]));
+        (scalar * bra).Should().BeEquivalentTo(Multiply(scalar, bra));
+        scalar.Multiply(bra).Should().BeEquivalentTo(Multiply(scalar, bra));
     }
 
     [Fact]
@@ -79,9 +79,9 @@ public class BraTests
 
         using var _ = new AssertionScope();
 
-        additiveInverse.Should().Equal(U([(-1, -2), (-3, -5)]));
-        (-bra).Should().Equal(AdditiveInverse(bra));
-        bra.AdditiveInverse().Should().Equal(AdditiveInverse(bra));
+        additiveInverse.Should().BeEquivalentTo(U([(-1, -2), (-3, -5)]));
+        (-bra).Should().BeEquivalentTo(AdditiveInverse(bra));
+        bra.AdditiveInverse().Should().BeEquivalentTo(AdditiveInverse(bra));
     }
 
     [Fact]
@@ -106,17 +106,17 @@ public class BraTests
 
         var tensorProduct = TensorProduct(a, b);
 
-        tensorProduct.Should().Equal(U([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
-        a.TensorProduct(b).Should().Equal(TensorProduct(a, b));
+        tensorProduct.Should().BeEquivalentTo(U([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
+        a.TensorProduct(b).Should().BeEquivalentTo(TensorProduct(a, b));
     }
 
     [Fact]
     public void More_examples_of_tensor_product()
     {
-        TensorProduct(U([(1, 0), (0, 0)]), U([(1, 0), (0, 0)])).Should().Equal(U([(1, 0), (0, 0), (0, 0), (0, 0)]));
-        TensorProduct(U([(1, 0), (0, 0)]), U([(0, 0), (1, 0)])).Should().Equal(U([(0, 0), (1, 0), (0, 0), (0, 0)]));
-        TensorProduct(U([(0, 0), (1, 0)]), U([(1, 0), (0, 0)])).Should().Equal(U([(0, 0), (0, 0), (1, 0), (0, 0)]));
-        TensorProduct(U([(0, 0), (1, 0)]), U([(0, 0), (1, 0)])).Should().Equal(U([(0, 0), (0, 0), (0, 0), (1, 0)]));
+        TensorProduct(U([(1, 0), (0, 0)]), U([(1, 0), (0, 0)])).Should().BeEquivalentTo(U([(1, 0), (0, 0), (0, 0), (0, 0)]));
+        TensorProduct(U([(1, 0), (0, 0)]), U([(0, 0), (1, 0)])).Should().BeEquivalentTo(U([(0, 0), (1, 0), (0, 0), (0, 0)]));
+        TensorProduct(U([(0, 0), (1, 0)]), U([(1, 0), (0, 0)])).Should().BeEquivalentTo(U([(0, 0), (0, 0), (1, 0), (0, 0)]));
+        TensorProduct(U([(0, 0), (1, 0)]), U([(0, 0), (1, 0)])).Should().BeEquivalentTo(U([(0, 0), (0, 0), (0, 0), (1, 0)]));
     }
 
     [Fact]
@@ -128,8 +128,8 @@ public class BraTests
 
         using var _ = new AssertionScope();
 
-        conjucate.Should().Equal(U([(1, -2), (3, -5)]));
-        bra.Conjucate().Should().Equal(conjucate);
+        conjucate.Should().BeEquivalentTo(U([(1, -2), (3, -5)]));
+        bra.Conjucate().Should().BeEquivalentTo(conjucate);
     }
 
     [Fact]
@@ -181,8 +181,8 @@ public class BraTests
 
         using var _ = new AssertionScope();
 
-        normalized.Should().Equal(1 / Sqrt(bra * bra) * bra);
-        bra.Normalized().Should().Equal(Normalized(bra));
+        normalized.Should().BeEquivalentTo(1 / Sqrt(bra * bra) * bra);
+        bra.Normalized().Should().BeEquivalentTo(Normalized(bra));
         normalized.Norm().Round().Should().Be(R(1));
     }
 }

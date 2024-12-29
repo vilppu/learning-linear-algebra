@@ -22,7 +22,7 @@ module Should =
                 actual.Should().BeEquivalentTo(expected, "") |> ignore
 
             let Bra (expected: Bra) (actual: Bra) =
-                actual.Should().Equal(expected, "") |> ignore
+                actual.Should().BeEquivalentTo(expected, "") |> ignore
 
             let Operator (expected: Operator) (actual: Operator) =
                 actual.Should().BeEquivalentTo(expected, "") |> ignore

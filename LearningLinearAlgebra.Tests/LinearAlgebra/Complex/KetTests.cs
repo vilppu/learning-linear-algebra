@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
-using LearningLinearAlgebra.Numbers;
 using Xunit;
-using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
+using Computation.Numbers;
+using LearningLinearAlgebra.ComplexVectorSpace;
+using static Computation.Numbers.ComplexNumber<float>;
 using static LearningLinearAlgebra.ComplexVectorSpace.Bra<float>;
 using static LearningLinearAlgebra.ComplexVectorSpace.Ket<float>;
-using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Complex;
 
@@ -156,8 +155,8 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        bra.Should().Equal(U([(1, -2), (3, -5)]));
-        a.Bra().Should().Equal(Bra(a));
+        bra.Should().BeEquivalentTo(U([(1, -2), (3, -5)]));
+        a.Bra().Should().BeEquivalentTo(Bra(a));
     }
 
     [Fact]
@@ -169,7 +168,7 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        norm.Should().Be(Sqrt(439));
+        norm.Should().Be(RealNumber<float>.Sqrt(439));
         ket.Norm().Should().Be(Norm(ket));
     }
 
@@ -184,7 +183,7 @@ public class KetTests
 
         using var _ = new AssertionScope();
 
-        distance.Should().Be(Sqrt(413));
+        distance.Should().Be(RealNumber<float>.Sqrt(413));
         a.Distance(b).Should().Be(Distance(a, b));
     }
 
@@ -199,6 +198,6 @@ public class KetTests
 
         normalized.Should().BeEquivalentTo(1 / Sqrt(ket * ket) * ket);
         ket.Normalized().Should().BeEquivalentTo(Normalized(ket));
-        normalized.Norm().Round().Should().Be(R(1));
+        normalized.Norm().Round().Should().Be(1);
     }
 }

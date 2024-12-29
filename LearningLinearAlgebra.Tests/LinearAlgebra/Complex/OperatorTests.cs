@@ -1,13 +1,13 @@
-﻿using FluentAssertions;
+﻿using Computation.Numbers;
+using FluentAssertions;
 using FluentAssertions.Execution;
-using LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace;
-using LearningLinearAlgebra.Numbers;
 using Xunit;
-using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
+using LearningLinearAlgebra.ComplexVectorSpace;
+using static Computation.Numbers.ComplexNumber<float>;
+using static Computation.Numbers.RealNumber<float>;
 using static LearningLinearAlgebra.ComplexVectorSpace.Bra<float>;
 using static LearningLinearAlgebra.ComplexVectorSpace.Ket<float>;
 using static LearningLinearAlgebra.ComplexVectorSpace.Operator<float>;
-using static LearningLinearAlgebra.Numbers.RealNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Complex;
 
@@ -202,9 +202,9 @@ public class OperatorTests
 
         using var _ = new AssertionScope();
 
-        result.Should().Equal(U([(-127, 341), (-458, 1526)]));
-        (bra * @operator).Should().Equal(result);
-        bra.Act(@operator).Should().Equal(Act(bra, @operator));
+        result.Should().BeEquivalentTo(U([(-127, 341), (-458, 1526)]));
+        (bra * @operator).Should().BeEquivalentTo(result);
+        bra.Act(@operator).Should().BeEquivalentTo(Act(bra, @operator));
     }
 
     [Fact]

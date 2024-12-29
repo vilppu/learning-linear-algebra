@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
+using LearningLinearAlgebra.RealVectorSpace;
+using static Computation.Numbers.RealNumber<float>;
 using static LearningLinearAlgebra.RealVectorSpace.Bra<float>;
 using static LearningLinearAlgebra.RealVectorSpace.Ket<float>;
 using static LearningLinearAlgebra.RealVectorSpace.Operator<float>;
-using static LearningLinearAlgebra.Numbers.RealNumber<float>;
-using LearningLinearAlgebra.RealVectorSpace;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Real;
 
@@ -179,9 +179,9 @@ public class OperatorTests
 
         using var _ = new AssertionScope();
 
-        result.Should().Equal(V([116, 564]));
-        (@operator * ket).Should().Equal(result);
-        @operator.Act(ket).Should().Equal(Act(@operator, ket));
+        result.Should().BeEquivalentTo(V([116, 564]));
+        (@operator * ket).Should().BeEquivalentTo(result);
+        @operator.Act(ket).Should().BeEquivalentTo(Act(@operator, ket));
     }
 
     [Fact]
@@ -198,9 +198,9 @@ public class OperatorTests
 
         using var _ = new AssertionScope();
 
-        result.Should().Equal(V([116, 564]));
-        (bra * @operator).Should().Equal(result);
-        bra.Act(@operator).Should().Equal(Act(bra, @operator));
+        result.Should().BeEquivalentTo(U([116, 564]));
+        (bra * @operator).Should().BeEquivalentTo(result);
+        bra.Act(@operator).Should().BeEquivalentTo(Act(bra, @operator));
     }
 
     [Fact]
@@ -400,6 +400,6 @@ public class OperatorTests
 
         var eigenValue = R(3);
 
-        (eigenValue * eigenVector).Should().Equal(matrix * eigenVector);
+        (eigenValue * eigenVector).Should().BeEquivalentTo(matrix * eigenVector);
     }
 }

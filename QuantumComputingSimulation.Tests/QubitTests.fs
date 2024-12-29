@@ -5,7 +5,7 @@ open Xunit
 module QubitTests =
     open Qubit
 
-    open LearningLinearAlgebra.Numbers.Complex
+    open Computation.Numbers.Complex
     open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
     [<Fact>]

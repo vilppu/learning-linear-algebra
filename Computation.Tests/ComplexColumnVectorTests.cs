@@ -1,300 +1,288 @@
-﻿using FluentAssertions;
+﻿using System.Numerics;
+using Computation.Matrices.Complex;
+using Computation.Numbers;
+using FluentAssertions;
 using FluentAssertions.Execution;
-using Xunit;
-using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
-using static LearningLinearAlgebra.Matrices.Complex.Managed.ColumnVector<float>;
-using static LearningLinearAlgebra.Matrices.Complex.Managed.RowVector<float>;
-using static LearningLinearAlgebra.Numbers.RealNumber<float>;
-using LearningLinearAlgebra.Matrices.Complex.Abstract;
-using LearningLinearAlgebra.Matrices.Complex.Managed;
 
-namespace LearningLinearAlgebra.Tests.Matrices;
+namespace Computation.Tests;
 
-public class ComplexColumnVectorTests
+public class ManagedSinglePrecisionComplexColumnVectorTests : ComplexColumnVectorTests<Managed.Complex.Matrices<float>, float>;
+
+public abstract class ComplexColumnVectorTests<TMatrices, TRealNumber>
+    where TMatrices : IMatrices<TRealNumber>
+    where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    protected ComplexColumnVectorTests() =>
+        Formatters<TRealNumber>.Register();
+
     [Fact]
     public void Sum_of_two_vectors_is_calculated_as_sum_of_the_components()
     {
-        var a = V([(1, 2), (3, 5)]);
-        var b = V([(7, 11), (13, 19)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
-        var sum = Add(a, b);
+        var sum = a.Add(b);
 
         using var _ = new AssertionScope();
 
-        sum.Should().Equal(V([(8, 13), (16, 24)]));
-        (a + b).Should().Equal(Add(a, b));
-        a.Add(b).Should().Equal(Add(a, b));
+        sum.Should().BeEquivalentTo(TMatrices.V([(8, 13), (16, 24)]));
+        (a + b).Should().BeEquivalentTo(a.Add(b));
     }
 
     [Fact]
     public void Sum_of_complex_vectors_is_commutative()
     {
-        var a = V([(1, 2), (3, 5)]);
-        var b = V([(7, 11), (13, 19)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
-        (b + a).Should().Equal(a + b);
+        (b + a).Should().BeEquivalentTo(a + b);
     }
 
     [Fact]
     public void Sum_of_complex_vectors_is_associative()
     {
-        var a = V([(1, 2), (3, 5)]);
-        var b = V([(7, 11), (13, 19)]);
-        var c = V([(23, 29), (31, 37)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
+        var c = TMatrices.V([(23, 29), (31, 37)]);
 
-        (a + (b + c)).Should().Equal(a + b + c);
+        (a + (b + c)).Should().BeEquivalentTo(a + b + c);
     }
 
     [Fact]
     public void Sum_of_vector_and_its_the_inverse_is_zero()
     {
-        var vector = V([(1, 2), (3, 5)]);
+        var vector = TMatrices.V([(1, 2), (3, 5)]);
 
-        var zero = ColumnVector<float>.Zero(2);
+        var zero = TMatrices.ZeroColumnVector(2);
 
-        (vector + -vector).Should().Equal(zero);
+        (vector + -vector).Should().BeEquivalentTo(zero);
     }
 
     [Fact]
     public void Zero_is_an_additive_identity()
     {
-        var vector = V([(1, 2), (3, 5)]);
+        var vector = TMatrices.V([(1, 2), (3, 5)]);
 
-        var zero = ColumnVector<float>.Zero(2);
+        var zero = TMatrices.ZeroColumnVector(2);
 
         using var _ = new AssertionScope();
 
-        (vector + zero).Should().Equal(vector);
-        (zero + vector).Should().Equal(vector);
+        (vector + zero).Should().BeEquivalentTo(vector);
+        (zero + vector).Should().BeEquivalentTo(vector);
     }
 
     [Fact]
     public void Difference_of_two_vectors_is_calculated_as_difference_of_the_components()
     {
-        var a = V([(1, 2), (3, 5)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
 
-        var b = V([(7, 11), (13, 19)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
-        var difference = Subtract(a, b);
+        var difference = a.Subtract(b);
 
         using var _ = new AssertionScope();
 
-        difference.Should().Equal(V([(-6, -9), (-10, -14)]));
-        (a - b).Should().Equal(Subtract(a, b));
-        a.Subtract(b).Should().Equal(Subtract(a, b));
+        difference.Should().BeEquivalentTo(TMatrices.V([(-6, -9), (-10, -14)]));
+        (a - b).Should().BeEquivalentTo(a.Subtract(b));
     }
 
     [Fact]
     public void When_multiplying_a_vector_by_scalar_then_each_element_of_the_vector_is_multiplied_by_the_scalar()
     {
-        var scalar = C(5, 7);
-        var vector = V([(11, 13), (19, 21)]);
+        var scalar = ComplexNumber<TRealNumber>.C(5, 7);
+        var vector = TMatrices.V([(11, 13), (19, 21)]);
 
-        var multiplied = Multiply(scalar, vector);
+        var multiplied = vector.Multiply(scalar);
 
         using var _ = new AssertionScope();
 
-        multiplied.Should().Equal(V([(-36, 142), (-52, 238)]));
-        (scalar * vector).Should().Equal(Multiply(scalar, vector));
-        scalar.Multiply(vector).Should().Equal(Multiply(scalar, vector));
+        multiplied.Should().BeEquivalentTo(TMatrices.V([(-36, 142), (-52, 238)]));
+        (scalar * vector).Should().BeEquivalentTo(vector.Multiply(scalar));
     }
 
     [Fact]
     public void Complex_vector_can_by_multiplied_by_a_real_scalar()
     {
-        var scalar = R(5);
-        var vector = V([(1, 0), (2, 0)]);
+        var scalar = RealNumber<TRealNumber>.R(5);
+        var vector = TMatrices.V([(1, 0), (2, 0)]);
 
-        var multiplied = Multiply(scalar, vector);
+        var multiplied = vector.Multiply(scalar);
 
         using var _ = new AssertionScope();
 
-        multiplied.Should().Equal(V([(5, 0), (10, 0)]));
-        (scalar * vector).Should().Equal(Multiply(scalar, vector));
-        scalar.Multiply(vector).Should().Equal(Multiply(scalar, vector));
+        multiplied.Should().BeEquivalentTo(TMatrices.V([(5, 0), (10, 0)]));
+        (scalar * vector).Should().BeEquivalentTo(vector.Multiply(scalar));
     }
 
     [Fact]
     public void Scalar_multiplication_respects_complex_multiplication()
     {
-        var scalarA = C(3, 5);
-        var scalarB = C(7, 11);
+        var scalarA = ComplexNumber<TRealNumber>.C(3, 5);
+        var scalarB = ComplexNumber<TRealNumber>.C(7, 11);
 
-        var vector = V([(23, 29), (31, 37)]);
+        var vector = TMatrices.V([(23, 29), (31, 37)]);
 
-        (scalarA * scalarB * vector).Should().Equal(scalarA * (scalarB * vector));
+        (scalarA * scalarB * vector).Should().BeEquivalentTo(scalarA * (scalarB * vector));
     }
 
     [Fact]
     public void Scalar_multiplication_distributes_over_addition()
     {
-        var scalar = C(3, 5);
-        var vectorA = V([(7, 11), (13, 19)]);
+        var scalar = ComplexNumber<TRealNumber>.C(3, 5);
+        var vectorA = TMatrices.V([(7, 11), (13, 19)]);
 
-        var vectorB = V([(23, 29), (31, 37)]);
+        var vectorB = TMatrices.V([(23, 29), (31, 37)]);
 
-        (scalar * vectorA + scalar * vectorB).Should().Equal(scalar * (vectorA + vectorB));
+        (scalar * vectorA + scalar * vectorB).Should().BeEquivalentTo(scalar * (vectorA + vectorB));
     }
 
     [Fact]
     public void Scalar_multiplication_distributes_over_complex_addition()
     {
-        var scalarA = C(3, 5);
-        var scalarB = C(7, 11);
+        var scalarA = ComplexNumber<TRealNumber>.C(3, 5);
+        var scalarB = ComplexNumber<TRealNumber>.C(7, 11);
 
-        var vector = V([(23, 29), (31, 37)]);
+        var vector = TMatrices.V([(23, 29), (31, 37)]);
 
-        (scalarA * vector + scalarB * vector).Should().Equal((scalarA + scalarB) * vector);
+        (scalarA * vector + scalarB * vector).Should().BeEquivalentTo((scalarA + scalarB) * vector);
     }
 
     [Fact]
     public void Conjucate_of_a_vector_is_where_each_element_is_a_complex_conjucate_of_the_original_vector()
     {
-        var vector = V([(1, 2), (3, 5)]);
+        var vector = TMatrices.V([(1, 2), (3, 5)]);
 
-        var conjucate = Conjucate(vector);
+        var conjucate = vector.Conjucate();
 
-        using var _ = new AssertionScope();
-
-        conjucate.Should().Equal(V([(1, -2), (3, -5)]));
-        vector.Conjucate().Should().Equal(conjucate);
+        conjucate.Should().BeEquivalentTo(TMatrices.V([(1, -2), (3, -5)]));
     }
 
     [Fact]
     public void Transpose_of_a_column_vector_is_row_vector_with_same_entries_of_the_original_vector()
     {
-        var vector = V([(1, 2), (3, 5)]);
+        var vector = TMatrices.V([(1, 2), (3, 5)]);
 
-        var transpose = Transpose(vector);
+        var transpose = vector.Transpose();
 
-        using var _ = new AssertionScope();
-
-        transpose.Should().Equal(U([(1, 2), (3, 5)]));
-        vector.Transpose().Should().Equal(transpose);
+        transpose.Should().BeEquivalentTo(TMatrices.U([(1, 2), (3, 5)]));
     }
 
     [Fact]
     public void Adjoint_of_a_column_vector_is_row_vector_where_each_entry_is_a_complex_conjucate_of_the_original_vector()
     {
-        var vector = V([(1, 2), (3, 5)]);
+        var vector = TMatrices.V([(1, 2), (3, 5)]);
 
-        var adjoint = Adjoint(vector);
+        var adjoint = vector.Adjoint();
 
-        using var _ = new AssertionScope();
-
-        adjoint.Should().Equal(U([(1, -2), (3, -5)]));
-        vector.Adjoint().Should().Equal(adjoint);
+        adjoint.Should().BeEquivalentTo(TMatrices.U([(1, -2), (3, -5)]));
     }
 
     [Fact]
     public void Inner_product_is_a_sum_of_products_of_left_vector_components_and_conjucates_of_right_vector_components()
     {
-        var a = V([(1, 2), (3, 5)]);
-        var b = V([(7, 11), (13, 19)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
-        var innerProduct = InnerProduct(a, b);
+        var innerProduct = a.InnerProduct(b);
 
         using var _ = new AssertionScope();
 
-        innerProduct.Should().BeEquivalentTo(C(163, 11));
-        (a * b).Should().BeEquivalentTo(InnerProduct(a, b));
+        innerProduct.Should().Be(ComplexNumber<TRealNumber>.C(163, 11));
+        (a * b).Should().Be(a.InnerProduct(b));
     }
 
     [Fact]
     public void Inner_product_respects_addition()
     {
-        var a = V([(1, 2), (3, 5)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
 
-        var b = V([(7, 11), (13, 19)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
-        var c = V([(23, 29), (31, 37)]);
+        var c = TMatrices.V([(23, 29), (31, 37)]);
 
-        (a * c + b * c).Should().BeEquivalentTo((a + b) * c);
+        (a * c + b * c).Should().Be((a + b) * c);
     }
 
     [Fact]
     public void Inner_product_respects_scalar_multiplication()
     {
-        var a = V([(1, 2), (3, 5)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
 
-        var b = V([(7, 11), (13, 19)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
         var scalar = (23, 29);
 
-        (scalar * (a * b)).Should().BeEquivalentTo(scalar * a * b);
+        (scalar * (a * b)).Should().Be(scalar * a * b);
     }
 
     [Fact]
     public void Inner_product_of_a_complex_vector_with_itself_is_a_real_number()
     {
-        var vector = V([(1, 2), (3, 5)]);
+        var vector = TMatrices.V([(1, 2), (3, 5)]);
 
-        var innerProduct = InnerProduct(vector, vector);
+        var innerProduct = vector.InnerProduct(vector);
 
-        innerProduct.Should().BeEquivalentTo(C(39, 0));
+        innerProduct.Should().Be(ComplexNumber<TRealNumber>.C(39, 0));
     }
 
     [Fact]
     public void Norm_is_square_root_of_inner_product_of_vector_with_itself()
     {
-        var vector = V([(4, 3), (6, -4), (12, -7), (0, 13)]);
+        var vector = TMatrices.V([(4, 3), (6, -4), (12, -7), (0, 13)]);
 
-        var norm = Norm(vector);
+        var norm = vector.Norm();
 
         using var _ = new AssertionScope();
 
-        norm.Should().Be(Sqrt(439));
-        vector.Norm().Should().Be(Norm(vector));
+        norm.Should().Be(RealNumber<TRealNumber>.Sqrt(439));
+        vector.Norm().Should().Be(vector.Norm());
     }
 
     [Fact]
     public void Vector_can_be_normalized_to_have_length_of_one_by_dividing_it_by_its_length()
     {
-        var vector = V([(3, 1), (2, 5), (-1, 0)]);
+        var vector = TMatrices.V([(3, 1), (2, 5), (-1, 0)]);
 
-        var normalized = Normalized(vector);
+        var normalized = vector.Normalized();
 
         using var _ = new AssertionScope();
 
-        normalized.Should().Equal(1 / Sqrt(vector * vector) * vector);
-        vector.Normalized().Should().Equal(Normalized(vector));
+        normalized.Should().BeEquivalentTo(1 / ComplexNumber<TRealNumber>.Sqrt(vector * vector) * vector);
+        vector.Normalized().Should().BeEquivalentTo(vector.Normalized());
     }
 
     [Fact]
     public void Distance_of_the_two_vectors_is_the_norm_of_the_difference()
     {
+        var a = TMatrices.V([(1, 2), (3, 5)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
-        var a = V([(1, 2), (3, 5)]);
-        var b = V([(7, 11), (13, 19)]);
-
-        var distance = Distance(a, b);
+        var distance = a.Distance(b);
 
         using var _ = new AssertionScope();
 
-        distance.Should().Be(Sqrt(413));
-        a.Distance(b).Should().Be(Distance(a, b));
+        distance.Should().Be(RealNumber<TRealNumber>.Sqrt(413));
+        a.Distance(b).Should().Be(a.Distance(b));
     }
 
     [Fact]
     public void Tensor_product_of_vectors_contains_combinations_of_products_of_all_elements_of_both_vectors()
     {
-        var a = V([(1, 2), (3, 5)]);
-        var b = V([(7, 11), (13, 19)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
 
-        var tensorProduct = TensorProduct(a, b);
+        var tensorProduct = a.TensorProduct(b);
 
-        tensorProduct.Should().Equal(V([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
-        a.TensorProduct(b).Should().Equal(TensorProduct(a, b));
+        tensorProduct.Should().BeEquivalentTo(TMatrices.V([(-15, 25), (-25, 45), (-34, 68), (-56, 122)]));
     }
 
     [Fact]
     public void Tensor_product_is_associative()
     {
-        var a = V([(1, 2), (3, 5)]);
-        var b = V([(7, 11), (13, 19)]);
-        var c = V([(23, 29), (31, 37)]);
+        var a = TMatrices.V([(1, 2), (3, 5)]);
+        var b = TMatrices.V([(7, 11), (13, 19)]);
+        var c = TMatrices.V([(23, 29), (31, 37)]);
 
-        TensorProduct(a, TensorProduct(b, c)).Should().Equal(TensorProduct(TensorProduct(a, b), c));
+        a.TensorProduct(b.TensorProduct(c)).Should().BeEquivalentTo(a.TensorProduct(b).TensorProduct(c));
     }
 }

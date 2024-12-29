@@ -4,8 +4,8 @@
 module State =
 
     open System.Linq
-    open LearningLinearAlgebra.Numbers
-    open LearningLinearAlgebra.Numbers.Complex
+    open Computation.Numbers
+    open Computation.Numbers.Complex
     open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
     let AsScalar (vector: Ket) = vector[0]

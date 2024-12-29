@@ -4,8 +4,8 @@
 
 module Qubit =
 
-    open LearningLinearAlgebra.Numbers
-    open LearningLinearAlgebra.Numbers.Complex
+    open Computation.Numbers
+    open Computation.Numbers.Complex
     open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
 
     let Qubit zeroWeight oneWeight : Ket = V [| zeroWeight; oneWeight |]
@@ -16,7 +16,8 @@ module Qubit =
 
     let Probabilities (system: Ket) =
         system.Components.Entries
-        |> Array.map (fun qubit -> RealNumber.Square(Modulus qubit))
+        |> Seq.map (fun qubit -> RealNumber.Square(Modulus qubit))
+        |> Seq.toArray
 
     let TopZero pair =
         Probabilities(pair)[0] + Probabilities(pair)[1]

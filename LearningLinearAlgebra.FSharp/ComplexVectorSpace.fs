@@ -2,8 +2,8 @@
 
 module ComplexVectorSpace =
 
-    open LearningLinearAlgebra.Numbers
-    open LearningLinearAlgebra.LinearAlgebra.ComplexVectorSpace
+    open Computation.Numbers
+    open LearningLinearAlgebra.ComplexVectorSpace
 
     type ComplexNumber = ComplexNumber<float>
     type Ket = Ket<float>
@@ -100,12 +100,12 @@ module ComplexVectorSpace =
 
     let private Unwrap<'R when 'R :> System.Numerics.IFloatingPointIeee754<'R>> complex : ComplexNumber<'R> = complex
 
-    let private CreateOperator (entries: ComplexNumber<'R> array array) =
-        entries
+    let private CreateOperator (components: ComplexNumber<'R> array array) =
+        components
         |> Array.map (fun row -> row |> Array.map (fun element -> Unwrap element))
         |> array2D
         |> Operator<'R>.M
 
-    let V (entries: ComplexNumber<'R> array) = Ket<'R>.V entries
-    let U (entries: ComplexNumber<'R> array) = Bra<'R>.U entries
+    let V (components: ComplexNumber<'R> array) = Ket<'R>.V components
+    let U (components: ComplexNumber<'R> array) = Bra<'R>.U components
     let M (components: ComplexNumber<'R> array array) = components |> CreateOperator

@@ -1,120 +1,109 @@
-﻿namespace LearningLinearAlgebra.Matrices
+﻿namespace Computation.Matrices
 
 module Real =
 
-    open LearningLinearAlgebra.Matrices.Real.Managed
+    open Computation.Matrices.Real
 
     type RowVector = RowVector<float>
     type ColumnVector = ColumnVector<float>
     type SquareMatrix = SquareMatrix<float>
+    type Matrices = Matrices<float>
 
     module RowVector =
 
-        let Zero n = RowVector<'R>.Zero(n)
+        let Zero n = Matrices.ZeroRowVector(n)
 
-        let Add left right = RowVector<'R>.Add(left, right)
+        let Add (left: RowVector<'R>) (right: RowVector<'R>) = left.Add(right)
 
-        let Subtract left right = RowVector<'R>.Subtract(left, right)
+        let Subtract (left: RowVector<'R>) (right: RowVector<'R>) = left.Subtract(right)
 
-        let Multiply (scalar: 'R) vector = RowVector<'R>.Multiply(scalar, vector)
+        let Multiply (scalar: 'R) (vector: RowVector<'R>) = vector.Multiply(scalar)
 
-        let MultiplyByReal (scalar: 'R) vector = RowVector<'R>.Multiply(scalar, vector)
+        let MultiplyByReal (scalar: 'R) (vector: RowVector<'R>) = vector.Multiply(scalar)
 
-        let MultiplyVectors (left: RowVector<'R>) right = RowVector<'R>.Multiply(left, right)
+        let MultiplyVectors (left: RowVector<'R>) (right: ColumnVector<'R>) = left.Multiply(right)
 
-        let Transpose vector = RowVector<'R>.Transpose(vector)
+        let Transpose (vector: RowVector<'R>) = vector.Transpose()
 
-        let InnerProduct left right = RowVector<'R>.InnerProduct(left, right)
+        let InnerProduct (left: RowVector<'R>) (right: RowVector<'R>) = left.InnerProduct(right)
 
-        let Norm vector = RowVector<'R>.Norm(vector)
+        let Norm (vector: RowVector<'R>) = vector.Norm()
 
-        let Normalized vector = RowVector<'R>.Normalized(vector)
+        let Normalized (vector: RowVector<'R>) = vector.Normalized()
 
-        let Distance left right = RowVector<'R>.Distance(left, right)
+        let Distance (left: RowVector<'R>) (right: RowVector<'R>) = left.Distance(right)
 
-        let TensorProduct left right =
-            RowVector<'R>.TensorProduct(left, right)
+        let TensorProduct (left: RowVector<'R>) (right: RowVector<'R>) = left.TensorProduct(right)
 
-        let AdditiveInverse vector = RowVector<'R>.AdditiveInverse(vector)
+        let AdditiveInverse (vector: RowVector<'R>) = vector.AdditiveInverse()
 
-        let Round vector = RowVector<'R>.Round(vector)
+        let Round (vector: RowVector<'R>) = vector.Round()
 
     module ColumnVector =
 
-        let Zero n = ColumnVector<'R>.Zero(n)
+        let Zero n = Matrices.ZeroColumnVector(n)
 
-        let Add left right = ColumnVector<'R>.Add(left, right)
+        let Add (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Add(right)
 
-        let Subtract left right = ColumnVector<'R>.Subtract(left, right)
+        let Subtract (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Subtract(right)
 
-        let Multiply (scalar: 'R) vector =
-            ColumnVector<'R>.Multiply(scalar, vector)
+        let Multiply (scalar: 'R) (vector: ColumnVector<'R>) = vector.Multiply(scalar)
 
-        let MultiplyByReal (scalar: 'R) vector =
-            ColumnVector<'R>.Multiply(scalar, vector)
+        let MultiplyByReal (scalar: 'R) (vector: ColumnVector<'R>) = vector.Multiply(scalar)
 
-        let Transpose vector = ColumnVector<'R>.Transpose(vector)
+        let Transpose (vector: ColumnVector<'R>) = vector.Transpose()
 
-        let InnerProduct left right =
-            ColumnVector<'R>.InnerProduct(left, right)
+        let InnerProduct (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.InnerProduct(right)
 
-        let Norm vector = ColumnVector<'R>.Norm(vector)
+        let Norm (vector: ColumnVector<'R>) = vector.Norm()
 
-        let Normalized vector = ColumnVector<'R>.Normalized(vector)
+        let Normalized (vector: ColumnVector<'R>) = vector.Normalized()
 
-        let Distance left right = ColumnVector<'R>.Distance(left, right)
+        let Distance (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Distance(right)
 
-        let TensorProduct left right =
-            ColumnVector<'R>.TensorProduct(left, right)
+        let TensorProduct (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.TensorProduct(right)
 
-        let AdditiveInverse vector =
-            ColumnVector<'R>.AdditiveInverse(vector)
+        let AdditiveInverse (vector: ColumnVector<'R>) = vector.AdditiveInverse()
 
-        let Round vector = ColumnVector<'R>.Round(vector)
+        let Round (vector: ColumnVector<'R>) = vector.Round()
 
     module SquareMatrix =
 
-        let Zero m = SquareMatrix<'R>.Zero(m)
+        let Zero m = Matrices.Zero(m)
 
-        let Identity m = SquareMatrix<'R>.Identity(m)
+        let Identity m = Matrices.Identity(m)
 
-        let M (matrix: SquareMatrix<'R>) = SquareMatrix<'R>.M(matrix)
+        let M (matrix: SquareMatrix<'R>) = matrix.M()
 
-        let N matrix = SquareMatrix<'R>.N(matrix)
+        let N (matrix: SquareMatrix<'R>) = matrix.N()
 
-        let Add left right = SquareMatrix<'R>.Add(left, right)
+        let Add (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Add(right)
 
-        let Subtract left right = SquareMatrix<'R>.Subtract(left, right)
+        let Subtract (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Subtract(right)
 
-        let Multiply (scalar: 'R) matrix =
-            SquareMatrix<'R>.Multiply(scalar, matrix)
+        let Multiply (scalar: 'R) (matrix: SquareMatrix<'R>) = matrix.Multiply(scalar)
 
-        let Transpose (matrix: SquareMatrix<'R>) = SquareMatrix<'R>.Transpose(matrix)
+        let Transpose (matrix: SquareMatrix<'R>) = matrix.Transpose()
 
-        let Product (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = SquareMatrix<'R>.Multiply(left, right)
+        let Product (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Multiply(right)
 
-        let Act (left: SquareMatrix<'R>) (right: ColumnVector<'R>) = SquareMatrix<'R>.Act(left, right)
+        let Act (left: SquareMatrix<'R>) (right: ColumnVector<'R>) = left.Act(right)
 
-        let Commutator left right =
-            SquareMatrix<'R>.Commutator(left, right)
+        let Round (matrix: SquareMatrix<'R>) = matrix.Round()
 
-        let Round matrix = SquareMatrix<'R>.Round(matrix)
+        let TensorProduct (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.TensorProduct(right)
 
-        let TensorProduct left right =
-            SquareMatrix<'R>.TensorProduct(left, right)
-
-        let AdditiveInverse matrix =
-            SquareMatrix<'R>.AdditiveInverse(matrix)
+        let AdditiveInverse (matrix: SquareMatrix<'R>) = matrix.AdditiveInverse()
 
 
-    let CreateColumnVector entries = entries |> ColumnVector<'R>
+    let CreateColumnVector (components: 'R array) = components |> Matrices<'R>.V
 
-    let CreateRowVector entries = entries |> RowVector<'R>
+    let CreateRowVector (components: 'R array) = components |> Matrices<'R>.U
 
-    let CreateMatrix entries = entries |> array2D |> SquareMatrix<'R>
+    let CreateMatrix (components: 'R array array) = components |> array2D |> Matrices<'R>.M
 
-    let V entries = CreateColumnVector entries
+    let V components = CreateColumnVector components
 
-    let U entries = CreateRowVector entries
+    let U components = CreateRowVector components
 
-    let M entries = CreateMatrix entries
+    let M components = CreateMatrix components
