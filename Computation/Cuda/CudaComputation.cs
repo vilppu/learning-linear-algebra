@@ -2,15 +2,39 @@
 
 namespace Computation.Cuda;
 
-public static partial class CudaComputation
+public class CudaComputationFailedException(string message) : Exception(message);
+
+enum ComputationResult
 {
+    Succeeded,
+    CudaSetDeviceFailed,
+    CudaDeviceResetFailed,
+    CudaMallocFailed,
+    CudaMemcpyFailed,
+    CudaKernelFailed,
+    CudaDeviceSynchronizeFailed
+};
 
-    public static int ComputeInGpu()
-    {
-        return Compute();
-    }
+static class ComputationResultToException
+{
+    public static TResult ThrowOnFailureOrReturn<TResult>(this ComputationResult singlePrecisionVectorAddition, TResult result) =>
+        singlePrecisionVectorAddition switch
+        {
+            ComputationResult.Succeeded => result,
+            var failure => throw new CudaComputationFailedException(failure.ToString())
+        };
+}
 
-
-    [LibraryImport("Cuda/CudaComputation.dll", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
-    private static partial int Compute();
+static partial class CudaComputation
+{
+    [LibraryImport(
+        libraryName: "Cuda/CudaComputation.dll",
+        StringMarshalling = StringMarshalling.Utf16, 
+        SetLastError = true, 
+        EntryPoint = "single_precision_vector_addition")]
+    public static partial ComputationResult single_precision_vector_addition(
+        float[] left,
+        float[] right,
+        float[] result,
+        long vectorLength);
 }

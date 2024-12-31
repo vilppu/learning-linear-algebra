@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E927990-3537-407D-8D0A-A2C4077BE2E9}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		TODO.md = TODO.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computation", "Computation\Computation.csproj", "{FFB831D0-EA79-4807-8246-3FABDCB3ABF1}"

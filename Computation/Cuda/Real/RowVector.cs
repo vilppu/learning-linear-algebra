@@ -33,7 +33,11 @@ public record RowVector<TRealNumber>(TRealNumber[] Entries)
         left.Entries.SequenceEqual(right.Entries);
 
     public static RowVector<TRealNumber> Add(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        left.Zip(right, (a, b) => a + b);
+        (left, right) switch
+        {
+            (RowVector<float> leftVector, RowVector<float> rightVector) => U(leftVector.Entries.Add(rightVector.Entries)),
+            _ => left.Zip(right, (a, b) => a + b)
+        };
 
     public static RowVector<TRealNumber> AdditiveInverse(RowVector<TRealNumber> vector) =>
         vector.Map(entry => -entry);

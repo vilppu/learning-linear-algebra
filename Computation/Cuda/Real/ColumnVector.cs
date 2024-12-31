@@ -33,7 +33,11 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         left.Entries.SequenceEqual(right.Entries);
 
     public static ColumnVector<TRealNumber> Add(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
-        left.Zip(right, (a, b) => a + b);
+        (left, right) switch
+        {
+            (ColumnVector<float> l, ColumnVector<float> r) => V(l.Entries.Add(r.Entries)),
+            _ => left.Zip(right, (a, b) => a + b)
+        };
 
     public static ColumnVector<TRealNumber> AdditiveInverse(ColumnVector<TRealNumber> vector) =>
         vector.Map(entry => -entry);
