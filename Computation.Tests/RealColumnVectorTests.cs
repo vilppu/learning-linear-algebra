@@ -8,6 +8,8 @@ namespace Computation.Tests;
 
 public class ManagedSinglePrecisionRealColumnVectorTests : RealColumnVectorTests<Managed.Real.Matrices<float>, float>;
 public class ManagedDoublePrecisionRealColumnVectorTests : RealColumnVectorTests<Managed.Real.Matrices<double>, double>;
+public class CudaSinglePrecisionRealColumnVectorTests : RealColumnVectorTests<Cuda.Real.Matrices<float>, float>;
+public class CudaDoublePrecisionRealColumnVectorTests : RealColumnVectorTests<Cuda.Real.Matrices<double>, double>;
 
 public abstract class RealColumnVectorTests<TMatrices, TRealNumber>
     where TMatrices : IMatrices<TRealNumber>

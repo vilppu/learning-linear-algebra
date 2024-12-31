@@ -39,44 +39,44 @@ public class Matrices<TRealNumber> : IMatrices<TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public static SquareMatrix<TRealNumber> M(ComplexNumber<TRealNumber>[,] entries) =>
-        Managed.Complex.Matrices<TRealNumber>.M(entries);
+        Cuda.Complex.Matrices<TRealNumber>.M(entries);
 
     public static SquareMatrix<TRealNumber> M(ComplexNumber<float>[,] entries) =>
-        Managed.Complex.Matrices<TRealNumber>.M(entries);
+        Cuda.Complex.Matrices<TRealNumber>.M(entries);
 
     public static SquareMatrix<TRealNumber> M(ComplexNumber<double>[,] entries) =>
-        Managed.Complex.Matrices<TRealNumber>.M(entries);
+        Cuda.Complex.Matrices<TRealNumber>.M(entries);
 
     public static SquareMatrix<TRealNumber> M(int m, Func<int, int, ComplexNumber<TRealNumber>> initializer) =>
-        Managed.Complex.Matrices<TRealNumber>.M(m, initializer);
+        Cuda.Complex.Matrices<TRealNumber>.M(m, initializer);
 
     public static SquareMatrix<TRealNumber> Zero(int m) =>
-        Managed.Complex.Matrices<TRealNumber>.Zero(m);
+        Cuda.Complex.Matrices<TRealNumber>.Zero(m);
 
     public static SquareMatrix<TRealNumber> Identity(int m) =>
-        Managed.Complex.Matrices<TRealNumber>.Identity(m);
+        Cuda.Complex.Matrices<TRealNumber>.Identity(m);
 
     public static ColumnVector<TRealNumber> V(ComplexNumber<TRealNumber>[] entries) =>
-        Managed.Complex.Matrices<TRealNumber>.V(entries);
+        Cuda.Complex.Matrices<TRealNumber>.V(entries);
 
     public static ColumnVector<TRealNumber> V(IEnumerable<ComplexNumber<TRealNumber>> entries) =>
-        Managed.Complex.Matrices<TRealNumber>.V(entries);
+        Cuda.Complex.Matrices<TRealNumber>.V(entries);
 
     public static ColumnVector<TRealNumber> V(int length, Func<int, ComplexNumber<TRealNumber>> initializer) =>
-        Managed.Complex.Matrices<TRealNumber>.V(length, initializer);
+        Cuda.Complex.Matrices<TRealNumber>.V(length, initializer);
 
     public static ColumnVector<TRealNumber> ZeroColumnVector(int length) =>
-        Managed.Complex.Matrices<TRealNumber>.ZeroColumnVector(length);
+        Cuda.Complex.Matrices<TRealNumber>.ZeroColumnVector(length);
 
     public static RowVector<TRealNumber> U(ComplexNumber<TRealNumber>[] entries) =>
-        Managed.Complex.Matrices<TRealNumber>.U(entries);
+        Cuda.Complex.Matrices<TRealNumber>.U(entries);
 
     public static RowVector<TRealNumber> U(IEnumerable<ComplexNumber<TRealNumber>> entries) =>
-        Managed.Complex.Matrices<TRealNumber>.U(entries);
+        Cuda.Complex.Matrices<TRealNumber>.U(entries);
 
     public static RowVector<TRealNumber> U(int length, Func<int, ComplexNumber<TRealNumber>> initializer) =>
-        Managed.Complex.Matrices<TRealNumber>.U(length, initializer);
+        Cuda.Complex.Matrices<TRealNumber>.U(length, initializer);
 
     public static RowVector<TRealNumber> ZeroRowVector(int length) =>
-        Managed.Complex.Matrices<TRealNumber>.ZeroRowVector(length);
+        Cuda.Complex.Matrices<TRealNumber>.ZeroRowVector(length);
 }

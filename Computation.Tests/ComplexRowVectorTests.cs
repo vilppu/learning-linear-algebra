@@ -8,6 +8,8 @@ namespace Computation.Tests;
 
 public class ManagedSinglePrecisionComplexRowVectorTests : ComplexRowVectorTests<Managed.Complex.Matrices<float>, float>;
 public class ManagedDoublePrecisionComplexRowVectorTests : ComplexRowVectorTests<Managed.Complex.Matrices<double>, double>;
+public class CudaSinglePrecisionComplexRowVectorTests : ComplexRowVectorTests<Cuda.Complex.Matrices<float>, float>;
+public class CudaDoublePrecisionComplexRowVectorTests : ComplexRowVectorTests<Cuda.Complex.Matrices<double>, double>;
 
 public abstract class ComplexRowVectorTests<TMatrices, TRealNumber>
     where TMatrices : IMatrices<TRealNumber>
