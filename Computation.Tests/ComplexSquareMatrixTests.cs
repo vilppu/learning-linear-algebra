@@ -7,6 +7,7 @@ using FluentAssertions.Execution;
 namespace Computation.Tests;
 
 public class ManagedSinglePrecisionComplexSquareMatrixTests : ComplexSquareMatrixTests<Managed.Complex.Matrices<float>, float>;
+public class ManagedDoublePrecisionComplexSquareMatrixTests : ComplexSquareMatrixTests<Managed.Complex.Matrices<double>, double>;
 
 public abstract class ComplexSquareMatrixTests<TMatrices, TRealNumber>
     where TMatrices : IMatrices<TRealNumber>
