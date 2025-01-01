@@ -16,4 +16,17 @@ static class VectorArithmetics
                 .ThrowOnFailureOrReturn(vector);
         }
     }
+
+    public static double[] Add(this double[] left,
+        double[] right)
+    {
+        lock (ThreadSynchronization)
+        {
+            var vector = new double[left.Length];
+
+            return CudaComputation
+                .double_precision_vector_addition(left, right, vector, left.LongLength)
+                .ThrowOnFailureOrReturn(vector);
+        }
+    }
 }

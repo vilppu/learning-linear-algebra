@@ -53,3 +53,24 @@ struct float_vector_in_device_memory final
 		cudaFree(device_pointer);
 	}
 };
+
+
+struct double_vector_in_device_memory final
+{
+	double* device_pointer = nullptr;
+
+	double_vector_in_device_memory(const double_vector_in_device_memory&) = default;
+	//double_vector_in_device_memory(const double_vector_in_device_memory&&) = default;
+	double_vector_in_device_memory& operator=(double_vector_in_device_memory&& other) = default;
+	double_vector_in_device_memory& operator=(const double_vector_in_device_memory& other) = default;
+
+	explicit double_vector_in_device_memory(const unsigned long vector_length)
+	{
+		throw_on_cuda_error(cudaMalloc(&device_pointer, vector_length * sizeof(double)), cuda_malloc_failed);
+	}
+
+	~double_vector_in_device_memory()
+	{
+		cudaFree(device_pointer);
+	}
+};

@@ -36,6 +36,7 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         (left, right) switch
         {
             (ColumnVector<float> l, ColumnVector<float> r) => V(l.Entries.Add(r.Entries)),
+            (ColumnVector<double> l, ColumnVector<double> r) => V(l.Entries.Add(r.Entries)),
             _ => left.Zip(right, (a, b) => a + b)
         };
 

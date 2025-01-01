@@ -37,4 +37,15 @@ static partial class CudaComputation
         float[] right,
         float[] result,
         long vectorLength);
+
+    [LibraryImport(
+        libraryName: "Cuda/CudaComputation.dll",
+        StringMarshalling = StringMarshalling.Utf16,
+        SetLastError = true,
+        EntryPoint = "double_precision_vector_addition")]
+    public static partial ComputationResult double_precision_vector_addition(
+        double[] left,
+        double[] right,
+        double[] result,
+        long vectorLength);
 }
