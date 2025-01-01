@@ -8,25 +8,29 @@ public static class MatrixFormatting
 {
     public static string Formatted<TRealNumber>(this SquareMatrix<TRealNumber> source)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Formatted(source.Entries);
+        source.Entries.Formatted();
 
     public static string Formatted<TRealNumber>(this RowVector<TRealNumber> source)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Formatted(source.Entries);
+        source.Entries.Formatted(source.Length());
 
     public static string Formatted<TRealNumber>(this ColumnVector<TRealNumber> source)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Formatted(source.Entries);
+        source.Entries.Formatted(source.Length());
 
-    public static string Formatted<TRealNumber>(IEnumerable<ComplexNumber<TRealNumber>> source)
+    private static string Formatted<TRealNumber>(this IEnumerable<ComplexNumber<TRealNumber>> source, long length)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        "{" + string.Join(", ", source.Select(NumberFormatting.Formatted)) + "}";
+        length > 50
+            ? "{" + string.Join(", ", source.Take(50).Select(NumberFormatting.Formatted)) + " ...}"
+            : "{" + string.Join(", ", source.Select(NumberFormatting.Formatted)) + "}";
 
-    public static string Formatted<TRealNumber>(IEnumerable<IEnumerable<ComplexNumber<TRealNumber>>> source)
+    private static string Formatted<TRealNumber>(this IEnumerable<IEnumerable<ComplexNumber<TRealNumber>>> source, long width)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        "{\r\n" + string.Join(",\r\n", source.Select(Formatted)) + "\r\n}";
+        width > 50
+            ? "{\r\n" + string.Join(",\r\n", source.Take(50).Select(row => Formatted(row, width))) + " ...\r\n}"
+            : "{\r\n" + string.Join(",\r\n", source.Select(row => Formatted(row, width))) + "\r\n}";
 
-    private static string Formatted<TRealNumber>(ComplexNumber<TRealNumber>[,] source)
+    private static string Formatted<TRealNumber>(this ComplexNumber<TRealNumber>[,] source)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Formatted(source.ToEnumerable());
+        Formatted(source.ToEnumerable(), source.Length);
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include <exception>
-#include <string>
 
 #include "cuda_runtime.h"
 
@@ -17,11 +16,11 @@ enum computation_result : uint8_t
 
 struct computation_failed_exception final : std::exception
 {
-	std::string error_string;
+	cudaError_t cuda_result;
 	computation_result failure;
 
 	explicit computation_failed_exception(const cudaError_t cuda_result, const computation_result failure) :
-		error_string(cudaGetErrorString(cuda_result)),
+		cuda_result(cuda_result),
 		failure(failure)
 	{
 	}
@@ -34,42 +33,22 @@ inline void throw_on_cuda_error(const cudaError_t cuda_result, const computation
 	}
 }
 
-struct float_vector_in_device_memory final
+template<typename TRealNumber>
+struct vector_in_device_memory final
 {
-	float* device_pointer = nullptr;
+	TRealNumber* device_pointer = nullptr;
 
-	float_vector_in_device_memory(const float_vector_in_device_memory&) = default;
-	//float_vector_in_device_memory(const float_vector_in_device_memory&&) = default;
-	float_vector_in_device_memory& operator=(float_vector_in_device_memory&& other) = default;
-	float_vector_in_device_memory& operator=(const float_vector_in_device_memory& other) = default;
+	vector_in_device_memory(const vector_in_device_memory&) = default;
+	//vector_in_device_memory(const vector_in_device_memory&&) = default;
+	vector_in_device_memory& operator=(vector_in_device_memory&& other) = default;
+	vector_in_device_memory& operator=(const vector_in_device_memory& other) = default;
 
-	explicit float_vector_in_device_memory(const unsigned long vector_length)
+	explicit vector_in_device_memory(const unsigned long vector_length)
 	{
-		throw_on_cuda_error(cudaMalloc(&device_pointer, vector_length * sizeof(float)), cuda_malloc_failed);
+		throw_on_cuda_error(cudaMalloc(&device_pointer, vector_length * sizeof(TRealNumber)), cuda_malloc_failed);
 	}
 
-	~float_vector_in_device_memory()
-	{
-		cudaFree(device_pointer);
-	}
-};
-
-
-struct double_vector_in_device_memory final
-{
-	double* device_pointer = nullptr;
-
-	double_vector_in_device_memory(const double_vector_in_device_memory&) = default;
-	//double_vector_in_device_memory(const double_vector_in_device_memory&&) = default;
-	double_vector_in_device_memory& operator=(double_vector_in_device_memory&& other) = default;
-	double_vector_in_device_memory& operator=(const double_vector_in_device_memory& other) = default;
-
-	explicit double_vector_in_device_memory(const unsigned long vector_length)
-	{
-		throw_on_cuda_error(cudaMalloc(&device_pointer, vector_length * sizeof(double)), cuda_malloc_failed);
-	}
-
-	~double_vector_in_device_memory()
+	~vector_in_device_memory()
 	{
 		cudaFree(device_pointer);
 	}

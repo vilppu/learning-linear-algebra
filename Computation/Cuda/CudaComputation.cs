@@ -2,9 +2,13 @@
 
 namespace Computation.Cuda;
 
-public class CudaComputationFailedException(string message) : Exception(message);
+public class CudaComputationFailedException(CudaComputationResult failure)
+    : Exception($"Cuda computation failed on: {failure}")
+{
+    public CudaComputationResult Failure { get; } = failure;
+}
 
-enum ComputationResult
+public enum CudaComputationResult
 {
     Succeeded,
     CudaSetDeviceFailed,
@@ -17,35 +21,40 @@ enum ComputationResult
 
 static class ComputationResultToException
 {
-    public static TResult ThrowOnFailureOrReturn<TResult>(this ComputationResult singlePrecisionVectorAddition, TResult result) =>
-        singlePrecisionVectorAddition switch
+    public static TResult ThrowOnFailureOrReturn<TResult>(this CudaComputationResult cudaComputationResult, TResult result) =>
+        cudaComputationResult switch
         {
-            ComputationResult.Succeeded => result,
-            var failure => throw new CudaComputationFailedException(failure.ToString())
+            CudaComputationResult.Succeeded => result,
+            _ => throw new CudaComputationFailedException(cudaComputationResult)
         };
 }
 
-static partial class CudaComputation
+public static partial class CudaComputation
 {
-    [LibraryImport(
-        libraryName: "Cuda/CudaComputation.dll",
-        StringMarshalling = StringMarshalling.Utf16, 
-        SetLastError = true, 
-        EntryPoint = "single_precision_vector_addition")]
-    public static partial ComputationResult single_precision_vector_addition(
+    private static readonly object ThreadSynchronization = new();
+
+    public static int Warmup()
+    {
+        lock (ThreadSynchronization)
+        {
+            return warmup();
+        }
+    }
+
+    [LibraryImport("Cuda/CudaComputation.dll")]
+    public static partial CudaComputationResult single_precision_vector_addition(
         float[] left,
         float[] right,
         float[] result,
         long vectorLength);
 
-    [LibraryImport(
-        libraryName: "Cuda/CudaComputation.dll",
-        StringMarshalling = StringMarshalling.Utf16,
-        SetLastError = true,
-        EntryPoint = "double_precision_vector_addition")]
-    public static partial ComputationResult double_precision_vector_addition(
+    [LibraryImport("Cuda/CudaComputation.dll")]
+    public static partial CudaComputationResult double_precision_vector_addition(
         double[] left,
         double[] right,
         double[] result,
         long vectorLength);
+
+    [LibraryImport("Cuda/CudaComputation.dll")]
+    public static partial int warmup();
 }
