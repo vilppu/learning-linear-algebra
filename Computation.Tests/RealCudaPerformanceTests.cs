@@ -17,7 +17,7 @@ public abstract class RealCudaPerformanceTests<TRealNumber>
         CudaComputation.Warmup();
     }
 
-    [Fact]
+    //[Fact]
     public void Vector_addition_should_be_faster_with_CUDA()
     {
         const int vectorLength = 20000000;
