@@ -53,3 +53,25 @@ struct vector_in_device_memory final
 		cudaFree(device_pointer);
 	}
 };
+
+
+template<typename TRealNumber>
+struct matrix_in_device_memory final
+{
+	TRealNumber* device_pointer = nullptr;
+
+	matrix_in_device_memory(const matrix_in_device_memory&) = default;
+	//matrix_in_device_memory(const matrix_in_device_memory&&) = default;
+	matrix_in_device_memory& operator=(matrix_in_device_memory&& other) = default;
+	matrix_in_device_memory& operator=(const matrix_in_device_memory& other) = default;
+
+	explicit matrix_in_device_memory(const unsigned long dimension_of_matrix)
+	{
+		throw_on_cuda_error(cudaMalloc(&device_pointer, dimension_of_matrix * dimension_of_matrix * sizeof(TRealNumber)), cuda_malloc_failed);
+	}
+
+	~matrix_in_device_memory()
+	{
+		cudaFree(device_pointer);
+	}
+};

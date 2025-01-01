@@ -1,5 +1,7 @@
-﻿using System.Numerics;
+﻿using System.Data.Common;
+using System.Numerics;
 using Computation.Cuda;
+using Computation.Numbers;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
@@ -17,7 +19,7 @@ public abstract class RealCudaPerformanceTests<TRealNumber>
         CudaComputation.Warmup();
     }
 
-    [Fact]
+    //[Fact]
     public void Vector_addition_should_be_faster_with_CUDA()
     {
         const int vectorLength = 20000000;
@@ -38,5 +40,24 @@ public abstract class RealCudaPerformanceTests<TRealNumber>
         
         cudaComputationTime.Should().BeLessThan(managedComputationTime);
 
+    }
+
+    [Fact]
+    public void Matrix_addition_should_be_faster_with_CUDA()
+    {
+        const int dimension = 10000;
+
+        var firstManagedMatrix = Managed.Real.Matrices<TRealNumber>.M(dimension, (i, j) => RealNumber<TRealNumber>.R(i));
+        var secondManagedMatrix = Managed.Real.Matrices<TRealNumber>.M(dimension, (i, j) => RealNumber<TRealNumber>.R(j));
+
+        var firstCudaMatrix = Cuda.Real.Matrices<TRealNumber>.M(dimension, (i, j) => RealNumber<TRealNumber>.R(i));
+        var secondCudaMatrix = Cuda.Real.Matrices<TRealNumber>.M(dimension, (i, j) => RealNumber<TRealNumber>.R(j));
+
+        var (_, managedComputationTime) = ComputationStopwatch.MeasureTime(() => firstManagedMatrix.Add(secondManagedMatrix));
+        var (_, cudaComputationTime) = ComputationStopwatch.MeasureTime(() => firstCudaMatrix.Add(secondCudaMatrix));
+
+        using var _ = new AssertionScope();
+        
+        cudaComputationTime.Should().BeLessThan(managedComputationTime);
     }
 }

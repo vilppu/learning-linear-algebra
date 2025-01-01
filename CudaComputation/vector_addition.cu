@@ -7,8 +7,8 @@
 
 template<typename TRealNumber>
 __global__ void vector_addition_kernel(
-	const TRealNumber* left_vector,
-	const TRealNumber* right_vector,
+	const TRealNumber left_vector[],
+	const TRealNumber right_vector[],
 	TRealNumber* result_vector,
 	const unsigned long vector_length)
 {
@@ -22,8 +22,8 @@ __global__ void vector_addition_kernel(
 
 template<typename TRealNumber>
 int vector_addition(
-	const TRealNumber* left_vector,
-	const TRealNumber* right_vector,
+	const TRealNumber left_vector[],
+	const TRealNumber right_vector[],
 	TRealNumber* result_vector,
 	const unsigned long vector_length)
 {
@@ -80,9 +80,4 @@ extern "C" __declspec(dllexport) int double_precision_vector_addition(
 	const unsigned long vector_length)
 {
 	return vector_addition<double>(left_vector, right_vector, result_vector, vector_length);
-}
-
-extern "C" __declspec(dllexport) int warmup()
-{
-	return 0;
 }

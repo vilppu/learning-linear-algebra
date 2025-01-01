@@ -78,7 +78,9 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <CudaCompile Include="square_matrix_addition.cu" />
     <CudaCompile Include="vector_addition.cu" />
+    <CudaCompile Include="warmup.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cuda_computation.hpp" />

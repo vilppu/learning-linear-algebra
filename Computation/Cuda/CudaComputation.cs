@@ -42,18 +42,32 @@ public static partial class CudaComputation
     }
 
     [LibraryImport("Cuda/CudaComputation.dll")]
-    public static partial CudaComputationResult single_precision_vector_addition(
-        float[] left,
-        float[] right,
-        float[] result,
+    public static unsafe partial CudaComputationResult single_precision_vector_addition(
+        float* left,
+        float* right,
+        float* result,
         long vectorLength);
 
     [LibraryImport("Cuda/CudaComputation.dll")]
-    public static partial CudaComputationResult double_precision_vector_addition(
-        double[] left,
-        double[] right,
-        double[] result,
+    public static unsafe partial CudaComputationResult double_precision_vector_addition(
+        double* left,
+        double* right,
+        double* result,
         long vectorLength);
+
+    [LibraryImport("Cuda/CudaComputation.dll")]
+    public static unsafe partial CudaComputationResult single_precision_square_matrix_addition(
+        float* left,
+        float* right,
+        float* result,
+        long dimensionOfMatrix);
+
+    [LibraryImport("Cuda/CudaComputation.dll")]
+    public static unsafe partial CudaComputationResult double_precision_square_matrix_addition(
+        double* left,
+        double* right,
+        double* result,
+        long dimensionOfMatrix);
 
     [LibraryImport("Cuda/CudaComputation.dll")]
     public static partial int warmup();

@@ -79,8 +79,12 @@ public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
             ? matrix[x.i, x.j].Round() == TRealNumber.One
             : matrix[x.i, x.j].Round() == TRealNumber.Zero);
 
-    public static SquareMatrix<TRealNumber> Add(SquareMatrix<TRealNumber> left, SquareMatrix<TRealNumber> right) =>
-         left.Zip(right, (x, y) => x + y);
+    public static SquareMatrix<TRealNumber> Add(SquareMatrix<TRealNumber> left, SquareMatrix<TRealNumber> right) => (left, right) switch
+    {
+        (SquareMatrix<float> l, SquareMatrix<float> r) => M(l.Entries.Add(r.Entries)),
+        (SquareMatrix<double> l, SquareMatrix<double> r) => M(l.Entries.Add(r.Entries)),
+        _ => left.Zip(right, (a, b) => a + b)
+    };
 
     public static SquareMatrix<TRealNumber> Subtract(SquareMatrix<TRealNumber> left, SquareMatrix<TRealNumber> right) =>
          left.Zip(right, (x, y) => x - y);
