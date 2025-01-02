@@ -9,7 +9,6 @@ public interface IBoxedColumnVector<TRealNumber>
     public ColumnVector<TRealNumber> ColumnVector() => ColumnVector<TRealNumber>.V(this);
     public ComplexNumber<TRealNumber>[] Entries { get; }
     public ComplexNumber<TRealNumber> this[int index] { get; }
-    public bool IsEquivalentTo(IBoxedColumnVector<TRealNumber> right);
     public ComplexNumber<TRealNumber> InnerProduct(IBoxedColumnVector<TRealNumber> right);
     public ComplexNumber<TRealNumber> Multiply(IBoxedRowVector<TRealNumber> right);
     public ComplexNumber<TRealNumber> Sum();
@@ -47,9 +46,6 @@ record BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
 
     public ComplexNumber<TRealNumber> this[int index] => ColumnVector[index];
 
-    public bool IsEquivalentTo(IBoxedColumnVector<TRealNumber> right) =>
-        ColumnVector.IsEquivalentTo(Unbox(right));
-
     public ComplexNumber<TRealNumber> InnerProduct(IBoxedColumnVector<TRealNumber> right) =>
         ColumnVector.InnerProduct(Unbox(right));
 
@@ -71,10 +67,10 @@ record BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
     public IBoxedColumnVector<TRealNumber> Map(IBoxedColumnVector<TRealNumber> source, Func<ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>> elementMapping) =>
         V(ColumnVector.Map(elementMapping));
 
-    public IBoxedColumnVector<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar) =>
+    public IBoxedColumnVector<TRealNumber> Multiply(TRealNumber scalar) =>
         V(scalar.Multiply(ColumnVector));
 
-    public IBoxedColumnVector<TRealNumber> Multiply(TRealNumber scalar) =>
+    public IBoxedColumnVector<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar) =>
         V(scalar.Multiply(ColumnVector));
 
     public IBoxedColumnVector<TRealNumber> Normalized() =>

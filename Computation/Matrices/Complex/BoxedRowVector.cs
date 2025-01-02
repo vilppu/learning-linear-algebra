@@ -9,7 +9,6 @@ public interface IBoxedRowVector<TRealNumber>
     public RowVector<TRealNumber> RowVector() => RowVector<TRealNumber>.U(this);
     public ComplexNumber<TRealNumber>[] Entries { get; }
     public ComplexNumber<TRealNumber> this[int index] { get; }
-    public bool IsEquivalentTo(IBoxedRowVector<TRealNumber> right);
     public ComplexNumber<TRealNumber> InnerProduct(IBoxedRowVector<TRealNumber> right);
     public ComplexNumber<TRealNumber> Multiply(IBoxedColumnVector<TRealNumber> right);
     public ComplexNumber<TRealNumber> Sum();
@@ -46,9 +45,6 @@ record BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(TRo
         RowVector.Entries;
 
     public ComplexNumber<TRealNumber> this[int index] => RowVector[index];
-
-    public bool IsEquivalentTo(IBoxedRowVector<TRealNumber> right) =>
-        RowVector.IsEquivalentTo(Unbox(right));
 
     public ComplexNumber<TRealNumber> InnerProduct(IBoxedRowVector<TRealNumber> right) =>
         RowVector.InnerProduct(Unbox(right));

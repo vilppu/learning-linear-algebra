@@ -22,7 +22,7 @@ public static class MatrixFormatting
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         length > 50
             ? "{" + string.Join(", ", source.Take(50)) + " ...}"
-            : "{" + string.Join(", ", source) + "}";
+            : "{" + string.Join(", ", source.Select(NumberFormatting.Formatted)) + "}";
 
     private static string Formatted<TRealNumber>(this IEnumerable<IEnumerable<TRealNumber>> source, long width)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>

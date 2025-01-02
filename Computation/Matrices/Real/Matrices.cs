@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -17,11 +18,9 @@ public interface IMatrices<TRealNumber>
 
     public static abstract SquareMatrix<TRealNumber> Identity(int m);
 
-    public static abstract ColumnVector<TRealNumber> V(int[] entries);
+    public static abstract ColumnVector<TRealNumber> V(double[] entries);
 
     public static abstract ColumnVector<TRealNumber> V(float[] entries);
-
-    public static abstract ColumnVector<TRealNumber> V(double[] entries);
 
     public static abstract ColumnVector<TRealNumber> V(TRealNumber[] entries);
 
@@ -31,11 +30,9 @@ public interface IMatrices<TRealNumber>
 
     public static abstract ColumnVector<TRealNumber> ZeroColumnVector(int length);
 
-    public static abstract RowVector<TRealNumber> U(int[] entries);
+    public static abstract RowVector<TRealNumber> U(double[] entries);
 
     public static abstract RowVector<TRealNumber> U(float[] entries);
-
-    public static abstract RowVector<TRealNumber> U(double[] entries);
 
     public static abstract RowVector<TRealNumber> U(TRealNumber[] entries);
 
@@ -67,13 +64,10 @@ public class Matrices<TRealNumber> : IMatrices<TRealNumber>
     public static SquareMatrix<TRealNumber> Identity(int m) =>
         Cuda.Real.Matrices<TRealNumber>.Identity(m);
 
-    public static ColumnVector<TRealNumber> V(int[] entries) =>
+    public static ColumnVector<TRealNumber> V(double[] entries) =>
         Cuda.Real.Matrices<TRealNumber>.V(entries);
 
     public static ColumnVector<TRealNumber> V(float[] entries) =>
-        Cuda.Real.Matrices<TRealNumber>.V(entries);
-
-    public static ColumnVector<TRealNumber> V(double[] entries) =>
         Cuda.Real.Matrices<TRealNumber>.V(entries);
 
     public static ColumnVector<TRealNumber> V(TRealNumber[] entries) =>
@@ -88,13 +82,10 @@ public class Matrices<TRealNumber> : IMatrices<TRealNumber>
     public static ColumnVector<TRealNumber> ZeroColumnVector(int length) =>
         Cuda.Real.Matrices<TRealNumber>.ZeroColumnVector(length);
 
-    public static RowVector<TRealNumber> U(int[] entries) =>
+    public static RowVector<TRealNumber> U(double[] entries) =>
         Cuda.Real.Matrices<TRealNumber>.U(entries);
 
     public static RowVector<TRealNumber> U(float[] entries) =>
-        Cuda.Real.Matrices<TRealNumber>.U(entries);
-
-    public static RowVector<TRealNumber> U(double[] entries) =>
         Cuda.Real.Matrices<TRealNumber>.U(entries);
 
     public static RowVector<TRealNumber> U(TRealNumber[] entries) =>

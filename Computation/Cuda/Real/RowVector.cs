@@ -29,9 +29,6 @@ public record RowVector<TRealNumber>(TRealNumber[] Entries)
     public static RowVector<TRealNumber> Zero(int length) =>
         U(Enumerable.Repeat(TRealNumber.Zero, length).ToArray());
 
-    public static bool AreEquivalent(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        left.Entries.SequenceEqual(right.Entries);
-
     public static RowVector<TRealNumber> Add(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
         (left, right) switch
         {

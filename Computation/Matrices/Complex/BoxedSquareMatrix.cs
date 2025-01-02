@@ -9,7 +9,6 @@ public interface IBoxedSquareMatrix<TRealNumber>
     public SquareMatrix<TRealNumber> SquareMatrix() => SquareMatrix<TRealNumber>.M(this);
     public ComplexNumber<TRealNumber>[,] Entries { get; }
     public ComplexNumber<TRealNumber> this[int i, int j] { get; }
-    public bool IsEquivalentTo(IBoxedSquareMatrix<TRealNumber> matrix);
     public bool IsHermitian();
     public bool IsIdentity();
     public bool IsUnitary();
@@ -58,9 +57,6 @@ record BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
 
     public ComplexNumber<TRealNumber> this[int i, int j] =>
         SquareMatrix[i, j];
-
-    public bool IsEquivalentTo(IBoxedSquareMatrix<TRealNumber> right) =>
-        SquareMatrix.IsEquivalentTo(Unbox(right));
 
     public bool IsHermitian() =>
         SquareMatrix.IsHermitian();

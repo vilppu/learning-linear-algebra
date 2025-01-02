@@ -8,6 +8,12 @@ public record ColumnVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
     : IColumnVector<ColumnVector<TRealNumber>, RowVector<TRealNumber>, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public static ColumnVector<TRealNumber> V(ComplexNumber<double>[] entries) =>
+        V(entries.Select(ComplexNumber<TRealNumber>.C));
+
+    public static ColumnVector<TRealNumber> V(ComplexNumber<float>[] entries) =>
+        V(entries.Select(ComplexNumber<TRealNumber>.C));
+
     public static ColumnVector<TRealNumber> V(ComplexNumber<TRealNumber>[] entries) =>
         new(entries);
 

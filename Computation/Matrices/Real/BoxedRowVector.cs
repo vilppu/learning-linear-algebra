@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -8,7 +9,6 @@ public interface IBoxedRowVector<TRealNumber>
     public RowVector<TRealNumber> RowVector() => RowVector<TRealNumber>.U(this);
     public TRealNumber[] Entries { get; }
     public TRealNumber this[int index] { get; }
-    public bool IsEquivalentTo(IBoxedRowVector<TRealNumber> right);
     public TRealNumber InnerProduct(IBoxedRowVector<TRealNumber> right);
     public TRealNumber Multiply(IBoxedColumnVector<TRealNumber> right);
     public TRealNumber Sum();
@@ -42,9 +42,6 @@ record BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(TRo
         RowVector.Entries;
 
     public TRealNumber this[int index] => RowVector[index];
-
-    public bool IsEquivalentTo(IBoxedRowVector<TRealNumber> right) =>
-        RowVector.IsEquivalentTo(Unbox(right));
 
     public TRealNumber InnerProduct(IBoxedRowVector<TRealNumber> right) =>
         RowVector.InnerProduct(Unbox(right));
@@ -100,16 +97,13 @@ record BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(TRo
     public static BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber> U(TRowVector managed) =>
         new(managed);
 
-    public static IBoxedRowVector<TRealNumber> U(TRealNumber[] entries) =>
-        U(TRowVector.U(entries));
-
-    public static IBoxedRowVector<TRealNumber> U(int[] entries) =>
+    public static IBoxedRowVector<TRealNumber> U(double[] entries) =>
         U(TRowVector.U(entries));
 
     public static IBoxedRowVector<TRealNumber> U(float[] entries) =>
         U(TRowVector.U(entries));
 
-    public static IBoxedRowVector<TRealNumber> U(double[] entries) =>
+    public static IBoxedRowVector<TRealNumber> U(TRealNumber[] entries) =>
         U(TRowVector.U(entries));
 
     public static IBoxedRowVector<TRealNumber> U(IEnumerable<TRealNumber> entries) =>

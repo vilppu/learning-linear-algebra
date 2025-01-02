@@ -8,7 +8,6 @@ public interface IBoxedColumnVector<TRealNumber>
     public ColumnVector<TRealNumber> ColumnVector() => ColumnVector<TRealNumber>.V(this);
     public TRealNumber[] Entries { get; }
     public TRealNumber this[int index] { get; }
-    public bool IsEquivalentTo(IBoxedColumnVector<TRealNumber> right);
     public TRealNumber InnerProduct(IBoxedColumnVector<TRealNumber> right);
     public TRealNumber Multiply(IBoxedRowVector<TRealNumber> right);
     public TRealNumber Sum();
@@ -42,9 +41,6 @@ record BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
         ColumnVector.Entries;
 
     public TRealNumber this[int index] => ColumnVector[index];
-
-    public bool IsEquivalentTo(IBoxedColumnVector<TRealNumber> right) =>
-        ColumnVector.IsEquivalentTo(Unbox(right));
 
     public TRealNumber InnerProduct(IBoxedColumnVector<TRealNumber> right) =>
         ColumnVector.InnerProduct(Unbox(right));
@@ -100,16 +96,13 @@ record BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
     public static BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber> V(TColumnVector managed) =>
         new(managed);
 
-    public static IBoxedColumnVector<TRealNumber> V(TRealNumber[] entries) =>
-        V(TColumnVector.V(entries));
-
-    public static IBoxedColumnVector<TRealNumber> V(int[] entries) =>
+    public static IBoxedColumnVector<TRealNumber> V(double[] entries) =>
         V(TColumnVector.V(entries));
 
     public static IBoxedColumnVector<TRealNumber> V(float[] entries) =>
         V(TColumnVector.V(entries));
 
-    public static IBoxedColumnVector<TRealNumber> V(double[] entries) =>
+    public static IBoxedColumnVector<TRealNumber> V(TRealNumber[] entries) =>
         V(TColumnVector.V(entries));
 
     public static IBoxedColumnVector<TRealNumber> V(IEnumerable<TRealNumber> entries) =>

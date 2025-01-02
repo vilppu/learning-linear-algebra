@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -8,7 +9,6 @@ public interface IBoxedSquareMatrix<TRealNumber>
     public SquareMatrix<TRealNumber> SquareMatrix() => SquareMatrix<TRealNumber>.M(this);
     public TRealNumber[,] Entries { get; }
     public TRealNumber this[int i, int j] { get; }
-    public bool IsEquivalentTo(IBoxedSquareMatrix<TRealNumber> matrix);
     public bool IsIdentity();
     public IEnumerable<TRealNumber> Column(int j);
     public IEnumerable<TRealNumber> Row(int i);
@@ -16,6 +16,7 @@ public interface IBoxedSquareMatrix<TRealNumber>
     public int N();
     public IBoxedSquareMatrix<TRealNumber> Add(IBoxedSquareMatrix<TRealNumber> right);
     public IBoxedSquareMatrix<TRealNumber> AdditiveInverse();
+    public IBoxedSquareMatrix<TRealNumber> Commutator(IBoxedSquareMatrix<TRealNumber> right);
     public IBoxedSquareMatrix<TRealNumber> Map(Func<TRealNumber, TRealNumber> elementMapping);
     public IBoxedSquareMatrix<TRealNumber> Multiply(TRealNumber scalar);
     public IBoxedSquareMatrix<TRealNumber> Multiply(IBoxedSquareMatrix<TRealNumber> right);
@@ -46,14 +47,11 @@ record BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
     public static TSquareMatrix Unbox(IBoxedSquareMatrix<TRealNumber> boxedSquareMatrix) =>
         ((BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>)boxedSquareMatrix).SquareMatrix;
 
-    public TRealNumber[,] Entries => 
+    public TRealNumber[,] Entries =>
         SquareMatrix.Entries;
 
     public TRealNumber this[int i, int j] =>
         SquareMatrix[i, j];
-
-    public bool IsEquivalentTo(IBoxedSquareMatrix<TRealNumber> right) =>
-        SquareMatrix.IsEquivalentTo(Unbox(right));
 
     public bool IsIdentity() =>
         SquareMatrix.IsIdentity();
@@ -73,6 +71,8 @@ record BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
 
     public IBoxedSquareMatrix<TRealNumber> AdditiveInverse() =>
         M(SquareMatrix.AdditiveInverse());
+    public IBoxedSquareMatrix<TRealNumber> Commutator(IBoxedSquareMatrix<TRealNumber> right) =>
+        M(SquareMatrix.Commutator(Unbox(right)));
 
     public IBoxedSquareMatrix<TRealNumber> Map(Func<TRealNumber, TRealNumber> elementMapping) =>
         M(SquareMatrix.Map(elementMapping));
@@ -108,9 +108,6 @@ record BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
         new BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(managed);
 
     public static IBoxedSquareMatrix<TRealNumber> M(TRealNumber[,] entries) =>
-        M(TSquareMatrix.M(entries));
-
-    public static IBoxedSquareMatrix<TRealNumber> M(int[,] entries) =>
         M(TSquareMatrix.M(entries));
 
     public static IBoxedSquareMatrix<TRealNumber> M(float[,] entries) =>
