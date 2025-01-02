@@ -3,16 +3,15 @@
 namespace Computation.Matrices.Real;
 
 public interface IRowVector<TSelf, TColumnVector, TRealNumber> :
-    IMatrix<TSelf, TRealNumber>,
     IAddition<TSelf>,
     ICanBeNormalized<TSelf, TRealNumber>,
     ICanBeRounded<TSelf>,
     IDistance<TSelf, TRealNumber>,
     IEquality<TSelf>,
+    IHasColumnVectorTranspose<TSelf, TColumnVector, TRealNumber>,
     IHasInverse<TSelf>,
     IHasLength<TSelf>,
     IHasNorm<TSelf, TRealNumber>,
-    IHasColumnVectorTranspose<TSelf, TColumnVector, TRealNumber>,
     IHasVectorEntries<TSelf, TRealNumber>,
     IInnerProduct<TSelf, TRealNumber>,
     IOneDimensionalMap<TSelf, TRealNumber>,
@@ -21,8 +20,8 @@ public interface IRowVector<TSelf, TColumnVector, TRealNumber> :
     IScalarMultiplication<TSelf, TRealNumber>,
     ISubtraction<TSelf>,
     ISum<TSelf, TRealNumber>,
-    IVectorMultiplication<TSelf, TColumnVector, TRealNumber>,
-    ITensorProduct<TSelf>
+    ITensorProduct<TSelf>,
+    IVectorMultiplication<TSelf, TColumnVector, TRealNumber>
 
     where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
     where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>

@@ -4,7 +4,6 @@ using Computation.Numbers;
 namespace Computation.Matrices.Complex;
 
 public interface IColumnVector<TSelf, out TRowVector, TRealNumber> :
-    IMatrix<TSelf, TRealNumber>,
     IAddition<TSelf>,
     ICanBeNormalized<TSelf, TRealNumber>,
     ICanBeRounded<TSelf>,

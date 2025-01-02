@@ -4,10 +4,8 @@ using Computation.Numbers;
 namespace Computation.Matrices.Complex;
 
 public interface ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber> :
-    IMatrix<TSelf, TRealNumber>,
     IAction<TSelf, TRowVector, TColumnVector, TRealNumber>,
     IAddition<TSelf>,
-    IHasSquareMatrixAdjoint<TSelf>,
     ICanBeHermitian<TSelf>,
     ICanBeIdentity<TSelf>,
     ICanBeRounded<TSelf>,
@@ -21,6 +19,7 @@ public interface ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber> :
     IHasMatrixEntries<TSelf, TRealNumber>,
     IHasRows<TSelf, TRealNumber>,
     IHasRows<TSelf>,
+    IHasSquareMatrixAdjoint<TSelf>,
     IHasSquareMatrixTranspose<TSelf>,
     IMultiplication<TSelf>,
     IScalarMultiplication<TSelf, TRealNumber>,

@@ -3,7 +3,6 @@
 namespace Computation.Matrices.Real;
 
 public interface ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber> :
-    IMatrix<TSelf, TRealNumber>,
     IAction<TSelf, TRowVector, TColumnVector, TRealNumber>,
     IAddition<TSelf>,
     ICanBeIdentity<TSelf>,
