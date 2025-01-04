@@ -8,6 +8,12 @@ public record ColumnVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)
     : IColumnVector<ColumnVector<TRealNumber>, RowVector<TRealNumber>, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(ColumnVector<TRealNumber>? other) =>
+        other?.Entries != null && Entries.SequenceEqual(other.Entries);
+
+    public override int GetHashCode() =>
+        Entries.GetHashCode();
+
     public static ColumnVector<TRealNumber> V(ComplexNumber<double>[] entries) =>
         V(entries.Select(ComplexNumber<TRealNumber>.C));
 

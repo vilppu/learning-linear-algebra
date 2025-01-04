@@ -28,6 +28,9 @@ static class TwoDimensionalArray
     public static IEnumerable<IEnumerable<TElement>> ToEnumerable<TElement>(this TElement[,] source) =>
         source.Rows();
 
+    public static IEnumerable<TElement> Flatten<TElement>(this TElement[,] source) =>
+        source.Cast<TElement>();
+
     public static IEnumerable<IEnumerable<TElement>> Rows<TElement>(this TElement[,] source) =>
         Enumerable.Range(0, source.NumberOfRows()).Select(source.Row);
 

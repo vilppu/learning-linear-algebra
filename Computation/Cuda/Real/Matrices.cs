@@ -11,12 +11,17 @@ public class Matrices<TRealNumber> : IMatrices<TRealNumber>
             .M(entries)
             .SquareMatrix();
 
+    public static Matrices.Real.SquareMatrix<TRealNumber> M(double[,] entries) =>
+        BoxedSquareMatrix<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
+            .M(entries)
+            .SquareMatrix();
+
     public static Matrices.Real.SquareMatrix<TRealNumber> M(float[,] entries) =>
         BoxedSquareMatrix<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
             .M(entries)
             .SquareMatrix();
 
-    public static Matrices.Real.SquareMatrix<TRealNumber> M(double[,] entries) =>
+    public static Matrices.Real.SquareMatrix<TRealNumber> M(int[,] entries) =>
         BoxedSquareMatrix<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
             .M(entries)
             .SquareMatrix();
@@ -41,12 +46,17 @@ public class Matrices<TRealNumber> : IMatrices<TRealNumber>
             .V(entries)
             .ColumnVector();
 
+    public static Matrices.Real.ColumnVector<TRealNumber> V(double[] entries) =>
+        BoxedColumnVector<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
+            .V(entries)
+            .ColumnVector();
+
     public static Matrices.Real.ColumnVector<TRealNumber> V(float[] entries) =>
         BoxedColumnVector<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
             .V(entries)
             .ColumnVector();
 
-    public static Matrices.Real.ColumnVector<TRealNumber> V(double[] entries) =>
+    public static Matrices.Real.ColumnVector<TRealNumber> V(int[] entries) =>
         BoxedColumnVector<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
             .V(entries)
             .ColumnVector();
@@ -71,12 +81,17 @@ public class Matrices<TRealNumber> : IMatrices<TRealNumber>
             .U(entries)
             .RowVector();
 
+    public static Matrices.Real.RowVector<TRealNumber> U(double[] entries) =>
+        BoxedRowVector<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
+            .U(entries)
+            .RowVector();
+
     public static Matrices.Real.RowVector<TRealNumber> U(float[] entries) =>
         BoxedRowVector<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
             .U(entries)
             .RowVector();
 
-    public static Matrices.Real.RowVector<TRealNumber> U(double[] entries) =>
+    public static Matrices.Real.RowVector<TRealNumber> U(int[] entries) =>
         BoxedRowVector<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
             .U(entries)
             .RowVector();

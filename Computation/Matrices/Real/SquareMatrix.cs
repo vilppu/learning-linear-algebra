@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -12,6 +11,7 @@ public interface ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber>
 {
     public static abstract TSelf M(double[,] entries);
     public static abstract TSelf M(float[,] entries);
+    public static abstract TSelf M(int[,] entries);
     public static abstract TSelf M(TRealNumber[,] entries);
     public static abstract TSelf M(int m, Func<int, int, TRealNumber> initializer);
 
@@ -196,11 +196,17 @@ public static class SquareMatrix
 public record SquareMatrix<TRealNumber>(IBoxedSquareMatrix<TRealNumber> Self)
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(SquareMatrix<TRealNumber>? other) =>
+        Self.Equals(other?.Self);
+
+    public override int GetHashCode() =>
+        Self.GetHashCode();
+
     public bool IsIdentity() =>
         Self.IsIdentity();
 
     public ColumnVector<TRealNumber> Act(ColumnVector<TRealNumber> vector) =>
-        ColumnVector<TRealNumber>.V(Self.Act(vector.BoxedColumnVector));
+        ColumnVector<TRealNumber>.V(Self.Act(vector.Self));
 
     public IEnumerable<TRealNumber> Column(int j) =>
         Self.Column(j);
@@ -215,7 +221,7 @@ public record SquareMatrix<TRealNumber>(IBoxedSquareMatrix<TRealNumber> Self)
         Self.N();
 
     public RowVector<TRealNumber> Act(RowVector<TRealNumber> vector) =>
-        RowVector<TRealNumber>.U(Self.Act(vector.BoxedRowVector));
+        RowVector<TRealNumber>.U(Self.Act(vector.Self));
 
     public SquareMatrix<TRealNumber> Add(SquareMatrix<TRealNumber> right) =>
         M(Self.Add(right.Self));

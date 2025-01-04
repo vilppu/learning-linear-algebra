@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -35,6 +34,12 @@ record BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(TRo
     where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>? other) =>
+        other != null && RowVector.Equals(other.RowVector);
+
+    public override int GetHashCode() =>
+        RowVector.GetHashCode();
+
     public static TRowVector Unbox(IBoxedRowVector<TRealNumber> boxedSquareMatrix) =>
         ((BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>)boxedSquareMatrix).RowVector;
 
@@ -101,6 +106,9 @@ record BoxedRowVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(TRo
         U(TRowVector.U(entries));
 
     public static IBoxedRowVector<TRealNumber> U(float[] entries) =>
+        U(TRowVector.U(entries));
+
+    public static IBoxedRowVector<TRealNumber> U(int[] entries) =>
         U(TRowVector.U(entries));
 
     public static IBoxedRowVector<TRealNumber> U(TRealNumber[] entries) =>

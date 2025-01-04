@@ -9,6 +9,12 @@ public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
     : ISquareMatrix<SquareMatrix<TRealNumber>, RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(SquareMatrix<TRealNumber>? other) =>
+        other?.Entries != null && Entries.Flatten().SequenceEqual(other.Entries.Flatten());
+
+    public override int GetHashCode() =>
+        Entries.GetHashCode();
+
     public static SquareMatrix<TRealNumber> M(TRealNumber[,] entries) =>
         new(entries);
 

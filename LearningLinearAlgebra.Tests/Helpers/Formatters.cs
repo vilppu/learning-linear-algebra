@@ -4,7 +4,7 @@ using Computation.Matrices.Real;
 using Computation.Numbers;
 using FluentAssertions.Formatting;
 
-namespace Computation.Tests;
+namespace LearningLinearAlgebra.Tests.Helpers;
 
 public static class Formatters<TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
@@ -25,22 +25,34 @@ public class MatrixFormatter<TRealNumber> : IValueFormatter
 {
     public bool CanHandle(object value) =>
         value is IEnumerable<TRealNumber> or
-            Matrices.Real.SquareMatrix<TRealNumber> or
-            Matrices.Real.RowVector<TRealNumber> or
-            Matrices.Real.ColumnVector<TRealNumber> or
-            Matrices.Complex.SquareMatrix<TRealNumber> or
-            Matrices.Complex.RowVector<TRealNumber> or
-            Matrices.Complex.ColumnVector<TRealNumber>;
+            Computation.Matrices.Real.SquareMatrix<TRealNumber> or
+            Computation.Matrices.Real.RowVector<TRealNumber> or
+            Computation.Matrices.Real.ColumnVector<TRealNumber> or
+            Computation.Matrices.Complex.SquareMatrix<TRealNumber> or
+            Computation.Matrices.Complex.RowVector<TRealNumber> or
+            Computation.Matrices.Complex.ColumnVector<TRealNumber> or
+            RealVectorSpace.Operator<TRealNumber> or
+            RealVectorSpace.Ket<TRealNumber> or
+            RealVectorSpace.Bra<TRealNumber> or
+            ComplexVectorSpace.Operator<TRealNumber> or
+            ComplexVectorSpace.Ket<TRealNumber> or
+            ComplexVectorSpace.Bra<TRealNumber>;
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild) =>
         Add(formattedGraph, context, value switch
         {
-            Matrices.Real.SquareMatrix<TRealNumber> source => source.Formatted(),
-            Matrices.Real.RowVector<TRealNumber> source => source.Formatted(),
-            Matrices.Real.ColumnVector<TRealNumber> source => source.Formatted(),
-            Matrices.Complex.SquareMatrix<TRealNumber> source => source.Formatted(),
-            Matrices.Complex.RowVector<TRealNumber> source => source.Formatted(),
-            Matrices.Complex.ColumnVector<TRealNumber> source => source.Formatted(),
+            Computation.Matrices.Real.SquareMatrix<TRealNumber> source => source.Formatted(),
+            Computation.Matrices.Real.RowVector<TRealNumber> source => source.Formatted(),
+            Computation.Matrices.Real.ColumnVector<TRealNumber> source => source.Formatted(),
+            Computation.Matrices.Complex.SquareMatrix<TRealNumber> source => source.Formatted(),
+            Computation.Matrices.Complex.RowVector<TRealNumber> source => source.Formatted(),
+            Computation.Matrices.Complex.ColumnVector<TRealNumber> source => source.Formatted(),
+            RealVectorSpace.Operator<TRealNumber> source => source.Components.Formatted(),
+            RealVectorSpace.Ket<TRealNumber> source => source.Components.Formatted(),
+            RealVectorSpace.Bra<TRealNumber> source => source.Components.Formatted(),
+            ComplexVectorSpace.Operator<TRealNumber> source => source.Components.Formatted(),
+            ComplexVectorSpace.Ket<TRealNumber> source => source.Components.Formatted(),
+            ComplexVectorSpace.Bra<TRealNumber> source => source.Components.Formatted(),
             _ => throw new InvalidOperationException($"{nameof(MatrixFormatter<TRealNumber>)} cannot handle {value.GetType()}")
         });
 

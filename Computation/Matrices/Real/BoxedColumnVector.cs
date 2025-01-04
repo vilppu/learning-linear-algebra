@@ -34,6 +34,12 @@ record BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
     where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>? other) =>
+        other != null && ColumnVector.Equals(other.ColumnVector);
+
+    public override int GetHashCode() =>
+        ColumnVector.GetHashCode();
+
     public static TColumnVector Unbox(IBoxedColumnVector<TRealNumber> boxedSquareMatrix) =>
         ((BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>)boxedSquareMatrix).ColumnVector;
 
@@ -100,6 +106,9 @@ record BoxedColumnVector<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
         V(TColumnVector.V(entries));
 
     public static IBoxedColumnVector<TRealNumber> V(float[] entries) =>
+        V(TColumnVector.V(entries));
+
+    public static IBoxedColumnVector<TRealNumber> V(int[] entries) =>
         V(TColumnVector.V(entries));
 
     public static IBoxedColumnVector<TRealNumber> V(TRealNumber[] entries) =>

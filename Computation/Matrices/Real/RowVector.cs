@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -12,6 +11,7 @@ public interface IRowVector<TSelf, TColumnVector, TRealNumber>
 {
     public static abstract TSelf U(double[] entries);
     public static abstract TSelf U(float[] entries);
+    public static abstract TSelf U(int[] entries);
     public static abstract TSelf U(TRealNumber[] entries);
     public static abstract TSelf U(IEnumerable<TRealNumber> entries);
     public static abstract TSelf U(int length, Func<int, TRealNumber> initializer);
@@ -150,65 +150,71 @@ public static class RowVector
         TSelf.Zip((TSelf)first, second, elementMapping);
 }
 
-public record RowVector<TRealNumber>(IBoxedRowVector<TRealNumber> BoxedRowVector)
+public record RowVector<TRealNumber>(IBoxedRowVector<TRealNumber> Self)
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(RowVector<TRealNumber>? other) =>
+        Self.Equals(other?.Self);
+
+    public override int GetHashCode() =>
+        Self.GetHashCode();
+
     public TRealNumber[] Entries =>
-        BoxedRowVector.Entries;
+        Self.Entries;
 
     public TRealNumber this[int index] =>
-        BoxedRowVector[index];
+        Self[index];
 
     public TRealNumber InnerProduct(RowVector<TRealNumber> right) =>
-        BoxedRowVector.InnerProduct(right.BoxedRowVector);
+        Self.InnerProduct(right.Self);
 
     public TRealNumber Multiply(ColumnVector<TRealNumber> right) =>
-        BoxedRowVector.Multiply(right.BoxedColumnVector);
+        Self.Multiply(right.Self);
 
     public TRealNumber Sum() =>
-        BoxedRowVector.Sum();
+        Self.Sum();
 
     public ColumnVector<TRealNumber> Transpose() =>
-        ColumnVector<TRealNumber>.V(BoxedRowVector.Transpose());
+        ColumnVector<TRealNumber>.V(Self.Transpose());
 
     public int Length() =>
-        BoxedRowVector.Length();
+        Self.Length();
 
     public RowVector<TRealNumber> Add(RowVector<TRealNumber> right) =>
-        U(BoxedRowVector.Add(right.BoxedRowVector));
+        U(Self.Add(right.Self));
 
     public RowVector<TRealNumber> AdditiveInverse() =>
-        U(BoxedRowVector.AdditiveInverse());
+        U(Self.AdditiveInverse());
 
     public RowVector<TRealNumber> Map(Func<TRealNumber, TRealNumber> elementMapping) =>
-        U(BoxedRowVector.Map(elementMapping));
+        U(Self.Map(elementMapping));
 
     public RowVector<TRealNumber> Multiply(TRealNumber scalar) =>
-        U(BoxedRowVector.Multiply(scalar));
+        U(Self.Multiply(scalar));
 
     public RowVector<TRealNumber> Normalized() =>
-        U(BoxedRowVector.Normalized());
+        U(Self.Normalized());
 
     public RowVector<TRealNumber> Orthonormal() =>
-        U(BoxedRowVector.Orthonormal());
+        U(Self.Orthonormal());
 
     public RowVector<TRealNumber> Round() =>
-        U(BoxedRowVector.Round());
+        U(Self.Round());
 
     public RowVector<TRealNumber> Subtract(RowVector<TRealNumber> right) =>
-        U(BoxedRowVector.Subtract(right.BoxedRowVector));
+        U(Self.Subtract(right.Self));
 
     public RowVector<TRealNumber> TensorProduct(RowVector<TRealNumber> right) =>
-        U(BoxedRowVector.TensorProduct(right.BoxedRowVector));
+        U(Self.TensorProduct(right.Self));
 
     public RowVector<TRealNumber> Zip(RowVector<TRealNumber> second, Func<TRealNumber, TRealNumber, TRealNumber> elementMapping) =>
-        U(BoxedRowVector.Zip(second.BoxedRowVector, elementMapping));
+        U(Self.Zip(second.Self, elementMapping));
 
     public TRealNumber Distance(RowVector<TRealNumber> right) =>
-        BoxedRowVector.Distance(right.BoxedRowVector);
+        Self.Distance(right.Self);
 
     public TRealNumber Norm() =>
-        BoxedRowVector.Norm();
+        Self.Norm();
 
     public static RowVector<TRealNumber> U(IBoxedRowVector<TRealNumber> vector) =>
         new(vector);

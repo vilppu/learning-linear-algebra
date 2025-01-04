@@ -8,6 +8,12 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
     : IColumnVector<ColumnVector<TRealNumber>, RowVector<TRealNumber>, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(ColumnVector<TRealNumber>? other) =>
+        other?.Entries != null && Entries.SequenceEqual(other.Entries);
+
+    public override int GetHashCode() =>
+        Entries.GetHashCode();
+
     public static ColumnVector<TRealNumber> V(TRealNumber[] entries) =>
         new(entries);
 
@@ -18,7 +24,7 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         new(V(entries.Select(RealNumber<TRealNumber>.R)));
 
     public static ColumnVector<TRealNumber> V(double[] entries) =>
-        new(V(entries.Select(RealNumber<TRealNumber>.R)));
+        new(V(entries.Select((number, number2) => RealNumber<TRealNumber>.R(number))));
 
     public static ColumnVector<TRealNumber> V(IEnumerable<TRealNumber> entries) =>
         new(entries.ToArray());

@@ -49,6 +49,12 @@ record BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
     where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>? other) =>
+        other != null && SquareMatrix.Equals(other.SquareMatrix);
+
+    public override int GetHashCode() =>
+        SquareMatrix.GetHashCode();
+
     public static TSquareMatrix Unbox(IBoxedSquareMatrix<TRealNumber> boxedSquareMatrix) =>
         ((BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>)boxedSquareMatrix).SquareMatrix;
 

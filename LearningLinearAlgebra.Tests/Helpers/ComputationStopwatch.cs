@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Computation.Tests;
+namespace LearningLinearAlgebra.Tests.Helpers;
 
 static class ComputationStopwatch
 {

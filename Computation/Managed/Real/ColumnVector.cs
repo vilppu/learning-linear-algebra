@@ -18,7 +18,7 @@ public record ColumnVector<TRealNumber>(TRealNumber[] Entries)
         new(V(entries.Select(RealNumber<TRealNumber>.R)));
 
     public static ColumnVector<TRealNumber> V(double[] entries) =>
-        new(V(entries.Select(RealNumber<TRealNumber>.R)));
+        new(V(entries.Select((number, number2) => RealNumber<TRealNumber>.R(number))));
 
     public static ColumnVector<TRealNumber> V(IEnumerable<TRealNumber> entries) =>
         new(entries.ToArray());

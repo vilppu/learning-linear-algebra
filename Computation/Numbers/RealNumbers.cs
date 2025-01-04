@@ -33,6 +33,9 @@ public static class RealNumber<TRealNumber> where TRealNumber : IFloatingPointIe
     public static TRealNumber Sqrt(float real) =>
        TRealNumber.Sqrt(R(real));
 
+    public static TRealNumber Sqrt(double real) =>
+        TRealNumber.Sqrt(R(real));
+
     public static TRealNumber Square(TRealNumber real) =>
        TRealNumber.CreateChecked(real) * TRealNumber.CreateChecked(real);
 

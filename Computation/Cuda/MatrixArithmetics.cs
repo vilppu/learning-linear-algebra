@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Computation.Cuda;
+﻿namespace Computation.Cuda;
 
 static class MatrixArithmetics
 {

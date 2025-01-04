@@ -1,8 +1,9 @@
-﻿using FluentAssertions;
-using Computation.Numbers;
+﻿using Computation.Numbers;
+using FluentAssertions;
+using Xunit;
 using static Computation.Numbers.ComplexNumber<float>;
 
-namespace Computation.Tests;
+namespace LearningLinearAlgebra.Tests.Numbers;
 
 public class CartesianRepresentationTests
 {

@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -44,6 +43,12 @@ record BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
     where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>? other) =>
+        other != null && SquareMatrix.Equals(other.SquareMatrix);
+
+    public override int GetHashCode() =>
+        SquareMatrix.GetHashCode();
+
     public static TSquareMatrix Unbox(IBoxedSquareMatrix<TRealNumber> boxedSquareMatrix) =>
         ((BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>)boxedSquareMatrix).SquareMatrix;
 
@@ -110,10 +115,13 @@ record BoxedSquareMatrix<TSquareMatrix, TRowVector, TColumnVector, TRealNumber>(
     public static IBoxedSquareMatrix<TRealNumber> M(TRealNumber[,] entries) =>
         M(TSquareMatrix.M(entries));
 
+    public static IBoxedSquareMatrix<TRealNumber> M(double[,] entries) =>
+        M(TSquareMatrix.M(entries));
+
     public static IBoxedSquareMatrix<TRealNumber> M(float[,] entries) =>
         M(TSquareMatrix.M(entries));
 
-    public static IBoxedSquareMatrix<TRealNumber> M(double[,] entries) =>
+    public static IBoxedSquareMatrix<TRealNumber> M(int[,] entries) =>
         M(TSquareMatrix.M(entries));
 
     public static IBoxedSquareMatrix<TRealNumber> M(int m, Func<int, int, TRealNumber> initializer) =>

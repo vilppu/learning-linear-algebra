@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
 
 namespace Computation.Matrices.Real;
 
@@ -11,6 +10,7 @@ public interface IColumnVector<TSelf, out TRowVector, TRealNumber>
 {
     public static abstract TSelf V(double[] entries);
     public static abstract TSelf V(float[] entries);
+    public static abstract TSelf V(int[] entries);
     public static abstract TSelf V(TRealNumber[] entries);
     public static abstract TSelf V(IEnumerable<TRealNumber> entries);
     public static abstract TSelf V(int length, Func<int, TRealNumber> initializer);
@@ -141,64 +141,70 @@ public static class ColumnVector
         TSelf.Zip((TSelf)first, (TSelf)second, elementMapping);
 }
 
-public record ColumnVector<TRealNumber>(IBoxedColumnVector<TRealNumber> BoxedColumnVector)
+public record ColumnVector<TRealNumber>(IBoxedColumnVector<TRealNumber> Self)
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
+    public virtual bool Equals(ColumnVector<TRealNumber>? other) =>
+        Self.Equals(other?.Self);
+
+    public override int GetHashCode() =>
+        Self.GetHashCode();
+
     public static ColumnVector<TRealNumber> V(IBoxedColumnVector<TRealNumber> vector) => new(vector);
 
     public ColumnVector<TRealNumber> Add(ColumnVector<TRealNumber> right) =>
-        V(BoxedColumnVector.Add(right.BoxedColumnVector));
+        V(Self.Add(right.Self));
 
     public ColumnVector<TRealNumber> AdditiveInverse() =>
-        V(BoxedColumnVector.AdditiveInverse());
+        V(Self.AdditiveInverse());
 
     public ColumnVector<TRealNumber> Map(ColumnVector<TRealNumber> source, Func<TRealNumber, TRealNumber> elementMapping) =>
-        V(BoxedColumnVector.Map(source.BoxedColumnVector, elementMapping));
+        V(Self.Map(source.Self, elementMapping));
 
     public ColumnVector<TRealNumber> Multiply(TRealNumber scalar) =>
-        V(BoxedColumnVector.Multiply(scalar));
+        V(Self.Multiply(scalar));
 
     public ColumnVector<TRealNumber> Normalized() =>
-        V(BoxedColumnVector.Normalized());
+        V(Self.Normalized());
 
     public ColumnVector<TRealNumber> Orthonormal() =>
-        V(BoxedColumnVector.Orthonormal());
+        V(Self.Orthonormal());
 
     public ColumnVector<TRealNumber> Round() =>
-        V(BoxedColumnVector.Round());
+        V(Self.Round());
 
     public ColumnVector<TRealNumber> Subtract(ColumnVector<TRealNumber> right) =>
-        V(BoxedColumnVector.Subtract(right.BoxedColumnVector));
+        V(Self.Subtract(right.Self));
 
     public ColumnVector<TRealNumber> TensorProduct(ColumnVector<TRealNumber> right) =>
-        V(BoxedColumnVector.TensorProduct(right.BoxedColumnVector));
+        V(Self.TensorProduct(right.Self));
 
     public ColumnVector<TRealNumber> Zip(ColumnVector<TRealNumber> second, Func<TRealNumber, TRealNumber, TRealNumber> elementMapping) =>
-        V(BoxedColumnVector.Zip(second.BoxedColumnVector, elementMapping));
+        V(Self.Zip(second.Self, elementMapping));
 
     public TRealNumber InnerProduct(ColumnVector<TRealNumber> right) =>
-        BoxedColumnVector.InnerProduct(right.BoxedColumnVector);
+        Self.InnerProduct(right.Self);
 
     public TRealNumber Sum() =>
-        BoxedColumnVector.Sum();
+        Self.Sum();
 
     public TRealNumber[] Entries =>
-        BoxedColumnVector.Entries;
+        Self.Entries;
 
     public int Length() =>
-        BoxedColumnVector.Length();
+        Self.Length();
 
     public RowVector<TRealNumber> Transpose() =>
-        RowVector<TRealNumber>.U(BoxedColumnVector.Transpose());
+        RowVector<TRealNumber>.U(Self.Transpose());
 
     public TRealNumber Distance(ColumnVector<TRealNumber> right) =>
-        BoxedColumnVector.Distance(right.BoxedColumnVector);
+        Self.Distance(right.Self);
 
     public TRealNumber Norm() =>
-        BoxedColumnVector.Norm();
+        Self.Norm();
 
     public TRealNumber this[int index] =>
-        BoxedColumnVector[index];
+        Self[index];
 
     public static ColumnVector<TRealNumber> operator +(ColumnVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
         left.Add(right);
