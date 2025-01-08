@@ -17,10 +17,10 @@ public record Bra<TRealNumber>(RowVector<TRealNumber> Components)
         new(components);
 
     public static Bra<TRealNumber> U(ComplexNumber<TRealNumber>[] components) =>
-        U(Matrices<TRealNumber>.U(components));
+        U(RowVector<TRealNumber>.U(components));
 
     public static Bra<TRealNumber> Zero(int dimension) =>
-        U(Matrices<TRealNumber>.ZeroRowVector(dimension));
+        U(RowVector<TRealNumber>.Zero(dimension));
 
     public ComplexNumber<TRealNumber> this[int index] => Components[index];
 

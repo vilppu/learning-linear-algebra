@@ -17,9 +17,4 @@
     <ProjectReference Include="..\CudaComputation\CudaComputation.vcxproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Boxed\" />
-    <Folder Include="Managed\" />
-  </ItemGroup>
-
 </Project>

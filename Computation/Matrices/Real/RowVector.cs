@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using Computation.Cuda;
+using Computation.Numbers;
+using System.Numerics;
 
 namespace Computation.Matrices.Real;
 
@@ -113,6 +115,12 @@ public static class RowVector
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
         TSelf.Multiply(scalar, (TSelf)self);
 
+    public static TSelf Multiply<TSelf, TColumnVector, TRealNumber>(this IRowVector<TSelf, TColumnVector, TRealNumber> self, TRealNumber scalar)
+        where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
+        where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
+        TSelf.Multiply(scalar, (TSelf)self);
+
     public static TSelf Normalized<TSelf, TColumnVector, TRealNumber>(this IRowVector<TSelf, TColumnVector, TRealNumber> self)
         where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
         where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>
@@ -150,87 +158,102 @@ public static class RowVector
         TSelf.Zip((TSelf)first, second, elementMapping);
 }
 
-public record RowVector<TRealNumber>(IBoxedRowVector<TRealNumber> Self)
+public record RowVector<TRealNumber>(TRealNumber[] Entries)
+    : IRowVector<RowVector<TRealNumber>, ColumnVector<TRealNumber>, TRealNumber>
     where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
     public virtual bool Equals(RowVector<TRealNumber>? other) =>
-        Self.Equals(other?.Self);
+        other?.Entries != null && Entries.SequenceEqual(other.Entries);
 
     public override int GetHashCode() =>
-        Self.GetHashCode();
+        Entries.GetHashCode();
 
-    public TRealNumber[] Entries =>
-        Self.Entries;
+    public static RowVector<TRealNumber> U(TRealNumber[] entries) =>
+        new(entries);
 
-    public TRealNumber this[int index] =>
-        Self[index];
+    public static RowVector<TRealNumber> U(int[] entries) =>
+        new(U(entries.Select(RealNumber<TRealNumber>.R)));
 
-    public TRealNumber InnerProduct(RowVector<TRealNumber> right) =>
-        Self.InnerProduct(right.Self);
+    public static RowVector<TRealNumber> U(float[] entries) =>
+        new(U(entries.Select(RealNumber<TRealNumber>.R)));
 
-    public TRealNumber Multiply(ColumnVector<TRealNumber> right) =>
-        Self.Multiply(right.Self);
+    public static RowVector<TRealNumber> U(double[] entries) =>
+        new(U(entries.Select((number, number2) => RealNumber<TRealNumber>.R(number))));
 
-    public TRealNumber Sum() =>
-        Self.Sum();
+    public static RowVector<TRealNumber> U(IEnumerable<TRealNumber> entries) =>
+        new(entries.ToArray());
 
-    public ColumnVector<TRealNumber> Transpose() =>
-        ColumnVector<TRealNumber>.V(Self.Transpose());
+    public static RowVector<TRealNumber> U(int length, Func<int, TRealNumber> initializer) =>
+        U(Enumerable.Range(0, length).Select(initializer));
 
-    public int Length() =>
-        Self.Length();
+    public static RowVector<TRealNumber> Zero(int length) =>
+        U(Enumerable.Repeat(TRealNumber.Zero, length).ToArray());
 
-    public RowVector<TRealNumber> Add(RowVector<TRealNumber> right) =>
-        U(Self.Add(right.Self));
+    public static RowVector<TRealNumber> Add(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
+        (left, right) switch
+        {
+            (RowVector<float> leftVector, RowVector<float> rightVector) => U(leftVector.Entries.Add(rightVector.Entries)),
+            (RowVector<double> leftVector, RowVector<double> rightVector) => U(leftVector.Entries.Add(rightVector.Entries)),
+            _ => left.Zip(right, (a, b) => a + b)
+        };
 
-    public RowVector<TRealNumber> AdditiveInverse() =>
-        U(Self.AdditiveInverse());
+    public static RowVector<TRealNumber> AdditiveInverse(RowVector<TRealNumber> vector) =>
+        vector.Map(entry => -entry);
 
-    public RowVector<TRealNumber> Map(Func<TRealNumber, TRealNumber> elementMapping) =>
-        U(Self.Map(elementMapping));
+    public static RowVector<TRealNumber> Map(RowVector<TRealNumber> source, Func<TRealNumber, TRealNumber> elementMapping) =>
+        U(source.Entries.Select(elementMapping));
 
-    public RowVector<TRealNumber> Multiply(TRealNumber scalar) =>
-        U(Self.Multiply(scalar));
+    public static RowVector<TRealNumber> Multiply(TRealNumber scalar, RowVector<TRealNumber> vector) =>
+        vector.Map(entry => entry * scalar);
 
-    public RowVector<TRealNumber> Normalized() =>
-        U(Self.Normalized());
+    public static RowVector<TRealNumber> Normalized(RowVector<TRealNumber> vector) =>
+        TRealNumber.One / Norm(vector) * vector;
 
-    public RowVector<TRealNumber> Orthonormal() =>
-        U(Self.Orthonormal());
+    // TODO: Move to linear vector space
+    public static RowVector<TRealNumber> Orthonormal(RowVector<TRealNumber> vector) =>
+        TRealNumber.One / Norm(vector) * vector;
 
-    public RowVector<TRealNumber> Round() =>
-        U(Self.Round());
+    public static RowVector<TRealNumber> Round(RowVector<TRealNumber> vector) =>
+        vector.Map(entry => entry.Round());
 
-    public RowVector<TRealNumber> Subtract(RowVector<TRealNumber> right) =>
-        U(Self.Subtract(right.Self));
+    public static RowVector<TRealNumber> Subtract(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
+        left.Zip(right, (a, b) => a - b);
 
-    public RowVector<TRealNumber> TensorProduct(RowVector<TRealNumber> right) =>
-        U(Self.TensorProduct(right.Self));
+    public static ColumnVector<TRealNumber> Transpose(RowVector<TRealNumber> vector) =>
+        ColumnVector<TRealNumber>.V(vector.Entries);
 
-    public RowVector<TRealNumber> Zip(RowVector<TRealNumber> second, Func<TRealNumber, TRealNumber, TRealNumber> elementMapping) =>
-        U(Self.Zip(second.Self, elementMapping));
+    // TODO: Move to linear vector space
+    public static RowVector<TRealNumber> TensorProduct(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
+        U(left.Entries.SelectMany(leftElement => right.Entries.Select(rightElement => leftElement * rightElement)));
 
-    public TRealNumber Distance(RowVector<TRealNumber> right) =>
-        Self.Distance(right.Self);
+    public static RowVector<TRealNumber> Zip(RowVector<TRealNumber> first, RowVector<TRealNumber> second, Func<TRealNumber, TRealNumber, TRealNumber> elementMapping) =>
+        U(first.Entries.Zip(second.Entries, elementMapping));
 
-    public TRealNumber Norm() =>
-        Self.Norm();
+    // TODO: Move to linear vector space
+    public static TRealNumber InnerProduct(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
+        left.Zip(right, (a, b) => a * b).Sum();
 
-    public static RowVector<TRealNumber> U(IBoxedRowVector<TRealNumber> vector) =>
-        new(vector);
+    public static TRealNumber Multiply(RowVector<TRealNumber> left, ColumnVector<TRealNumber> right) =>
+        left.Entries.Zip(right.Entries, (a, b) => a * b).Aggregate(TRealNumber.Zero, (a, b) => a + b);
 
-    public static RowVector<TRealNumber> operator +(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        left.Add(right);
+    public static TRealNumber Sum(RowVector<TRealNumber> vector) =>
+        vector.Entries.Aggregate(TRealNumber.Zero, (a, b) => a + b);
 
-    public static RowVector<TRealNumber> operator -(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        left.Subtract(right);
+    public static int Length(RowVector<TRealNumber> vector) =>
+        vector.Entries.Length;
 
-    public static RowVector<TRealNumber> operator -(RowVector<TRealNumber> self) =>
-        self.AdditiveInverse();
+    public static TRealNumber Distance(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
+        Norm(left - right);
 
-    public static TRealNumber operator *(RowVector<TRealNumber> left, RowVector<TRealNumber> right) =>
-        left.InnerProduct(right);
+    // TODO: Move to linear vector space?
+    public static TRealNumber Norm(RowVector<TRealNumber> vector) =>
+        TRealNumber.Sqrt(vector * vector);
 
-    public static RowVector<TRealNumber> operator *(TRealNumber scalar, RowVector<TRealNumber> self) =>
-        self.Multiply(scalar);
+    public TRealNumber this[int index] => Entries[index];
+    public static RowVector<TRealNumber> operator +(RowVector<TRealNumber> left, RowVector<TRealNumber> right) => Add(left, right);
+    public static RowVector<TRealNumber> operator -(RowVector<TRealNumber> left, RowVector<TRealNumber> right) => Subtract(left, right);
+    public static RowVector<TRealNumber> operator *(TRealNumber scalar, RowVector<TRealNumber> vector) => Multiply(scalar, vector);
+    public static TRealNumber operator *(RowVector<TRealNumber> left, ColumnVector<TRealNumber> right) => Multiply(left, right);
+    public static TRealNumber operator *(RowVector<TRealNumber> left, RowVector<TRealNumber> right) => InnerProduct(left, right);
+    public static RowVector<TRealNumber> operator -(RowVector<TRealNumber> vector) => AdditiveInverse(vector);
 }

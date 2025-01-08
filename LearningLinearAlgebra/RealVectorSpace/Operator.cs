@@ -16,22 +16,22 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
         new(components);
 
     public static Operator<TRealNumber> M(TRealNumber[,] components) =>
-        M(Matrices<TRealNumber>.M(components));
+        M(SquareMatrix<TRealNumber>.M(components));
 
     public static Operator<TRealNumber> M(int[,] components) =>
-        M(Matrices<TRealNumber>.M(components));
+        M(SquareMatrix<TRealNumber>.M(components));
 
     public static Operator<TRealNumber> M(float[,] components) =>
-        M(Matrices<TRealNumber>.M(components));
+        M(SquareMatrix<TRealNumber>.M(components));
 
     public static Operator<TRealNumber> M(double [,] components) =>
-        M(Matrices<TRealNumber>.M(components));
+        M(SquareMatrix<TRealNumber>.M(components));
 
     public static Operator<TRealNumber> Zero(int dimension) =>
-        M(Matrices<TRealNumber>.Zero(dimension));
+        M(SquareMatrix<TRealNumber>.Zero(dimension));
 
     public static Operator<TRealNumber> Identity(int dimension) =>
-        M(Matrices<TRealNumber>.Identity(dimension));
+        M(SquareMatrix<TRealNumber>.Identity(dimension));
 
     public TRealNumber this[int i, int j] => Components[i, j];
 
@@ -42,7 +42,7 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
         M(@operator.Components.AdditiveInverse());
 
     public static Bra<TRealNumber> Act(Bra<TRealNumber> bra, Operator<TRealNumber> @operator) =>
-        Bra<TRealNumber>.U(@operator.Components.Act(bra.Components));
+        Bra<TRealNumber>.U(bra.Components.Act(@operator.Components));
 
     public static Ket<TRealNumber> Act(Operator<TRealNumber> @operator, Ket<TRealNumber> ket) =>
         Ket<TRealNumber>.V(@operator.Components.Act(ket.Components));
@@ -90,7 +90,7 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
         Ket<TRealNumber>.V(@operator.Components.Act(ket.Components));
 
     public static Bra<TRealNumber> operator *(Bra<TRealNumber> bra, Operator<TRealNumber> @operator) =>
-        Bra<TRealNumber>.U(@operator.Components.Act(bra.Components));
+        Bra<TRealNumber>.U(bra.Components.Act(@operator.Components));
 }
 
 public static class Operator

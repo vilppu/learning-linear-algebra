@@ -17,10 +17,10 @@ public record Ket<TRealNumber>(ColumnVector<TRealNumber> Components)
         new(components);
 
     public static Ket<TRealNumber> V(ComplexNumber<TRealNumber>[] components) =>
-        V(Matrices<TRealNumber>.V(components));
+        V(ColumnVector<TRealNumber>.V(components));
 
     public static Ket<TRealNumber> Zero(int dimension) =>
-        V(Matrices<TRealNumber>.ZeroColumnVector(dimension));
+        V(ColumnVector<TRealNumber>.Zero(dimension));
 
     public ComplexNumber<TRealNumber> this[int index] => Components[index];
 

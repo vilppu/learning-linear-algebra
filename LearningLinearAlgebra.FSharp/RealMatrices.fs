@@ -7,11 +7,10 @@ module Real =
     type RowVector = RowVector<float>
     type ColumnVector = ColumnVector<float>
     type SquareMatrix = SquareMatrix<float>
-    type Matrices = Matrices<float>
 
     module RowVector =
 
-        let Zero n = Matrices.ZeroRowVector(n)
+        let Zero n = RowVector<'R>.Zero(n)
 
         let Add (left: RowVector<'R>) (right: RowVector<'R>) = left.Add(right)
 
@@ -41,7 +40,7 @@ module Real =
 
     module ColumnVector =
 
-        let Zero n = Matrices.ZeroColumnVector(n)
+        let Zero n = ColumnVector<'R>.Zero(n)
 
         let Add (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Add(right)
 
@@ -69,9 +68,9 @@ module Real =
 
     module SquareMatrix =
 
-        let Zero m = Matrices.Zero(m)
+        let Zero m = SquareMatrix<'R>.Zero(m)
 
-        let Identity m = Matrices.Identity(m)
+        let Identity m = SquareMatrix<'R>.Identity(m)
 
         let M (matrix: SquareMatrix<'R>) = matrix.M()
 
@@ -96,11 +95,12 @@ module Real =
         let AdditiveInverse (matrix: SquareMatrix<'R>) = matrix.AdditiveInverse()
 
 
-    let CreateColumnVector (components: 'R array) = components |> Matrices<'R>.V
+    let CreateColumnVector (components: 'R array) = components |> ColumnVector<'R>.V
 
-    let CreateRowVector (components: 'R array) = components |> Matrices<'R>.U
+    let CreateRowVector (components: 'R array) = components |> RowVector<'R>.U
 
-    let CreateMatrix (components: 'R array array) = components |> array2D |> Matrices<'R>.M
+    let CreateMatrix (components: 'R array array) =
+        components |> array2D |> SquareMatrix<'R>.M
 
     let V components = CreateColumnVector components
 

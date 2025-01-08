@@ -16,22 +16,22 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
     public static Operator<TRealNumber> M(SquareMatrix<TRealNumber> components) =>
         new(components);
 
-    public static Operator<TRealNumber> M(Computation.Numbers.ComplexNumber<TRealNumber>[,] components) =>
-        M(Matrices<TRealNumber>.M(components));
+    public static Operator<TRealNumber> M(ComplexNumber<TRealNumber>[,] components) =>
+        M(SquareMatrix<TRealNumber>.M(components));
 
-    public static Operator<TRealNumber> M(Computation.Numbers.ComplexNumber<float>[,] components) =>
-        M(Matrices<TRealNumber>.M(components));
+    public static Operator<TRealNumber> M(ComplexNumber<float>[,] components) =>
+        M(SquareMatrix<TRealNumber>.M(components));
 
-    public static Operator<TRealNumber> M(Computation.Numbers.ComplexNumber<double>[,] components) =>
-        M(Matrices<TRealNumber>.M(components));
+    public static Operator<TRealNumber> M(ComplexNumber<double>[,] components) =>
+        M(SquareMatrix<TRealNumber>.M(components));
 
     public static Operator<TRealNumber> Zero(int dimension) =>
-        M(Matrices<TRealNumber>.Zero(dimension));
+        M(SquareMatrix<TRealNumber>.Zero(dimension));
 
     public static Operator<TRealNumber> Identity(int dimension) =>
-        M(Matrices<TRealNumber>.Identity(dimension));
+        M(SquareMatrix<TRealNumber>.Identity(dimension));
 
-    public Computation.Numbers.ComplexNumber<TRealNumber> this[int i, int j] => Components[i, j];
+    public ComplexNumber<TRealNumber> this[int i, int j] => Components[i, j];
 
     public static Operator<TRealNumber> Add(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
         M(left.Components.Add(right.Components));
@@ -40,7 +40,7 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
         M(@operator.Components.AdditiveInverse());
 
     public static Bra<TRealNumber> Act(Bra<TRealNumber> bra, Operator<TRealNumber> @operator) =>
-        Bra<TRealNumber>.U(@operator.Components.Act(bra.Components));
+        Bra<TRealNumber>.U(bra.Components.Act(@operator.Components));
 
     public static Ket<TRealNumber> Act(Operator<TRealNumber> @operator, Ket<TRealNumber> ket) =>
         Ket<TRealNumber>.V(@operator.Components.Act(ket.Components));
@@ -69,7 +69,7 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
     public static bool IsUnitary(Operator<TRealNumber> @operator) =>
         @operator.Components.IsUnitary();
 
-    public static Operator<TRealNumber> Multiply(Computation.Numbers.ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
+    public static Operator<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
         M(@operator.Components.Multiply(scalar));
 
     public static Operator<TRealNumber> Multiply(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
@@ -93,7 +93,7 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
     public static Operator<TRealNumber> operator -(Operator<TRealNumber> @operator) =>
         M(@operator.Components.AdditiveInverse());
 
-    public static Operator<TRealNumber> operator *(Computation.Numbers.ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
+    public static Operator<TRealNumber> operator *(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
         M(@operator.Components.Multiply(scalar));
 
     public static Operator<TRealNumber> operator *(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
@@ -103,7 +103,7 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
         Ket<TRealNumber>.V(@operator.Components.Act(ket.Components));
 
     public static Bra<TRealNumber> operator *(Bra<TRealNumber> bra, Operator<TRealNumber> @operator) =>
-        Bra<TRealNumber>.U(@operator.Components.Act(bra.Components));
+        Bra<TRealNumber>.U(bra.Components.Act(@operator.Components));
 }
 
 public static class Operator

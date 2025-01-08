@@ -16,16 +16,16 @@ public record Bra<TRealNumber>(RowVector<TRealNumber> Components)
         new(components);
 
     public static Bra<TRealNumber> U(float[] components) =>
-        U(Matrices<TRealNumber>.U(components));
+        U(RowVector<TRealNumber>.U(components));
 
     public static Bra<TRealNumber> U(double[] components) =>
-        U(Matrices<TRealNumber>.U(components));
+        U(RowVector<TRealNumber>.U(components));
 
     public static Bra<TRealNumber> U(TRealNumber[] components) =>
-        U(Matrices<TRealNumber>.U(components));
+        U(RowVector<TRealNumber>.U(components));
 
     public static Bra<TRealNumber> Zero(int dimension) =>
-        U(Matrices<TRealNumber>.ZeroRowVector(dimension));
+        U(RowVector<TRealNumber>.Zero(dimension));
 
     public TRealNumber this[int index] => Components[index];
 

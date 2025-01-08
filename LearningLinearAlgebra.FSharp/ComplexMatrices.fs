@@ -12,7 +12,7 @@ module Complex =
 
     module RowVector =
 
-        let Zero n = Matrices.ZeroRowVector(n)
+        let Zero n = RowVector<'R>.Zero(n)
 
         let Add (left: RowVector<'R>) (right: RowVector<'R>) = left.Add(right)
 
@@ -46,7 +46,7 @@ module Complex =
 
     module ColumnVector =
 
-        let Zero n = Matrices.ZeroRowVector(n)
+        let Zero n = ColumnVector<'R>.Zero(n)
 
         let Add (left: ColumnVector<'R>) (right: ColumnVector<'R>) = left.Add(right)
 
@@ -78,9 +78,9 @@ module Complex =
 
     module SquareMatrix =
 
-        let Zero m = Matrices.Zero(m)
+        let Zero m = SquareMatrix<'R>.Zero(m)
 
-        let Identity m = Matrices.Identity(m)
+        let Identity m = SquareMatrix<'R>.Identity(m)
 
         let M (matrix: SquareMatrix<'R>) = matrix.M()
 
@@ -102,7 +102,7 @@ module Complex =
 
         let Act (left: SquareMatrix<'R>) (right: ColumnVector<'R>) = left.Act(right)
 
-        let ActToLeft (left: RowVector<'R>) (right: SquareMatrix<'R>) = right.Act(left)
+        let ActToLeft (left: RowVector<'R>) (right: SquareMatrix<'R>) = left.Act(right)
 
         let Commutator (left: SquareMatrix<'R>) (right: SquareMatrix<'R>) = left.Commutator(right)
 
@@ -119,16 +119,16 @@ module Complex =
     let Unwrap<'R when 'R :> System.Numerics.IFloatingPointIeee754<'R>> complex : ComplexNumber<'R> = complex
 
     let CreateColumnVector (components: ComplexNumber<'R> array) =
-        components |> Array.map Unwrap |> Matrices<'R>.V
+        components |> Array.map Unwrap |> ColumnVector<'R>.V
 
     let CreateRowVector (components: ComplexNumber<'R> array) =
-        components |> Array.map Unwrap |> Matrices<'R>.U
+        components |> Array.map Unwrap |> RowVector<'R>.U
 
     let CreateMatrix (components: ComplexNumber<'R> array array) =
         components
         |> Array.map (fun row -> row |> Array.map (fun element -> Unwrap element))
         |> array2D
-        |> Matrices<'R>.M
+        |> SquareMatrix<'R>.M
 
     let V (components: ComplexNumber<float> array) = CreateColumnVector components
 
