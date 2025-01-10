@@ -1,7 +1,7 @@
-﻿using Computation.Numbers;
-using FluentAssertions;
+﻿using FluentAssertions;
+using LearningLinearAlgebra.Numbers;
 using Xunit;
-using static Computation.Numbers.ComplexNumber<float>;
+using static LearningLinearAlgebra.Numbers.ComplexNumber<float>;
 
 namespace LearningLinearAlgebra.Tests.Numbers;
 

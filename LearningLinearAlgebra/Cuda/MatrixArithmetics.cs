@@ -1,4 +1,4 @@
-﻿namespace Computation.Cuda;
+﻿namespace LearningLinearAlgebra.Cuda;
 
 static class MatrixArithmetics
 {

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Computation.Numbers;
+namespace LearningLinearAlgebra.Numbers;
 
 public static class NumberFormatting
 {

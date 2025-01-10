@@ -1,8 +1,8 @@
-﻿using Computation.Cuda;
-using Computation.Numbers;
-using System.Numerics;
+﻿using System.Numerics;
+using LearningLinearAlgebra.Cuda;
+using LearningLinearAlgebra.Numbers;
 
-namespace Computation.Matrices.Real;
+namespace LearningLinearAlgebra.Matrices.Real;
 
 // TODO: Remove and have generic math interfaces only for Bra (or share same interface with Bra?)
 public interface IColumnVector<TSelf, out TRowVector, TRealNumber>

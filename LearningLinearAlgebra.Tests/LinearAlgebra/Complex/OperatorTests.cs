@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
 using LearningLinearAlgebra.ComplexVectorSpace;
+using LearningLinearAlgebra.Numbers;
 using LearningLinearAlgebra.Tests.Helpers;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Complex;

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
-using static Computation.Numbers.RealNumber<float>;
-using static Computation.Numbers.Polar<float>;
+using static LearningLinearAlgebra.Numbers.RealNumber<float>;
+using static LearningLinearAlgebra.Numbers.Polar<float>;
 
 namespace LearningLinearAlgebra.Tests.Numbers;
 

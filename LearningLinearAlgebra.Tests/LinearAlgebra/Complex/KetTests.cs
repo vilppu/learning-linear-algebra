@@ -2,8 +2,8 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
-using Computation.Numbers;
 using LearningLinearAlgebra.ComplexVectorSpace;
+using LearningLinearAlgebra.Numbers;
 using LearningLinearAlgebra.Tests.Helpers;
 
 namespace LearningLinearAlgebra.Tests.LinearAlgebra.Complex;

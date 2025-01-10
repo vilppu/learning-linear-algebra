@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
-using Computation.Matrices.Complex;
-using Computation.Numbers;
+using LearningLinearAlgebra.Matrices.Complex;
+using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.ComplexVectorSpace;
 

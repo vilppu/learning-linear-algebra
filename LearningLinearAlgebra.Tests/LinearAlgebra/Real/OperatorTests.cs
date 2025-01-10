@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using LearningLinearAlgebra.Numbers;
 using LearningLinearAlgebra.RealVectorSpace;
 using LearningLinearAlgebra.Tests.Helpers;
 using Xunit;

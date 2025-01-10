@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
-using Computation.Numbers;
+using LearningLinearAlgebra.Numbers;
 
-namespace Computation.Matrices.Complex;
+namespace LearningLinearAlgebra.Matrices.Complex;
 
 // TODO: Remove and have generic math interfaces only for Bra (or share same interface with Bra?)
 public interface IColumnVector<TSelf, out TRowVector, TRealNumber>

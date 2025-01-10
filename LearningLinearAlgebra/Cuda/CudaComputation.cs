@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Computation.Cuda;
+namespace LearningLinearAlgebra.Cuda;
 
 public class CudaComputationFailedException(CudaComputationResult failure)
     : Exception($"Cuda computation failed on: {failure}")

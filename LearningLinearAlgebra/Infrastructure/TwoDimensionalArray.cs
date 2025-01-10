@@ -1,4 +1,4 @@
-﻿namespace Computation.Infrastructure;
+﻿namespace LearningLinearAlgebra.Infrastructure;
 
 static class TwoDimensionalArray
 {

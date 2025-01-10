@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using Computation.Matrices.Real;
+using LearningLinearAlgebra.Matrices.Real;
 
 namespace LearningLinearAlgebra.RealVectorSpace;
 

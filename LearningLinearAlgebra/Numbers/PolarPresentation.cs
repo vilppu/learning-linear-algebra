@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Computation.Numbers;
+namespace LearningLinearAlgebra.Numbers;
 
 public record Polar<TRealNumber>(TRealNumber Magnitude, TRealNumber Phase) where TRealNumber : IFloatingPointIeee754<TRealNumber>
 {
