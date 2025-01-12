@@ -24,124 +24,124 @@ public record Bra<TRealNumber>(RowVector<TRealNumber> Components)
 
     public ComplexNumber<TRealNumber> this[int index] => Components[index];
 
-    public static Bra<TRealNumber> Add(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        U(left.Components.Add(right.Components));
+    public static Bra<TRealNumber> Add(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        U(self.Components.Add(other.Components));
 
-    public static Bra<TRealNumber> AdditiveInverse(Bra<TRealNumber> bra) =>
-        U(bra.Components.AdditiveInverse());
+    public static Bra<TRealNumber> AdditiveInverse(Bra<TRealNumber> self) =>
+        U(self.Components.AdditiveInverse());
 
-    public static Bra<TRealNumber> Conjucate(Bra<TRealNumber> bra) =>
-        U(bra.Components.Conjucate());
+    public static Bra<TRealNumber> Conjucate(Bra<TRealNumber> self) =>
+        U(self.Components.Conjucate());
 
-    public static int Dimension(Bra<TRealNumber> bra) =>
-        bra.Components.Length();
+    public static int Dimension(Bra<TRealNumber> self) =>
+        self.Components.Length();
 
-    public static TRealNumber Distance(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        left.Components.Distance(right.Components);
+    public static TRealNumber Distance(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        self.Components.Distance(other.Components);
 
-    public static ComplexNumber<TRealNumber> InnerProduct(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        left.Components.InnerProduct(right.Components);
+    public static ComplexNumber<TRealNumber> InnerProduct(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        self.Components.InnerProduct(other.Components);
 
-    public static Ket<TRealNumber> Ket(Bra<TRealNumber> bra) =>
-        Transpose(bra);
+    public static Ket<TRealNumber> Ket(Bra<TRealNumber> self) =>
+        Transpose(self);
 
-    public static Ket<TRealNumber> Adjoint(Bra<TRealNumber> bra) =>
-        Ket<TRealNumber>.V(bra.Components.Adjoint());
+    public static Ket<TRealNumber> Adjoint(Bra<TRealNumber> self) =>
+        Ket<TRealNumber>.V(self.Components.Adjoint());
 
-    public static Ket<TRealNumber> Transpose(Bra<TRealNumber> bra) =>
-        Ket<TRealNumber>.V(bra.Components.Transpose());
+    public static Ket<TRealNumber> Transpose(Bra<TRealNumber> self) =>
+        Ket<TRealNumber>.V(self.Components.Transpose());
 
-    public static Bra<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> bra) =>
-        U(bra.Components.Multiply(scalar));
+    public static Bra<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> self) =>
+        U(self.Components.Multiply(scalar));
 
-    public static ComplexNumber<TRealNumber> Multiply(Bra<TRealNumber> bra, Ket<TRealNumber> ket) =>
-        bra.Components.Multiply(ket.Components);
+    public static ComplexNumber<TRealNumber> Multiply(Bra<TRealNumber> self, Ket<TRealNumber> ket) =>
+        self.Components.Multiply(ket.Components);
 
-    public static TRealNumber Norm(Bra<TRealNumber> bra) =>
-        bra.Components.Norm();
+    public static TRealNumber Norm(Bra<TRealNumber> self) =>
+        self.Components.Norm();
 
-    public static Bra<TRealNumber> Normalized(Bra<TRealNumber> bra) =>
-        U(bra.Components.Normalized());
+    public static Bra<TRealNumber> Normalized(Bra<TRealNumber> self) =>
+        U(self.Components.Normalized());
 
-    public static Bra<TRealNumber> Subtract(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        U(left.Components.Subtract(right.Components));
+    public static Bra<TRealNumber> Subtract(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        U(self.Components.Subtract(other.Components));
 
-    public static Bra<TRealNumber> TensorProduct(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        U(left.Components.TensorProduct(right.Components));
+    public static Bra<TRealNumber> TensorProduct(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        U(self.Components.TensorProduct(other.Components));
 
-    public static Bra<TRealNumber> operator +(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        U(left.Components.Add(right.Components));
+    public static Bra<TRealNumber> operator +(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        U(self.Components.Add(other.Components));
 
-    public static Bra<TRealNumber> operator -(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        U(left.Components.Subtract(right.Components));
+    public static Bra<TRealNumber> operator -(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        U(self.Components.Subtract(other.Components));
 
-    public static Bra<TRealNumber> operator -(Bra<TRealNumber> bra) =>
-        U(bra.Components.AdditiveInverse());
+    public static Bra<TRealNumber> operator -(Bra<TRealNumber> self) =>
+        U(self.Components.AdditiveInverse());
 
-    public static Bra<TRealNumber> operator *(ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> bra) =>
-        U(bra.Components.Multiply(scalar));
+    public static Bra<TRealNumber> operator *(ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> self) =>
+        U(self.Components.Multiply(scalar));
 
-    public static ComplexNumber<TRealNumber> operator *(Bra<TRealNumber> left, Bra<TRealNumber> right) =>
-        left.Components.InnerProduct(right.Components);
+    public static ComplexNumber<TRealNumber> operator *(Bra<TRealNumber> self, Bra<TRealNumber> other) =>
+        self.Components.InnerProduct(other.Components);
 }
 
 public static class Bra
 {
-    public static int Dimension<TRealNumber>(this Bra<TRealNumber> bra)
+    public static int Dimension<TRealNumber>(this Bra<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Dimension(bra);
+        Bra<TRealNumber>.Dimension(self);
 
-    public static Bra<TRealNumber> Add<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
+    public static Bra<TRealNumber> Add<TRealNumber>(this Bra<TRealNumber> self, Bra<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Add(left, right);
+        Bra<TRealNumber>.Add(self, other);
 
-    public static Bra<TRealNumber> Subtract<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
+    public static Bra<TRealNumber> Subtract<TRealNumber>(this Bra<TRealNumber> self, Bra<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Subtract(left, right);
+        Bra<TRealNumber>.Subtract(self, other);
 
-    public static Bra<TRealNumber> AdditiveInverse<TRealNumber>(this Bra<TRealNumber> bra)
+    public static Bra<TRealNumber> AdditiveInverse<TRealNumber>(this Bra<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.AdditiveInverse(bra);
+        Bra<TRealNumber>.AdditiveInverse(self);
 
-    public static Bra<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> bra)
+    public static Bra<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> scalar, Bra<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Multiply(scalar, bra);
+        Bra<TRealNumber>.Multiply(scalar, self);
 
-    public static Bra<TRealNumber> Multiply<TRealNumber>(this Bra<TRealNumber> bra, ComplexNumber<TRealNumber> scalar)
+    public static Bra<TRealNumber> Multiply<TRealNumber>(this Bra<TRealNumber> self, ComplexNumber<TRealNumber> scalar)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Multiply(scalar, bra);
+        Bra<TRealNumber>.Multiply(scalar, self);
 
-    public static ComplexNumber<TRealNumber> Multiply<TRealNumber>(this Bra<TRealNumber> bra, Ket<TRealNumber> ket)
+    public static ComplexNumber<TRealNumber> Multiply<TRealNumber>(this Bra<TRealNumber> self, Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Multiply(bra, ket);
+        Bra<TRealNumber>.Multiply(self, ket);
 
-    public static ComplexNumber<TRealNumber> InnerProduct<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
+    public static ComplexNumber<TRealNumber> InnerProduct<TRealNumber>(this Bra<TRealNumber> self, Bra<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.InnerProduct(left, right);
+        Bra<TRealNumber>.InnerProduct(self, other);
 
-    public static Bra<TRealNumber> TensorProduct<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
+    public static Bra<TRealNumber> TensorProduct<TRealNumber>(this Bra<TRealNumber> self, Bra<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.TensorProduct(left, right);
+        Bra<TRealNumber>.TensorProduct(self, other);
 
-    public static Ket<TRealNumber> Ket<TRealNumber>(this Bra<TRealNumber> bra)
+    public static Ket<TRealNumber> Ket<TRealNumber>(this Bra<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Ket(bra);
+        Bra<TRealNumber>.Ket(self);
 
-    public static TRealNumber Norm<TRealNumber>(this Bra<TRealNumber> bra)
+    public static TRealNumber Norm<TRealNumber>(this Bra<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Norm(bra);
+        Bra<TRealNumber>.Norm(self);
 
-    public static TRealNumber Distance<TRealNumber>(this Bra<TRealNumber> left, Bra<TRealNumber> right)
+    public static TRealNumber Distance<TRealNumber>(this Bra<TRealNumber> self, Bra<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Distance(left, right);
+        Bra<TRealNumber>.Distance(self, other);
 
-    public static Bra<TRealNumber> Normalized<TRealNumber>(this Bra<TRealNumber> bra)
+    public static Bra<TRealNumber> Normalized<TRealNumber>(this Bra<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Normalized(bra);
+        Bra<TRealNumber>.Normalized(self);
 
-    public static Bra<TRealNumber> Conjucate<TRealNumber>(this Bra<TRealNumber> bra)
+    public static Bra<TRealNumber> Conjucate<TRealNumber>(this Bra<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Bra<TRealNumber>.Conjucate(bra);
+        Bra<TRealNumber>.Conjucate(self);
 
     public static Ket<TRealNumber> Transpose<TRealNumber>(this Bra<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>

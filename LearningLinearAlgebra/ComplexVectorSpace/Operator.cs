@@ -33,150 +33,150 @@ public record Operator<TRealNumber>(SquareMatrix<TRealNumber> Components)
 
     public ComplexNumber<TRealNumber> this[int i, int j] => Components[i, j];
 
-    public static Operator<TRealNumber> Add(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.Add(right.Components));
+    public static Operator<TRealNumber> Add(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.Add(other.Components));
 
-    public static Operator<TRealNumber> AdditiveInverse(Operator<TRealNumber> @operator) =>
-        M(@operator.Components.AdditiveInverse());
+    public static Operator<TRealNumber> AdditiveInverse(Operator<TRealNumber> self) =>
+        M(self.Components.AdditiveInverse());
 
-    public static Bra<TRealNumber> Act(Bra<TRealNumber> bra, Operator<TRealNumber> @operator) =>
-        Bra<TRealNumber>.U(bra.Components.Act(@operator.Components));
+    public static Bra<TRealNumber> Act(Bra<TRealNumber> bra, Operator<TRealNumber> self) =>
+        Bra<TRealNumber>.U(bra.Components.Act(self.Components));
 
-    public static Ket<TRealNumber> Act(Operator<TRealNumber> @operator, Ket<TRealNumber> ket) =>
-        Ket<TRealNumber>.V(@operator.Components.Act(ket.Components));
+    public static Ket<TRealNumber> Act(Operator<TRealNumber> self, Ket<TRealNumber> ket) =>
+        Ket<TRealNumber>.V(self.Components.Act(ket.Components));
 
-    public static Operator<TRealNumber> Adjoint(Operator<TRealNumber> @operator) =>
-        M(@operator.Components.Adjoint());
+    public static Operator<TRealNumber> Adjoint(Operator<TRealNumber> self) =>
+        M(self.Components.Adjoint());
 
-    public static Operator<TRealNumber> Transpose(Operator<TRealNumber> @operator) =>
-        M(@operator.Components.Transpose());
+    public static Operator<TRealNumber> Transpose(Operator<TRealNumber> self) =>
+        M(self.Components.Transpose());
 
-    public static Operator<TRealNumber> Commutator(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.Commutator(right.Components));
+    public static Operator<TRealNumber> Commutator(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.Commutator(other.Components));
 
-    public static Operator<TRealNumber> Conjucate(Operator<TRealNumber> @operator) =>
-        M(@operator.Components.Conjucate());
+    public static Operator<TRealNumber> Conjucate(Operator<TRealNumber> self) =>
+        M(self.Components.Conjucate());
 
-    public static int Dimension(Operator<TRealNumber> @operator) =>
-        @operator.Components.M();
+    public static int Dimension(Operator<TRealNumber> self) =>
+        self.Components.M();
 
-    public static bool IsHermitian(Operator<TRealNumber> @operator) =>
-        @operator.Components.IsHermitian();
+    public static bool IsHermitian(Operator<TRealNumber> self) =>
+        self.Components.IsHermitian();
 
-    public static bool IsIdentity(Operator<TRealNumber> @operator) =>
-        @operator.Components.IsIdentity();
+    public static bool IsIdentity(Operator<TRealNumber> self) =>
+        self.Components.IsIdentity();
 
-    public static bool IsUnitary(Operator<TRealNumber> @operator) =>
-        @operator.Components.IsUnitary();
+    public static bool IsUnitary(Operator<TRealNumber> self) =>
+        self.Components.IsUnitary();
 
-    public static Operator<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
-        M(@operator.Components.Multiply(scalar));
+    public static Operator<TRealNumber> Multiply(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> self) =>
+        M(self.Components.Multiply(scalar));
 
-    public static Operator<TRealNumber> Multiply(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.Multiply(right.Components));
+    public static Operator<TRealNumber> Multiply(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.Multiply(other.Components));
 
-    public static Operator<TRealNumber> Round(Operator<TRealNumber> @operator) =>
-        M(@operator.Components.Round());
+    public static Operator<TRealNumber> Round(Operator<TRealNumber> self) =>
+        M(self.Components.Round());
 
-    public static Operator<TRealNumber> Subtract(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.Subtract(right.Components));
+    public static Operator<TRealNumber> Subtract(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.Subtract(other.Components));
 
-    public static Operator<TRealNumber> TensorProduct(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.TensorProduct(right.Components));
+    public static Operator<TRealNumber> TensorProduct(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.TensorProduct(other.Components));
 
-    public static Operator<TRealNumber> operator +(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.Add(right.Components));
+    public static Operator<TRealNumber> operator +(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.Add(other.Components));
 
-    public static Operator<TRealNumber> operator -(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.Subtract(right.Components));
+    public static Operator<TRealNumber> operator -(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.Subtract(other.Components));
 
-    public static Operator<TRealNumber> operator -(Operator<TRealNumber> @operator) =>
-        M(@operator.Components.AdditiveInverse());
+    public static Operator<TRealNumber> operator -(Operator<TRealNumber> self) =>
+        M(self.Components.AdditiveInverse());
 
-    public static Operator<TRealNumber> operator *(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator) =>
-        M(@operator.Components.Multiply(scalar));
+    public static Operator<TRealNumber> operator *(ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> self) =>
+        M(self.Components.Multiply(scalar));
 
-    public static Operator<TRealNumber> operator *(Operator<TRealNumber> left, Operator<TRealNumber> right) =>
-        M(left.Components.Multiply(right.Components));
+    public static Operator<TRealNumber> operator *(Operator<TRealNumber> self, Operator<TRealNumber> other) =>
+        M(self.Components.Multiply(other.Components));
 
-    public static Ket<TRealNumber> operator *(Operator<TRealNumber> @operator, Ket<TRealNumber> ket) =>
-        Ket<TRealNumber>.V(@operator.Components.Act(ket.Components));
+    public static Ket<TRealNumber> operator *(Operator<TRealNumber> self, Ket<TRealNumber> ket) =>
+        Ket<TRealNumber>.V(self.Components.Act(ket.Components));
 
-    public static Bra<TRealNumber> operator *(Bra<TRealNumber> bra, Operator<TRealNumber> @operator) =>
-        Bra<TRealNumber>.U(bra.Components.Act(@operator.Components));
+    public static Bra<TRealNumber> operator *(Bra<TRealNumber> bra, Operator<TRealNumber> self) =>
+        Bra<TRealNumber>.U(bra.Components.Act(self.Components));
 }
 
 public static class Operator
 {
-    public static int Dimension<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static int Dimension<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Dimension(@operator);
+        Operator<TRealNumber>.Dimension(self);
 
-    public static Operator<TRealNumber> Add<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
+    public static Operator<TRealNumber> Add<TRealNumber>(this Operator<TRealNumber> self, Operator<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Add(left, right);
+        Operator<TRealNumber>.Add(self, other);
 
-    public static Operator<TRealNumber> Subtract<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
+    public static Operator<TRealNumber> Subtract<TRealNumber>(this Operator<TRealNumber> self, Operator<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Subtract(left, right);
+        Operator<TRealNumber>.Subtract(self, other);
 
-    public static Operator<TRealNumber> AdditiveInverse<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static Operator<TRealNumber> AdditiveInverse<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.AdditiveInverse(@operator);
+        Operator<TRealNumber>.AdditiveInverse(self);
 
-    public static Operator<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> @operator)
+    public static Operator<TRealNumber> Multiply<TRealNumber>(this ComplexNumber<TRealNumber> scalar, Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-    Operator<TRealNumber>.Multiply(scalar, @operator);
+    Operator<TRealNumber>.Multiply(scalar, self);
 
-    public static Operator<TRealNumber> Multiply<TRealNumber>(this Operator<TRealNumber> @operator, ComplexNumber<TRealNumber> scalar)
+    public static Operator<TRealNumber> Multiply<TRealNumber>(this Operator<TRealNumber> self, ComplexNumber<TRealNumber> scalar)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Multiply(scalar, @operator);
+        Operator<TRealNumber>.Multiply(scalar, self);
 
-    public static Operator<TRealNumber> Multiply<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
+    public static Operator<TRealNumber> Multiply<TRealNumber>(this Operator<TRealNumber> self, Operator<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Multiply(left, right);
+        Operator<TRealNumber>.Multiply(self, other);
 
-    public static Operator<TRealNumber> TensorProduct<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
+    public static Operator<TRealNumber> TensorProduct<TRealNumber>(this Operator<TRealNumber> self, Operator<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.TensorProduct(left, right);
+        Operator<TRealNumber>.TensorProduct(self, other);
 
-    public static Operator<TRealNumber> Commutator<TRealNumber>(this Operator<TRealNumber> left, Operator<TRealNumber> right)
+    public static Operator<TRealNumber> Commutator<TRealNumber>(this Operator<TRealNumber> self, Operator<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Commutator(left, right);
+        Operator<TRealNumber>.Commutator(self, other);
 
-    public static Ket<TRealNumber> Act<TRealNumber>(this Operator<TRealNumber> @operator, Ket<TRealNumber> ket)
+    public static Ket<TRealNumber> Act<TRealNumber>(this Operator<TRealNumber> self, Ket<TRealNumber> ket)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Act(@operator, ket);
+        Operator<TRealNumber>.Act(self, ket);
 
-    public static Bra<TRealNumber> Act<TRealNumber>(this Bra<TRealNumber> bra, Operator<TRealNumber> @operator)
+    public static Bra<TRealNumber> Act<TRealNumber>(this Bra<TRealNumber> bra, Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Act(bra, @operator);
+        Operator<TRealNumber>.Act(bra, self);
 
-    public static Operator<TRealNumber> Conjucate<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static Operator<TRealNumber> Conjucate<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Conjucate(@operator);
+        Operator<TRealNumber>.Conjucate(self);
 
-    public static Operator<TRealNumber> Adjoint<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static Operator<TRealNumber> Adjoint<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Adjoint(@operator);
+        Operator<TRealNumber>.Adjoint(self);
 
-    public static Operator<TRealNumber> Transpose<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static Operator<TRealNumber> Transpose<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Transpose(@operator);
+        Operator<TRealNumber>.Transpose(self);
 
-    public static Operator<TRealNumber> Round<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static Operator<TRealNumber> Round<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.Round(@operator);
+        Operator<TRealNumber>.Round(self);
 
-    public static bool IsIdentity<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static bool IsIdentity<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.IsIdentity(@operator);
+        Operator<TRealNumber>.IsIdentity(self);
 
-    public static bool IsUnitary<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static bool IsUnitary<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.IsUnitary(@operator);
+        Operator<TRealNumber>.IsUnitary(self);
 
-    public static bool IsHermitian<TRealNumber>(this Operator<TRealNumber> @operator)
+    public static bool IsHermitian<TRealNumber>(this Operator<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Operator<TRealNumber>.IsHermitian(@operator);
+        Operator<TRealNumber>.IsHermitian(self);
 }
