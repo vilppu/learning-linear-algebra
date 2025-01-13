@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using LearningLinearAlgebra.Matrices.Real;
+using LearningLinearAlgebra.Numbers;
 
 namespace LearningLinearAlgebra.RealVectorSpace;
 
@@ -12,73 +13,19 @@ public record Ket<TRealNumber>(ColumnVector<TRealNumber> Components)
     public override int GetHashCode() =>
         Components.GetHashCode();
 
-    public static Ket<TRealNumber> V(ColumnVector<TRealNumber> components) =>
-        new(components);
-
-    public static Ket<TRealNumber> V(float[] components) =>
-        V(ColumnVector<TRealNumber>.V(components));
-
-    public static Ket<TRealNumber> V(double[] components) =>
-        V(ColumnVector<TRealNumber>.V(components));
-
-    public static Ket<TRealNumber> V(TRealNumber[] components) =>
-        V(ColumnVector<TRealNumber>.V(components));
-
-    public static Ket<TRealNumber> Zero(int dimension) =>
-        V(ColumnVector<TRealNumber>.Zero(dimension));
-
     public TRealNumber this[int index] => Components[index];
 
-    public static Ket<TRealNumber> Add(Ket<TRealNumber> self, Ket<TRealNumber> other) =>
-        V(self.Components.Add(other.Components));
-
-    public static Ket<TRealNumber> AdditiveInverse(Ket<TRealNumber> self) =>
-        V(self.Components.AdditiveInverse());
-
-    public static Bra<TRealNumber> Bra(Ket<TRealNumber> self) =>
-        Transpose(self);
-
-    public static Bra<TRealNumber> Transpose(Ket<TRealNumber> self) =>
-        Bra<TRealNumber>.U(self.Components.Transpose());
-
-    public static int Dimension(Ket<TRealNumber> self) =>
-        self.Components.Length();
-
-    public static TRealNumber Distance(Ket<TRealNumber> self, Ket<TRealNumber> other) =>
-        self.Components.Distance(other.Components);
-
-    public static TRealNumber InnerProduct(Ket<TRealNumber> self, Ket<TRealNumber> other) =>
-        self.Components.InnerProduct(other.Components);
-
-    public static Ket<TRealNumber> Multiply(TRealNumber scalar, Ket<TRealNumber> self) =>
-        V(self.Components.Multiply(scalar));
-
-    public static TRealNumber Multiply(Bra<TRealNumber> bra, Ket<TRealNumber> self) =>
-        bra.Components.Multiply(self.Components);
-
-    public static TRealNumber Norm(Ket<TRealNumber> self) =>
-        self.Components.Norm();
-
-    public static Ket<TRealNumber> Normalized(Ket<TRealNumber> self) =>
-        V(self.Components.Normalized());
-
-    public static Ket<TRealNumber> Subtract(Ket<TRealNumber> self, Ket<TRealNumber> other) =>
-        V(self.Components.Subtract(other.Components));
-
-    public static Ket<TRealNumber> TensorProduct(Ket<TRealNumber> self, Ket<TRealNumber> other) =>
-        V(self.Components.TensorProduct(other.Components));
-
     public static Ket<TRealNumber> operator +(Ket<TRealNumber> self, Ket<TRealNumber> other) =>
-        V(self.Components.Add(other.Components));
+        Ket.V(self.Components.Add(other.Components));
 
     public static Ket<TRealNumber> operator -(Ket<TRealNumber> self, Ket<TRealNumber> other) =>
-        V(self.Components.Subtract(other.Components));
+        Ket.V(self.Components.Subtract(other.Components));
 
     public static Ket<TRealNumber> operator -(Ket<TRealNumber> self) =>
-        V(self.Components.AdditiveInverse());
+        Ket.V(self.Components.AdditiveInverse());
 
     public static Ket<TRealNumber> operator *(TRealNumber scalar, Ket<TRealNumber> self) =>
-        V(self.Components.Multiply(scalar));
+        Ket.V(self.Components.Multiply(scalar));
 
     public static TRealNumber operator *(Bra<TRealNumber> bra, Ket<TRealNumber> self) =>
         bra.Components.Multiply(self.Components);
@@ -89,59 +36,79 @@ public record Ket<TRealNumber>(ColumnVector<TRealNumber> Components)
 
 public static class Ket
 {
+    public static Ket<TRealNumber> V<TRealNumber>(ColumnVector<TRealNumber> components)
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
+        new(components);
+
+    public static Ket<TRealNumber> V<TRealNumber>(float[] components)
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
+        V(ColumnVector<TRealNumber>.V(components));
+
+    public static Ket<TRealNumber> V<TRealNumber>(double[] components)
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
+        V(ColumnVector<TRealNumber>.V(components));
+
+    public static Ket<TRealNumber> V<TRealNumber>(TRealNumber[] components)
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
+        V(ColumnVector<TRealNumber>.V(components));
+
+    public static Ket<TRealNumber> Zero<TRealNumber>(int dimension)
+        where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
+        V(ColumnVector<TRealNumber>.Zero(dimension));
+
     public static int Dimension<TRealNumber>(this Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Dimension(self);
+        self.Components.Length();
 
     public static Ket<TRealNumber> Add<TRealNumber>(this Ket<TRealNumber> self, Ket<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Add(self, other);
+        Ket.V(self.Components.Add(other.Components));
 
     public static Ket<TRealNumber> Subtract<TRealNumber>(this Ket<TRealNumber> self, Ket<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Subtract(self, other);
+        Ket.V(self.Components.Subtract(other.Components));
 
     public static Ket<TRealNumber> AdditiveInverse<TRealNumber>(this Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.AdditiveInverse(self);
+        Ket.V(self.Components.AdditiveInverse());
 
     public static Ket<TRealNumber> Multiply<TRealNumber>(this TRealNumber scalar, Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Multiply(scalar, self);
+        Ket.V(self.Components.Multiply(scalar));
 
     public static Ket<TRealNumber> Multiply<TRealNumber>(this Ket<TRealNumber> self, TRealNumber scalar)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Multiply(scalar, self);
+        Ket.V(self.Components.Multiply(scalar));
 
     public static TRealNumber Multiply<TRealNumber>(this Bra<TRealNumber> bra, Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Multiply(bra, self);
+        bra.Components.Multiply(self.Components);
 
     public static TRealNumber InnerProduct<TRealNumber>(this Ket<TRealNumber> self, Ket<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.InnerProduct(self, other);
+        self.Components.InnerProduct(other.Components);
 
     public static Ket<TRealNumber> TensorProduct<TRealNumber>(this Ket<TRealNumber> self, Ket<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.TensorProduct(self, other);
+        Ket.V(self.Components.TensorProduct(other.Components));
 
     public static Bra<TRealNumber> Bra<TRealNumber>(this Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Bra(self);
+        RealVectorSpace.Bra.U(self.Components.Transpose());
 
     public static Bra<TRealNumber> Transpose<TRealNumber>(this Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Transpose(self);
+        RealVectorSpace.Bra.U(self.Components.Transpose());
 
     public static TRealNumber Norm<TRealNumber>(this Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Norm(self);
+        self.Components.Norm();
 
     public static TRealNumber Distance<TRealNumber>(this Ket<TRealNumber> self, Ket<TRealNumber> other)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Distance(self, other);
+        self.Components.Distance(other.Components);
 
     public static Ket<TRealNumber> Normalized<TRealNumber>(this Ket<TRealNumber> self)
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        Ket<TRealNumber>.Normalized(self);
+        Ket.V(self.Components.Normalized());
 }

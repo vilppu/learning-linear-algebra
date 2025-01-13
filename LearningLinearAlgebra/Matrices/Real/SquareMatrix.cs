@@ -228,13 +228,13 @@ public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
         new(TwoDimensionalArray.Initialize(m, n, initializer));
 
     public static SquareMatrix<TRealNumber> Zero(int m, int n) =>
-         M(m, m, (i, j) => TRealNumber.Zero);
+         M(m, m, (_, _) => TRealNumber.Zero);
 
     public static SquareMatrix<TRealNumber> M(int m, Func<int, int, TRealNumber> initializer) =>
         new(TwoDimensionalArray.Initialize(m, m, initializer));
 
     public static SquareMatrix<TRealNumber> Zero(int m) =>
-         M(m, (i, j) => TRealNumber.Zero);
+         M(m, (_, _) => TRealNumber.Zero);
 
     public static SquareMatrix<TRealNumber> Identity(int m) =>
          M(m, (i, j) => i == j ? TRealNumber.One : TRealNumber.Zero);
@@ -278,7 +278,7 @@ public record SquareMatrix<TRealNumber>(TRealNumber[,] Entries)
     // TODO: Move to linear vector space
     public static bool IsIdentity(SquareMatrix<TRealNumber> matrix) =>
         Indices(matrix).Aggregate(true,
-            (identity, x) => x.i == x.j
+            (_, x) => x.i == x.j
             ? matrix[x.i, x.j].Round() == TRealNumber.One
             : matrix[x.i, x.j].Round() == TRealNumber.Zero);
 

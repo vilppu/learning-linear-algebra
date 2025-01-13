@@ -82,7 +82,7 @@ public static class ColumnVector
         where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
         where TRowVector : IRowVector<TRowVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Distance((TSelf)left, (TSelf)right);
+        TSelf.Distance((TSelf)left, right);
 
     public static TRealNumber Norm<TSelf, TRowVector, TRealNumber>(this IColumnVector<TSelf, TRowVector, TRealNumber> self)
         where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
@@ -94,7 +94,7 @@ public static class ColumnVector
         where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
         where TRowVector : IRowVector<TRowVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Add((TSelf)left, (TSelf)right);
+        TSelf.Add((TSelf)left, right);
 
     public static TSelf AdditiveInverse<TSelf, TRowVector, TRealNumber>(this IColumnVector<TSelf, TRowVector, TRealNumber> self)
         where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
@@ -160,19 +160,19 @@ public static class ColumnVector
         where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
         where TRowVector : IRowVector<TRowVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Subtract((TSelf)left, (TSelf)right);
+        TSelf.Subtract((TSelf)left, right);
 
     public static TSelf TensorProduct<TSelf, TRowVector, TRealNumber>(this IColumnVector<TSelf, TRowVector, TRealNumber> left, TSelf right)
         where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
         where TRowVector : IRowVector<TRowVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.TensorProduct((TSelf)left, (TSelf)right);
+        TSelf.TensorProduct((TSelf)left, right);
 
     public static TSelf Zip<TSelf, TRowVector, TRealNumber>(this IColumnVector<TSelf, TRowVector, TRealNumber> first, TSelf second, Func<ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>, ComplexNumber<TRealNumber>> elementMapping)
         where TSelf : IColumnVector<TSelf, TRowVector, TRealNumber>
         where TRowVector : IRowVector<TRowVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Zip((TSelf)first, (TSelf)second, elementMapping);
+        TSelf.Zip((TSelf)first, second, elementMapping);
 }
 
 public record ColumnVector<TRealNumber>(ComplexNumber<TRealNumber>[] Entries)

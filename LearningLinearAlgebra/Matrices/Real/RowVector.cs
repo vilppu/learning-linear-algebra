@@ -178,7 +178,7 @@ public record RowVector<TRealNumber>(TRealNumber[] Entries)
         new(U(entries.Select(RealNumber<TRealNumber>.R)));
 
     public static RowVector<TRealNumber> U(double[] entries) =>
-        new(U(entries.Select((number, number2) => RealNumber<TRealNumber>.R(number))));
+        new(U(entries.Select((number, _) => RealNumber<TRealNumber>.R(number))));
 
     public static RowVector<TRealNumber> U(IEnumerable<TRealNumber> entries) =>
         new(entries.ToArray());

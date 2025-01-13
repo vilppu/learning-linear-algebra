@@ -133,7 +133,7 @@ public static class SquareMatrix
         where TRowVector : IRowVector<TRowVector, TColumnVector, TRealNumber>
         where TColumnVector : IColumnVector<TColumnVector, TRowVector, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Act((TSelf)self, vector);
+        TSelf.Act(self, vector);
 
     public static TRowVector Act<TSelf, TRowVector, TColumnVector, TRealNumber>(this IRowVector<TRowVector, TColumnVector, TRealNumber> vector, TSelf self)
         where TSelf : ISquareMatrix<TSelf, TRowVector, TColumnVector, TRealNumber>
@@ -278,13 +278,13 @@ public record SquareMatrix<TRealNumber>(ComplexNumber<TRealNumber>[,] Entries)
         new(TwoDimensionalArray.Initialize(m, n, initializer));
 
     public static SquareMatrix<TRealNumber> Zero(int m, int n) =>
-         M(m, m, (i, j) => TRealNumber.Zero);
+         M(m, m, (_, _) => TRealNumber.Zero);
 
     public static SquareMatrix<TRealNumber> M(int m, Func<int, int, ComplexNumber<TRealNumber>> initializer) =>
         new(TwoDimensionalArray.Initialize(m, m, initializer));
 
     public static SquareMatrix<TRealNumber> Zero(int m) =>
-         M(m, (i, j) => TRealNumber.Zero);
+         M(m, (_, _) => TRealNumber.Zero);
 
     public static SquareMatrix<TRealNumber> Identity(int m) =>
          M(m, (i, j) => i == j ? TRealNumber.One : TRealNumber.Zero);
@@ -335,7 +335,7 @@ public record SquareMatrix<TRealNumber>(ComplexNumber<TRealNumber>[,] Entries)
     // TODO: Move to linear vector space
     public static bool IsIdentity(SquareMatrix<TRealNumber> matrix) =>
         Indices(matrix).Aggregate(true,
-            (identity, x) => x.i == x.j
+            (_, x) => x.i == x.j
             ? matrix[x.i, x.j].Round() == TRealNumber.One
             : matrix[x.i, x.j].Round() == TRealNumber.Zero);
 

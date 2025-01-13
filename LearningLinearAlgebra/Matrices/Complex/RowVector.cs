@@ -54,7 +54,7 @@ public static class RowVector
         where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
         where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.InnerProduct((TSelf)left, (TSelf)right);
+        TSelf.InnerProduct((TSelf)left, right);
 
     public static ComplexNumber<TRealNumber> Multiply<TSelf, TColumnVector, TRealNumber>(this IRowVector<TSelf, TColumnVector, TRealNumber> left, TColumnVector right)
         where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
@@ -90,7 +90,7 @@ public static class RowVector
         where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
         where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Distance((TSelf)left, (TSelf)right);
+        TSelf.Distance((TSelf)left, right);
 
     public static TRealNumber Norm<TSelf, TColumnVector, TRealNumber>(this IRowVector<TSelf, TColumnVector, TRealNumber> self)
         where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
@@ -102,7 +102,7 @@ public static class RowVector
         where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
         where TColumnVector : IColumnVector<TColumnVector, TSelf, TRealNumber>
         where TRealNumber : IFloatingPointIeee754<TRealNumber> =>
-        TSelf.Add((TSelf)left, (TSelf)right);
+        TSelf.Add((TSelf)left, right);
 
     public static TSelf AdditiveInverse<TSelf, TColumnVector, TRealNumber>(this IRowVector<TSelf, TColumnVector, TRealNumber> self)
         where TSelf : IRowVector<TSelf, TColumnVector, TRealNumber>
